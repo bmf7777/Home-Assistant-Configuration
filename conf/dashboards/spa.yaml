@@ -1,0 +1,13 @@
+# SCCS: @(#)spa.yaml	1.5  01/11/19 
+
+widget_type: switch
+title: Spa
+#title_style: "color: black;"
+#widget_style: "background: aquamarine;"
+title_style: "font-weight: bold;"
+entity: switch.spa_pump
+icon_on: mdi-hot-tub
+icon_off: mdi-hot-tub
+icon_style_inactive: "color: gray; font-size: 350%;"
+icon_style_active: "color: #FF0000; font-size: 350%;"
+

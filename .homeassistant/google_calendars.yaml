@@ -1,0 +1,84 @@
+
+- cal_id: family02564474476500776093@group.calendar.google.com
+  entities:
+  - device_id: family
+    ignore_availability: true
+    name: Family
+    track: true
+
+- cal_id: dan.marotta5@gmail.com
+  entities:
+  - device_id: danmarotta5gmailcom
+    ignore_availability: true
+    name: dan.marotta5@gmail.com
+    track: true
+
+- cal_id: '#contacts@group.v.calendar.google.com'
+  entities:
+  - device_id: contacts
+    ignore_availability: true
+    name: Contacts
+    track: true
+
+- cal_id: en.canadian#holiday@group.v.calendar.google.com
+  entities:
+  - device_id: holidays_in_canada
+    ignore_availability: true
+    name: Holidays in Canada
+    track: true
+
+- cal_id: en.china#holiday@group.v.calendar.google.com
+  entities:
+  - device_id: holidays_in_china
+    ignore_availability: true
+    name: Holidays in China
+    track: true
+
+- cal_id: en.christian#holiday@group.v.calendar.google.com
+  entities:
+  - device_id: christian_holidays
+    ignore_availability: true
+    name: Christian Holidays
+    track: true
+
+- cal_id: en.jewish#holiday@group.v.calendar.google.com
+  entities:
+  - device_id: holidays_in_israel
+    ignore_availability: true
+    name: Holidays in Israel
+    track: true
+
+- cal_id: en.judaism#holiday@group.v.calendar.google.com
+  entities:
+  - device_id: jewish_holidays
+    ignore_availability: true
+    name: Jewish Holidays
+    track: true
+
+- cal_id: en.uk#holiday@group.v.calendar.google.com
+  entities:
+  - device_id: holidays_in_united_kingdom
+    ignore_availability: true
+    name: Holidays in United Kingdom
+    track: true
+
+- cal_id: en.usa#holiday@group.v.calendar.google.com
+  entities:
+  - device_id: holidays_in_united_states
+    ignore_availability: true
+    name: Holidays in United States
+    track: true
+
+- cal_id: p#weather@group.v.calendar.google.com
+  entities:
+  - device_id: weather_sydney_au
+    ignore_availability: true
+    name: 'Weather: Sydney, AU'
+    track: true
+
+- cal_id: addressbook#contacts@group.v.calendar.google.com
+  entities:
+  - device_id: contacts
+    ignore_availability: true
+    name: Contacts
+    track: true

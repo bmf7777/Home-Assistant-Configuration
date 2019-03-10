@@ -1,0 +1,14 @@
+##
+## bottom_panel 
+##
+# SCCS: @(#)	1.1 01/03/19 
+
+
+layout: 
+  - amelias_bedroom_lights,  amelias_bathroom_lights, gym_lights,           guest_bathroom_lights, guest_lights,   anthonys_lights,     nicholas_bedroom_lights, nicholas_bathroom_lights, garage_lights
+  - hallway_bathroom_lights, laundry_lights,          shack_bedroom_lights, shack_bathroom_lights, powder_lights,  master_table_lights, master_ceiling_lights,   master_bathroom_lights,   blueiris
+  - living_room,             dining_room,             garage_entry,         front_door,            powder_room,    anthonys_room,       nicholas_room,           amelias_room,             refresh(1x1)
+
+
+
+

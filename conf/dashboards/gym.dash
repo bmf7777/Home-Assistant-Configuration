@@ -1,0 +1,47 @@
+##
+## Gym Dashboard 
+##
+# SCCS: @(#)gym.dash	1.12 02/12/19 
+
+title: Gym Panel
+widget_dimensions: [200, 135]
+widget_size: [1, 1]
+widget_margins: [1, 1]
+columns: 9
+scalable: False
+global_parameters:
+    use_comma: 0
+    precision: 1
+    use_hass_icon: 1
+    namespace: default
+
+df_camera:
+  widget_type: camera
+  title: Driveway Front
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.driveway_front?&api_password=w1213kie311
+  refresh: 5
+
+db_camera:
+  widget_type: camera
+  title: Driveway Back
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.driveway_back?&api_password=w1213kie311
+  refresh: 5
+
+family_camera:
+  widget_type: camera
+  title: Family Room
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.family_room?&api_password=w1213kie311
+  refresh: 5
+
+layout: 
+  - clock, darksky_weather(2x2),  bar_camera(2x2),  doorbell_camera(2x2), family_camera(2x2)
+  - alarm
+  - dan_presence, cheryl_presence, amelia_presence, nicholas_presence, anthony_presence, db_camera(2x2), df_camera(2x2)
+  - anthonys_room, nicholas_room, amelias_room, master_bedroom, master_bathroom
+  - garage_entry, guest_room, front_door, front_deadbolt, garden_gate, back_gate, left_garage, right_garage, garage_lights
+  - amelias_bedroom_lights, amelias_bathroom_lights, guest_bathroom_lights, guest_lights, anthonys_lights, nicholas_bedroom_lights, nicholas_bathroom_lights, hallway_bathroom_lights, laundry_lights                   
+  - master_nest, hallway_nest, family_nest, pool, spa, water_temp,  master_bathroom_lights, master_table_lights, demand
+
+
+
+

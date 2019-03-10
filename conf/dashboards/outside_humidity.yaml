@@ -1,0 +1,9 @@
+# SCCS: @(#)	1.1 01/04/19 
+
+widget_type: sensor
+title: Humidity
+title_style: "font-size: 80%;"
+widget_style: "font-size: 180%;"
+precision: 0
+entity: sensor.mkiii_relative_humidity
+

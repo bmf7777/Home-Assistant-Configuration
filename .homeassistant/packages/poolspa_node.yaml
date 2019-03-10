@@ -1,0 +1,137 @@
+# package: pool and spa control using node driver (npm node-screenlogic)
+# SCCS: @(#)	1.3 03/08/19  
+
+#homeassistant:
+#  customize: 
+#
+## Pool
+#    sensor.node_freeze_protect:
+#      icon: mdi:snowflake
+#    sensor.node_heater_mode:
+#      icon: mdi:fire
+#      device_class: heat
+#    sensor.node_heater_status:
+#      icon: mdi:fire
+#      device_class: heat
+#    switch.node_pool:
+#      icon: mdi:swim
+#      device_class: power
+#    switch.node_spa:
+#      icon: mdi:hot-tub
+#      device_class: power
+#    switch.node_pool_waterfall:
+#      icon: mdi:fountain
+#      device_class: power
+#    switch.node_spa_booster_pump:
+#      icon: mdi:water-pump
+#      device_class: power
+#    switch.node_spa_light:
+#      icon: mdi:lightbulb-outline
+#      device_class: light
+#    switch.node_pool_lights:
+#      icon: mdi:lightbulb-outline
+#      device_class: light
+#    switch.node_spa_air_blower:
+#      icon: mdi:weather-windy
+#      device_class: power
+#    sensor.node_pentair_version:
+#      icon: mdi:database
+#
+## switch to control pool features
+#switch: 
+#  - platform: command_line
+#    switches:
+#      node_pool:
+#        command_on: '/home/dan/node_modules/node-screenlogic/POOLON.js'
+#        command_off: '/home/dan/node_modules/node-screenlogic/POOLOFF.js'
+#        command_state: '/home/dan/node_modules/node-screenlogic/PentairStatus.js'
+#        value_template: '{{ value_json["PoolActive"] == "true" }}'
+#        friendly_name: Pool
+#      node_spa:
+#        command_on: '/home/dan/node_modules/node-screenlogic/SPAON.js'
+#        command_off: '/home/dan/node_modules/node-screenlogic/SPAOFF.js'
+#        command_state: '/home/dan/node_modules/node-screenlogic/PentairStatus.js'
+#        value_template: '{{ value_json["SPAActive"] == "true" }}'
+#        friendly_name: Spa
+#      node_spa_air_blower:
+#        command_on: '/home/dan/node_modules/node-screenlogic/AIRBLOWERON.js'
+#        command_off: '/home/dan/node_modules/node-screenlogic/AIRBLOWEROFF.js'
+#        command_state: '/home/dan/node_modules/node-screenlogic/PentairStatus.js'
+#        value_template: '{{ value_json["SPAAirBlowerActive"] == "true" }}'
+#        friendly_name: Spa Air Blower
+#      node_spa_booster_pump:
+#        command_on: '/home/dan/node_modules/node-screenlogic/BOOSTERPUMPON.js'
+#        command_off: '/home/dan/node_modules/node-screenlogic/BOOSTERPUMPOFF.js'
+#        command_state: '/home/dan/node_modules/node-screenlogic/PentairStatus.js'
+#        value_template: '{{ value_json["SPABoosterPumpActive"] == "true" }}'
+#        friendly_name: Spa Booster Pump
+#      node_spa_light:
+#        command_on: '/home/dan/node_modules/node-screenlogic/SPALIGHTON.js'
+#        command_off: '/home/dan/node_modules/node-screenlogic/SPALIGHTOFF.js'
+#        command_state: '/home/dan/node_modules/node-screenlogic/PentairStatus.js'
+#        value_template: '{{ value_json["SPALightON"] == "true" }}'
+#        friendly_name: Spa Light
+#      node_pool_lights:
+#        command_on: '/home/dan/node_modules/node-screenlogic/POOLLIGHTON.js'
+#        command_off: '/home/dan/node_modules/node-screenlogic/POOLLIGHTOFF.js'
+#        command_state: '/home/dan/node_modules/node-screenlogic/PentairStatus.js'
+#        value_template: '{{ value_json["PoolLightON"] == "true" }}'
+#        friendly_name: Pool Lights
+#      node_pool_waterfall: 
+#        command_on: '/home/dan/node_modules/node-screenlogic/WATERFALLON.js'
+#        command_off: '/home/dan/node_modules/node-screenlogic/WATERFALLOFF.js'
+#        command_state: '/home/dan/node_modules/node-screenlogic/PentairStatus.js'
+#        value_template: '{{ value_json["WaterfallActive"] == "true" }}'
+#        friendly_name: Pool Waterfall
+#
+## Pool Controller via node Pentair.js
+#sensor:
+#
+#  - platform: command_line
+#    name: Node Pool Temp
+#    command: '/home/dan/node_modules/node-screenlogic/PentairStatus.js'
+#    value_template: '{{ value_json["PoolTemp"] }}'
+#    unit_of_measurement: "°F"
+#  - platform: command_line
+#    name: Node Spa Temp
+#    command: '/home/dan/node_modules/node-screenlogic/PentairStatus.js'
+#    value_template: '{{ value_json["SPATemp"] }}'
+#    unit_of_measurement: "°F"
+#  - platform: command_line
+#    name: Node Air Temp
+#    command: '/home/dan/node_modules/node-screenlogic/PentairStatus.js'
+#    value_template: '{{ value_json["AirTemp"] }}'
+#    unit_of_measurement: "°F"
+#  - platform: command_line
+#    name: Node Pentair Version
+#    command: '/home/dan/node_modules/node-screenlogic/PentairStatus.js'
+#    value_template: '{{ value_json["Version"].split(":")[1] }}'
+#  - platform: command_line
+#    name: Node Freeze Protect
+#    command: '/home/dan/node_modules/node-screenlogic/PentairStatus.js'
+#    value_template: '{% if value_json["FreezeModeActive"] == 0 %} OFF {% else %} ON {% endif %}'
+#  - platform: command_line
+#    name: Node Pool Mode
+#    command: '/home/dan/node_modules/node-screenlogic/PentairStatus.js'
+#    value_template: >
+#      {% if value_json["PoolMode"] == 1 %} 
+#        {{ "Normal" }}
+#      {% elif value_json["PoolMode"] == 0 %} 
+#        {{ "SYNC" }}  
+#      {% elif value_json["PoolMode"] == 2 %} 
+#        {{ "Timeout" }}
+#      {% elif value_json["PoolMode"] == 3 %} 
+#        {{ "Service" }}
+#      {% else %}
+#        {{ "UNKNOWN" }}
+#      {% endif %}
+#  - platform: command_line
+#    name: Node Heater Mode
+#    command: '/home/dan/node_modules/node-screenlogic/PentairStatus.js'
+#    value_template: '{{ value_json["HeaterStatus"] }}'
+#  - platform: command_line
+#    name: Node Heater Status
+#    command: '/home/dan/node_modules/node-screenlogic/PentairStatus.js'
+#    value_template: '{{ value_json["HeaterStatus"] }}' 
+
+

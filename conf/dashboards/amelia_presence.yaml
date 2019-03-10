@@ -1,0 +1,17 @@
+# SCCS: @(#)	1.9 01/16/19 
+
+widget_type: icon
+title: Amelia
+title_style: "font-weight: bold;"
+#widget_style: "background: wheat;"
+state_text_style: "display: none"
+entity: binary_sensor.amelia_home
+icons:
+  "on":
+    icon: mdi-chess-pawn
+    style: "color: #F06292; font-size: 350%;"
+  "off":
+    icon: mdi-chess-pawn
+    style: "color: gray; font-size: 350%;"
+
+

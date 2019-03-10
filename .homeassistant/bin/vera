@@ -1,0 +1,8 @@
+#!/bin/bash
+# call back status
+echo curl -X GET http://ghbbcb001:Kv2UWpsbNA@192.168.4.189/bha-api/notification.cgi
+# reset call backs
+#curl -X GET http://ghbbcb0001:Kv2UWpsbNA@192.168.4.189/bha-api/notification.cgi?reset=1
+# motion
+#curl -X  GET --user ghbbcb001:Kv2UWpsbNA http://192.168.4.189/bha-api/notification.cgi?url=http://192.168.1.143:3480/data_request?id=action%26output_format=xml%26DeviceNum=129%26serviceId=urn:dcineco-com:serviceId:VMotion1%26action=SetTripped\&event=doorbell\&relaxation=120\&subscribe=1
+

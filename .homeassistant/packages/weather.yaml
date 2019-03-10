@@ -1,0 +1,172 @@
+# package: weather
+# SCCS: @(#)weather.yaml	1.6 01/14/19 
+
+homeassistant:
+  customize:
+
+# Rainwise MK-III
+    sensor.mkiii_air_temperature:
+      device_class: temperature
+    sensor.mkiii_barometric_pressure:
+      icon: mdi:gauge
+      device_class: pressure
+    sensor.mkiii_relative_humidity:
+      device_class: humidity
+    sensor.mkiii_wind:
+      icon: mdi:weather-windy
+    sensor.mkiii_rainfall:
+      icon: mdi:weather-rainy
+    sensor.mkiii_station_battery:
+      device_class: battery
+
+netatmo:
+  api_key: !secret netatmo_api
+  secret_key: !secret netatmo_secret 
+  username: !secret netatmo_username 
+  password: !secret netatmo_password 
+
+# openuv
+openuv:
+  api_key: !secret openuv_apikey 
+  binary_sensors:
+    monitored_conditions:
+      - uv_protection_window
+  sensors:
+    monitored_conditions:
+      - current_ozone_level
+      - current_uv_index
+      - current_uv_level
+      - max_uv_index
+
+# Dark Sky weather
+weather:
+  - platform: darksky
+    api_key: !secret darksky_key 
+
+# Openweathermap
+  - platform: openweathermap
+    api_key: !secret openweathermap_key
+
+sensor:
+
+# Awair air monitors
+  - platform: awair
+    access_token: !secret awair_token 
+    devices:
+      - uuid: awair-r2_4750
+      - uuid: awair-r2_4742
+      - uuid: awair-r2_3613
+
+  - platform: template
+    sensors:
+      awair_humidityp:
+        value_template: "{{ states('sensor.awair_humidity') | round(1) }}"
+      awair_temperaturep:
+        value_template: "{{ states('sensor.awair_temperature') | round(1) }}"
+      awair_humidity_2p:
+        value_template: "{{ states('sensor.awair_humidity_2') | round(1) }}"
+      awair_temperature_2p:
+        value_template: "{{ states('sensor.awair_temperature_2') | round(1) }}"
+      awair_humidity_3p:
+        value_template: "{{ states('sensor.awair_humidity_3') | round(1) }}"
+      awair_temperature_3p:
+        value_template: "{{ states('sensor.awair_temperature_3') | round(1) }}"
+
+# Darksky
+  - platform: darksky
+    api_key: !secret darksky_key
+    forecast:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+    monitored_conditions:
+      - summary
+      - temperature
+      - apparent_temperature
+      - humidity
+      - precip_probability
+      - precip_intensity
+      - precip_type
+      - wind_speed
+      - wind_bearing
+      - pressure
+      - icon
+
+# Openweathermap
+  - platform: openweathermap
+    api_key: !secret openweathermap_key
+    monitored_conditions:
+      - weather
+      - temperature
+      - wind_speed
+#      - wind_bearing
+      - humidity
+      - pressure
+      - clouds
+      - weather_code
+
+# NOAA Tides
+  - platform: noaa_tides
+    name: "Point Loma"
+    station_id: TWC0405
+
+# World Air Quality Index
+  - platform: waqi
+    token: !secret waqi_token 
+    locations: San Diego
+    stations: Camp Pendleton, San Diego, California
+
+# Netatmo Sensor
+  - platform: netatmo
+    station: "Double LL Ranch"
+    modules:
+      Greenhouse:
+      Shed:
+      UL:
+        - rain
+        - sum_rain_1
+        - sum_rain_24
+
+  - platform: template
+    sensors:
+      netatmo_ul_sum_rain_24i:
+        value_template: "{{ (states('sensor.netatmo_ul_sum_rain_24') | float  / 25.4) | round(2) }}"
+        unit_of_measurement: 'in'
+      netatmo_ul_sum_rain_1i:
+        value_template: "{{ (states('sensor.netatmo_ul_sum_rain_1') | float  / 25.4) | round(2) }}"
+        unit_of_measurement: 'in'
+
+# Moon
+  - platform: moon
+
+# Rainwise MK-III
+  - platform: command_line
+    name: MKIII Air Temperature
+    command: '/home/homeassistant/.homeassistant/bin/rainwise.py'
+    value_template: '{{ value_json.air_temperature }}'
+    unit_of_measurement: "F"
+# not working ... need to take apart and fix
+#  - platform: command_line
+#    name: MKIII Rainfall
+#    command: '/home/homeassistant/.homeassistant/bin/rainwise.py'
+#    value_template: '{{ value_json.rainfall }}'
+  - platform: command_line
+    name: MKIII Relative Humidity
+    command: '/home/homeassistant/.homeassistant/bin/rainwise.py'
+    value_template: '{{ value_json.relative_humidity }}'
+  - platform: command_line
+    name: MKIII Barometric Pressure
+    command: '/home/homeassistant/.homeassistant/bin/rainwise.py'
+    value_template: '{{ value_json.barometric_pressure }}'
+  - platform: command_line
+    name: MKIII Wind
+    command: '/home/homeassistant/.homeassistant/bin/rainwise.py'
+    value_template: '{{ value_json.wind }}'
+  - platform: command_line
+    name: MKIII Station Battery
+    command: '/home/homeassistant/.homeassistant/bin/rainwise.py'
+    value_template: '{{ value_json.station_battery }}'
+
+

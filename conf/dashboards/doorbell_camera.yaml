@@ -1,0 +1,7 @@
+# SCCS: @(#)	1.7 02/12/19 
+
+widget_type: camera
+title: Door Bell
+entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.doorbird?api_password=w1213kie311
+refresh: 5
+

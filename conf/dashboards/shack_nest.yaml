@@ -1,0 +1,12 @@
+# SCCS: @(#)shack_nest.yaml	1.1 01/12/19 
+
+widget_type: climate
+title: Shack
+entity: climate.shack
+units: "&deg;F;"
+precision: 0
+title_style: "font-weight: bold;" 
+level_style: "color: blue; font-size: 250%;"
+unit_style: "color: blue; font-size: 150%;"
+
+

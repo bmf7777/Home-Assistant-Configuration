@@ -1,0 +1,190 @@
+# package: cameras
+# SCCS: @(#)cameras.yaml	1.6 02/23/19 
+
+# Doorbird
+doorbird:
+  token: !secret doorbird_token
+  devices:
+    - host: 192.168.4.189
+      username: !secret doorbird_username
+      password: !secret doorbird_password
+      name: Doorbell
+      monitored_conditions:
+        - doorbell
+        - motion
+
+# cameras 
+camera:
+# doorbird camera_live, using image from blue iris
+#  - platform: doorbird
+
+# cameras from Blue Iris
+  - platform: mjpeg
+    name: doorbird
+    mjpeg_url: http://192.168.1.36:1050/mjpg/doorbird/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: Shack
+    mjpeg_url: http://192.168.1.36:1050/mjpg/shack/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: Pool Equipment
+    mjpeg_url: http://192.168.1.36:1050/mjpg/pe/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: Poolside
+    mjpeg_url: http://192.168.1.36:1050/mjpg/ps/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: BBQ
+    mjpeg_url: http://192.168.1.36:1050/mjpg/bbq/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: Shed
+    mjpeg_url: http://192.168.1.36:1050/mjpg/shed/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: Upper Lot
+    mjpeg_url: http://192.168.1.36:1050/mjpg/ul/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: Driveway
+    mjpeg_url: http://192.168.1.36:1050/mjpg/dw/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: Kitchen
+    mjpeg_url: http://192.168.1.36:1050/mjpg/k/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: Greenhouse
+    mjpeg_url: http://192.168.1.36:1050/mjpg/gh/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: Family Room
+    mjpeg_url: http://192.168.1.36:1050/mjpg/fr/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: Front Door
+    mjpeg_url: http://192.168.1.36:1050/mjpg/fd/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: Fire Place
+    mjpeg_url: http://192.168.1.36:1050/mjpg/fp/video.mjpg 
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: Garage Left
+    mjpeg_url: http://192.168.1.36:1050/mjpg/gl/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: Driveway Back
+    mjpeg_url: http://192.168.1.36:1050/mjpg/db/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: Driveway Front
+    mjpeg_url: http://192.168.1.36:1050/mjpg/df/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: Garage Right
+    mjpeg_url: http://192.168.1.36:1050/mjpg/gr/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: Workbench
+    mjpeg_url: http://192.168.1.36:1050/mjpg/wb/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: Rose Garden
+    mjpeg_url: http://192.168.1.36:1050/mjpg/rs/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: Eastside
+    mjpeg_url: http://192.168.1.36:1050/mjpg/es/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: Laundry Room
+    mjpeg_url: http://192.168.1.36:1050/mjpg/laundry/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: Pool
+    mjpeg_url: http://192.168.1.36:1050/mjpg/pool/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: Stage
+    mjpeg_url: http://192.168.1.36:1050/mjpg/stage/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+  - platform: mjpeg
+    name: Bar
+    mjpeg_url: http://192.168.1.36:1050/mjpg/bar/video.mjpg
+    username: !secret username_bi
+    password: !secret password_bi
+    authentication: basic
+
+shell_command:
+  doorbird_ir_enable: /usr/bin/curl -X GET "http://ghbbcb0001:Kv2UWpsbNA@192.168.4.189/bha-api/light-on.cgi"
+
+
+automation:
+
+  - alias: Doorbird IR Enable
+    # Doorbird IR light isn't in low light, just during motion
+    # once on, it remains on for 3 minutes
+    # turn on during the evening so Blueiris can record video
+    initial_state: 'on'
+    trigger:
+      platform: time_pattern
+      # every 3 minutes 
+      minutes: '/3'
+    condition:
+      condition: numeric_state
+      entity_id: sun.sun
+      value_template: '{{ state.attributes.elevation | float }}'
+      # civil twilight: solar angle > -6 
+      below: -6.0
+    action:
+      - service: shell_command.doorbird_ir_enable
+

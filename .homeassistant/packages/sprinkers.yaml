@@ -1,0 +1,11 @@
+#package: sprinkers
+# SCCS: @(#)sprinkers.yaml	1.1 12/23/18 
+
+# Rainmachine using configuration->integrations
+rainmachine:
+  controllers:
+    - ip_address: 192.168.1.50
+      password: !secret rainmachine_pass
+    - ip_address: 192.168.1.171
+      password: !secret rainmachine_pass
+

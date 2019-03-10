@@ -1,0 +1,49 @@
+#!/bin/bash
+while true; do
+
+# Eagle Configuration (you can find the CloudID and IN numbers on the back of your Eagle device)
+EagleIPAddress="192.168.1.70"
+CloudID="009778"
+IN="ec4358e650677eb3"
+MAC="d8d5b9000000a772" #// Format example: e8p5b20050003ac1
+
+# Domoticz Configuration
+domoticzserver="IPADDRESS"
+domoticzport="80"
+domoticzuser="USERNAME"
+domoticzpass="PASSWORD"
+
+# Get the data
+data=$(curl --verbose -su "$CloudID":"$IN" "http://"$EagleIPAddress"/cgi-bin/cgi_manager" -H 'Accept-Encoding: gzip, deflate' -H 'Accept-Language: en-GB,en-US;q=0.8,en;q=0.6' -H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' -H 'Accept: */*' -H 'X-Requested-With: XMLHttpRequest' --data $"<LocalCommand>\n  <Name>get_usage_data</Name>\n  <MacId>0x"$MAC"</MacId>\n</LocalCommand>\n<LocalCommand>\n  <Name>get_price_blocks</Name>\n  <MacId>0x"$MAC"</MacId>\n</LocalCommand>\n" --compressed)
+# Meter connection status
+status=$(echo "$data" | grep '{"meter_status":' | awk -F'"' '{print $4}')
+
+# If Eagle is connected to the meter, fetch usage data and load it into Domoticz
+if [ "$status" == "Connected" ]; then
+	# Current usage
+	current=$(echo "$data" | grep '"demand":' | sed 's/[^0-9.]*//g')
+	currentunits=$(echo "$data" | grep '"demand_units":' | awk -F'"' '{print $4}')
+	# Meter reading
+	fromgrid=$(echo "$data" | grep '"summation_delivered":' | sed 's/[^0-9.]*//g')
+	togrid=$(echo "$data" | grep '"summation_received":' | sed 's/[^0-9.]*//g')
+	gridunits=$(echo "$data" | grep '"summation_units":' | awk -F'"' '{print $4}')
+	# Display data in terminal
+	echo
+	echo "Connection Status"":" "$status"
+	echo "Current" "$currentunits"":" "$current"
+	echo "From Grid" "$gridunits"":" "$fromgrid"
+	echo "To Grid" "$gridunits"":" "$togrid"
+	# Do some math to prepare the data for Domoticz
+	if [ "$currentunits" == "kW" ]; then
+		currentwatts=$(echo "$current * 1000" | bc -l) #// Convert kW to Watts
+	fi
+#	fromgriddomoticz=$(echo "$fromgrid * 1000" | bc -l) #// Multiply by 1000 for Domoticz
+#        Send data to Domoticz virtual sensor type: Electricity (Instant+Counter)
+#	curl -s "http://{$domoticzuser}:{$domoticzpass}@{$domoticzserver}:{$domoticzport}/json.htm?type=command&param=udevice&idx=635&nvalue=0&svalue={$currentwatts};{$fromgriddomoticz}"
+else
+	echo "No connection to Meter, will check again shortly..."
+fi
+
+sleep 15
+done
+

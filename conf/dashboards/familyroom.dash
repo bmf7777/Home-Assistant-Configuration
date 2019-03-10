@@ -1,0 +1,37 @@
+##
+## Family Room Dashboard 
+##
+# SCCS: @(#)familyroom.dash	1.11 01/16/19 
+
+title: Family Room Panel
+widget_dimensions: [113, 105]
+widget_size: [1, 1]
+widget_margins: [1, 1]
+columns: 9
+scalable: False
+global_parameters:
+    use_comma: 0
+    precision: 1
+    use_hass_icon: 1
+    namespace: default
+
+blueiris: 
+  widget_type: navigate
+  title: Security Cameras
+  icon_active: fa-video
+  icon_inactive: fa-video
+  title_style: "font-weight: bold;"
+  icon_inactive_style: "color: blue;"
+  icon_active_style: "color: blue;"
+  dashboard: security
+  args:
+    timeout: 30
+    return: familyroom
+
+layout: 
+  - include: top_panel
+  - include: bottom_panel
+
+
+
+

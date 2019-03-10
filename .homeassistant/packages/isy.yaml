@@ -1,0 +1,68 @@
+#package: isy994i
+# SCCS: @(#)isy.yaml	1.1 12/23/18 
+
+homeassistant: 
+  customize: 
+
+# Guest Bedroom
+    binary_sensor.guest_closet_door_sensor:
+       friendly_name: Guest Bedroom Closet
+       device_class: door
+       icon: mdi:door
+    light.guest_bathroom_fan:
+       friendly_name: Guest Bathroom Fan
+       icon: mdi:fan
+
+# Powder Room
+    light.powder_room_fan:
+      friendly_name: Powder Room Fan
+      icon: mdi:fan
+
+# Gym
+    switch.treadmill_outletring:
+      friendly_name: Treadmill
+
+# Shack
+    light.shack_fanlight_back:
+      friendly_name: Shack Fan Back
+      icon: mdi:fan
+    light.shack_fanlight_front:
+      friendly_name: Shack Fan Front
+      icon: mdi:fan
+    switch.shack_bathroom_fan:
+      friendly_name: Shack Bathroom Fan
+      icon: mdi:fan
+
+# Amelia
+    switch.amy_bathroom_ceiling_light:
+      friendly_name: Amelia Bathroom Fan
+      icon: mdi:fan
+    switch.amy_bedroom_fan_light:
+      friendly_name: Amelia Bedroom Ceiling Fan
+      icon: mdi:fan
+
+# Anthony
+    switch.anthony_ceiling_fan:
+      friendly_name: Anthony Bedroom Ceiling Fan
+      icon: mdi:fan
+
+# Master Bedroom
+    binary_sensor.master_closet_door_sensor:
+      friendly_name: Master Closet Door
+      device_class: door
+      icon: mdi:door
+    light.master_toilet_fan:
+      friendly_name: Master Bathroom Fan
+      icon: mdi:fan
+
+# Upstairs Bathroom
+    switch.hall_bathroom_fan:
+      friendly_name: Upstairs Bathroom Fan
+      icon: mdi:fan
+
+# ISY994 configuration
+isy994:
+  host: http://192.168.1.30:442
+  username: !secret isy_admin
+  password: !secret isy_password
+

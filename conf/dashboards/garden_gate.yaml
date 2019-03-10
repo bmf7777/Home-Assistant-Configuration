@@ -1,0 +1,15 @@
+# SCCS: @(#)	1.5 01/30/19 
+
+widget_type: lock
+title: Rose Garden Gate
+#widget_style: "background: gray;"
+title_style: "font-weight: bold;"
+state_map:
+  "on": Closed
+  "off": Open
+entity: lock.rose_garden_gate_154
+icon_on: mdi-gate
+icon_off: mdi-gate
+icon_style_inactive: "color: #00FF00; font-size: 350%"
+icon_style_active: "color: #FF0000; font-size: 350%"
+

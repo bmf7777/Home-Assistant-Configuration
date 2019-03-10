@@ -1,0 +1,65 @@
+# package: power
+# SCCS: @(#)power.yaml	1.5 01/06/19 
+
+homeassistant:
+  customize:
+
+# Power
+    sensor.envoy_current_energy_production:
+      icon: mdi:solar-power
+    sensor.envoy_todays_energy_production:
+      icon: mdi:solar-power
+
+# APC Monitor
+apcupsd:
+
+sensor:
+
+# Enphase energy monitor
+  - platform: enphase_envoy
+    ip_address: 192.168.1.74
+    monitored_conditions:
+      - production
+      - daily_production
+#     - consumption
+#     - daily_consumption
+
+  - platform: template
+    sensors:
+      solar_production:
+        friendly_name: "Solar Production"
+        unit_of_measurement: 'kW'
+        value_template: "{{ states('sensor.envoy_current_energy_production')|float / 1024 | round(4) }}"
+      
+# APCUPS
+  - platform: apcupsd
+    resources:
+      - bcharge
+      - linev
+      - loadpct
+      - numxfers
+      - outputv
+      - status
+      - timeleft
+      - tonbatt
+
+binary_sensor:
+
+# APC UPS
+  - platform: apcupsd
+
+
+automation:
+
+  - alias: Power Loss
+    initial_state: 'on'
+    trigger:
+      platform: numeric_state
+      entity_id: sensor.ups_battery
+      below: 100
+    action:
+      service_template: notify.DANMAROTTA
+      data_template:
+        title: "APC UPS Alert"
+        message: "Power Loss,  Running on UPS."
+

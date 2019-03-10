@@ -1,0 +1,24 @@
+# SCCS: @(#)	1.2 01/15/19
+
+widget_type: weather
+title: Today
+main_style: "color: blue;"
+unit_style: "color: blue;"
+title_style: "color: gray_dark; font-weight: bold;"
+sub_style: "color: blue;"
+sub_unit_style: "color: blue;"
+show_forecast: 0
+prefer_icons: 1
+sensors:
+  icon: sensor.dark_sky_icon
+  temperature: sensor.dark_sky_temperature
+  apparent_temperature: sensor.dark_sky_apparent_temperature
+  humidity: sensor.dark_sky_humidity
+  precip_probability: sensor.dark_sky_precip_probability
+  precip_intensity: sensor.dark_sky_precip_intensity
+  precip_type: sensor.dark_sky_precip
+  pressure: sensor.dark_sky_pressure
+  wind_speed: sensor.dark_sky_wind_speed
+  wind_bearing: sensor.dark_sky_wind_bearing
+
+

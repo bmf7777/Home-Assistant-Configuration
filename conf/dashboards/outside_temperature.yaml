@@ -1,0 +1,10 @@
+# SCCS: @(#)	1.1 01/04/19 
+
+widget_type: sensor
+title_style: "font-size: 80%;"
+widget_style: "font-size: 180%;"
+title: Temperature
+units: "&deg;F"
+precision: 0
+entity: sensor.mkiii_air_temperature
+

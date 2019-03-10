@@ -1,0 +1,11 @@
+# SCCS: @(#)water_temp.yaml	1.10 01/13/19
+
+widget_type: sensor
+title: Pool/Spa Temp
+title_style: "font-weight: bold;"
+value_style: "color: blue; font-size: 300%;"
+unit_style: "color: blue; font-size: 140%; font-weight: bold;"
+units: "&deg;F"
+precision: 0
+entity: sensor.water_temp
+

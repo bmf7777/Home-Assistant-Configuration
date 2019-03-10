@@ -1,0 +1,306 @@
+# package: presence 
+# SCCS: @(#)presence.yaml	1.10 02/03/19 
+
+homeassistant:
+  customize:
+
+    # People
+    sensor.dan_home:
+      friendly_name: Dan
+      icon: mdi:chess-king
+    sensor.cheryl_home:
+      friendly_name: Cheryl
+      icon: mdi:chess-queen
+    device_tracker.ameliamtaiphone:
+      friendly_name: Amelia
+    device_tracker.josephgosiphone:
+      friendly_name: Anthony
+    device_tracker.nick:
+      friendly_name: Nicholas
+
+# device tracker
+device_tracker:
+
+# Bluetooth device tracker
+  - platform: bluetooth_tracker
+    interval_seconds: 15
+    consider_home: 150
+    track_new_devices: yes
+
+# UBNT Unifi AP tracker 
+  - platform: unifi
+    host: 192.168.1.16
+    username: !secret unifi_username
+    password: !secret unifi_password
+    verify_ssl: false
+    site_id: kab9w4dv
+    port: 8443
+    ssid_filter:
+      - 'Marotta Network'
+      - 'Marotta Network 5G'
+    monitored_conditions:
+      - last_seen
+      - name
+      - mac
+      - ip
+
+# life360 for Nicholas, Cheryl and Anthony
+  - platform: life360
+    username: !secret life360_username
+    password: !secret life360_password
+    prefix: life360
+    show_as_state: driving, moving, places
+    driving_speed: 18
+    max_gps_accuracy: 200
+    max_update_wait:
+      minutes: 45
+
+binary_sensor:
+
+# mobile ping presense checks
+  - platform: ping
+    host: 192.168.1.119
+    name: Dan iPhone Max
+  - platform: ping
+    host: 192.168.1.188
+    name: Amelia iPhone
+  - platform: ping
+    name: Anthonys iPhone
+    host: 192.168.1.76
+
+# Baysian presence detection
+  - platform: 'bayesian'
+    prior: 0.50
+    name: Dan Home
+    probability_threshold: 0.90
+    observations:
+      - entity_id: 'device_tracker.dan_marotta_iphone_xs_max' #iOS
+        prob_given_true: 0.9 # 90% chance if iOS true then home
+        prob_given_false: 0.1 # 10% change if iOS false then away
+        platform: 'state'
+        to_state: 'home'
+      - entity_id: 'device_tracker.danmaroonexsmax' # Unifi
+        prob_given_true: 0.9 # 90% chance if Unifi true then home
+        prob_given_false: 0.2 # 20% chance if Unifi false then away
+        platform: 'state'
+        to_state: 'home'
+      - entity_id: 'binary_sensor.dan_iphone_max' # ping
+        prob_given_true: 100.0 # 100% chance if ping true then home
+        prob_given_false: 0.3 # 30% chance if ping false then away
+        platform: 'state'
+        to_state: 'on'
+
+  - platform: 'bayesian'
+    prior: 0.50
+    name: Cheryl Home
+    probability_threshold: 0.90
+    observations:
+      - entity_id: 'device_tracker.life360_cheryl_giustiniano' #life360
+        prob_given_true: 0.9 # 90% chance if iOS true then home
+        prob_given_false: 0.1 # 10% change if iOS false then away
+        platform: 'state'
+        to_state: 'home'
+      - entity_id: 'device_tracker.cherylsiphone6s' # Unifi
+        prob_given_true: 0.9 # 90% chance if Unifi true then home
+        prob_given_false: 0.2 # 20% chance if Unifi false then away
+        platform: 'state'
+        to_state: 'home'
+
+  - platform: 'bayesian'
+    prior: 0.50
+    name: Nick Home
+    probability_threshold: 0.90
+    observations:
+      - entity_id: 'device_tracker.life360_nicholas_giust' #life360
+        prob_given_true: 0.9 # 90% chance if iOS true then home
+        prob_given_false: 0.1 # 10% change if iOS false then away
+        platform: 'state'
+        to_state: 'home'
+      - entity_id: 'device_tracker.nick' # Unifi
+        prob_given_true: 0.9 # 90% chance if Unifi true then home
+        prob_given_false: 0.2 # 20% chance if Unifi false then away
+        platform: 'state'
+        to_state: 'home'
+
+  - platform: 'bayesian'
+    prior: 0.50
+    name: Anthony Home
+    probability_threshold: 0.90
+    observations:
+      - entity_id: 'binary_sensor.anthonys_iphone' # ping
+        prob_given_true: 100.0 # 100% chance if ping true then home
+        prob_given_false: 0.3 # 30% chance if ping false then away
+        platform: 'state'
+        to_state: 'on'
+      - entity_id: 'device_tracker.life360_anthony' #life360
+        prob_given_true: 0.9 # 90% chance if iOS true then home
+        prob_given_false: 0.1 # 10% change if iOS false then away
+        platform: 'state'
+        to_state: 'home'
+#      - entity_id: 'device_tracker.josephgosiphone' # Unifi
+#        prob_given_true: 0.9 # 90% chance if Unifi true then home
+#        prob_given_false: 0.2 # 20% chance if Unifi false then away
+#        platform: 'state'
+#        to_state: 'home'
+
+  - platform: 'bayesian'
+    prior: 0.50
+    name: Amelia Home
+    probability_threshold: 0.80
+    observations:
+      - entity_id: 'binary_sensor.amelia_iphone' # ping
+        prob_given_true: 100.0 # % chance if ping true then home
+        prob_given_false: 0.3 # 30% chance if ping false then away
+        platform: 'state'
+        to_state: 'on'
+      - entity_id: 'device_tracker.ameliamtaiphone' # Unifi
+        prob_given_true: 0.9 # 90% chance if Unifi true then home
+        prob_given_false: 0.2 # 20% chance if Unifi false then away
+        platform: 'state'
+        to_state: 'home'
+
+# automations
+automation:
+
+  - alias: 'Dan Arrives'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.dan_home
+        from: 'off'
+        to: 'on'
+        for:
+          seconds: 60
+    action:
+      service_template: notify.danmarotta
+      data_template:
+        message: "Dan home at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+  - alias: 'Dan Departs'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.dan_home
+        from: 'on'
+        to: 'off'
+        for:
+          seconds: 60
+    action:
+      service_template: notify.danmarotta
+      data_template:
+        message: "Dan departs at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+  - alias: 'Cheryl Arrives'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.cheryl_home
+        from: 'off'
+        to: 'on'
+        for:
+          seconds: 60
+    action:
+      service_template: notify.danmarotta
+      data_template:
+        message: "Cheryl home at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+  - alias: 'Cheryl Departs'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.cheryl_home
+        from: 'on'
+        to: 'off'
+        for:
+          seconds: 60
+    action:
+      service_template: notify.danmarotta
+      data_template:
+        message: "Cheryl departs at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+
+  - alias: 'Amy Arrives'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.amelia_home
+        from: 'off'
+        to: 'on'
+        for:
+          seconds: 60
+    action:
+      service_template: notify.danmarotta
+      data_template:
+        message: "Amelia home at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+  - alias: 'Amy Departs'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.amelia_home
+        from: 'on'
+        to: 'off'
+        for:
+          seconds: 60
+    action:
+      service_template: notify.danmarotta
+      data_template:
+        message: "Amelia departs at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+  - alias: 'Nick Arrives'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.nick_home
+        from: 'off'
+        to: 'on'
+        for:
+          seconds: 60
+    action:
+      service_template: notify.danmarotta
+      data_template:
+        message: "Nicholas home at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+  - alias: 'Nick Departs'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.nick_home
+        from: 'on'
+        to: 'off'
+        for:
+          seconds: 60
+    action:
+      service_template: notify.danmarotta
+      data_template:
+        message: "Nicholas departs at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+  - alias: 'Anthony Arrives'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.anthony_home
+        from: 'off'
+        to: 'on'
+        for:
+          seconds: 60
+    action:
+      service_template: notify.danmarotta
+      data_template:
+        message: "Anthony home at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+  - alias: 'Anthony Departs'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.anthony_home
+        from: 'on'
+        to: 'off'
+        for:
+          seconds: 60
+    action:
+      service_template: notify.danmarotta
+      data_template:
+        message: "Anthony departs at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+

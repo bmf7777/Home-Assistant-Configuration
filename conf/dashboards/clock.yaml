@@ -1,0 +1,12 @@
+# SCCS: @(#)clock.yaml	1.1 01/04/19 
+
+widget_type: clock
+date_style: "color: yellow; font-size: 100%;"
+#widget_style: "background: green;"
+time_style: "font-size: 250%;"
+date_format_options:
+  weekday: "short"
+  day: "numeric"
+  month: "numeric"
+
+

@@ -1,0 +1,9 @@
+# package: mqtt
+# SCCS: @(#)mqtt.yaml	1.2 01/31/19 
+
+# Enable MQTT for genmod, blueiris
+mqtt:
+  broker: 192.168.1.123
+  username: !secret mosquitto_username
+  password: !secret mosquitto_password
+

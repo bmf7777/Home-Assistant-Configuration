@@ -1,0 +1,11 @@
+#!/bin/bash
+User="dan.marotta5@gmail.com"
+Password="Ppg76KCYCy8y"
+EagleIPAddress="192.168.1.70"
+CloudID="009778"
+IN="ec4358e650677eb3"
+MAC="d8d5b9000000a772"
+
+curl -s "http://$CloudID:$IN@$EagleIPAddress/cgi-bin/post_manager" \
+-H "Content-Type: text/xml" \
+--data @/home/homeassistant/.homeassistant/bin/eagle/demand.payload | xmllint --xpath "//Device/Components/Component/Variables/Variable/Value/text()" -

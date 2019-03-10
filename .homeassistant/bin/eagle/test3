@@ -1,0 +1,4 @@
+#!/bin/bash
+./test2 | xmllint --xpath "//Device/Components/Component/Variables/Variable/Value/text()" -
+./test2 | xmllint --xpath "//Device/Components/Component/Variables/Variable/Units/text()" -
+

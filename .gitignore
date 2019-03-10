@@ -1,0 +1,30 @@
+# Example .gitignore file for your config dir.
+# A * ensures that everything will be ignored.
+*/*
+/*
+
+# You can whitelist files/folders with !, these will not be ignored.
+!*.yaml
+**/ip_bans.yaml
+**/secrets.yaml
+**/known_devices.yaml
+!.gitignore
+!*.md
+!*.js
+!*.sh
+**/dorbird.sh
+**/dropbox_uploader.sh
+!*.py
+**/doorbird.py
+**/mail.py
+**/dropbox.py
+**/notes
+!.homeassistant/
+!.homeassistant/bin/
+!.homeassistant/packages/
+!.homeassistant/.homeassistant/bin/node-screenlogic/
+!conf/
+!conf/dashboards/
+
+
+

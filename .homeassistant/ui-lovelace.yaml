@@ -1,0 +1,1487 @@
+# SCCS: %W% %G% 
+
+# inclucde external resources
+#resources: 
+#  - url: /local/tracker-card.js?track=true
+#    type: module
+
+title: Monte Verde
+
+views:
+  - title: home-assistant
+    icon: mdi:home-assistant
+    cards:
+      - type: entity-filter
+        entities:
+          - entity: binary_sensor.dan_home
+            icon: mdi:chess-king
+            name: Dan
+          - entity: binary_sensor.cheryl_home
+            icon: mdi:chess-queen
+            name: Cheryl
+          - entity: binary_sensor.amelia_home
+            icon: mdi:chess-pawn
+            name: Amelia
+          - entity: binary_sensor.anthony_home
+            icon: mdi:chess-pawn
+            name: Anthony
+          - entity: binary_sensor.nick_home
+            icon: mdi:chess-pawn
+            name: Nicholas
+        state_filter:
+          - "on"
+        card:
+          type: glance
+          title: People at home
+          show_state: false
+
+      - type: entities
+        title: Calendar Events
+        show_header_toggle: false
+        entities:
+          - entity: sensor.template_calendar_events
+            icon: mdi:calendar
+          - entity: sensor.template_birthday_events
+            icon: mdi:cake-variant
+          - entity: sensor.template_holiday_events
+            icon: mdi:calendar-text
+          - entity: sensor.template_christian_holiday_events
+            icon: mdi:church
+
+      - type: entities
+        title: Weather Data
+        show_header_toggle: false
+        entities:
+          - sun.sun
+          - sensor.moon
+          - entity: sensor.point_loma
+            icon: mdi:waves
+          - entity: sensor.waqi_camp_pendleton_san_diego_california
+            name: Air Quality -> Camp Pendleton
+          - entity: sensor.mkiii_air_temperature
+            name: Air Temperature
+          - entity: sensor.mkiii_barometric_pressure
+            name: Barometric Pressure
+          - entity: sensor.mkiii_relative_humidity
+            name: Relative Humidity
+          - entity: sensor.mkiii_wind
+            name: Wind
+          - entity: sensor.current_uv_level
+          - entity: sensor.current_uv_index
+          - entity: sensor.max_uv_index 
+          - entity: sensor.current_ozone_level
+          - binary_sensor.protection_window
+          - entity: sensor.netatmo_ul_sum_rain_1i
+            name: Rain Last Hour
+            icon: mdi:weather-rainy
+          - entity: sensor.netatmo_ul_sum_rain_24i
+            name: Rain Current Day
+            icon: mdi:weather-rainy
+# not working, need to investigate and repair
+#          - entity: sensor.mkiii_rainfall
+#            name: Rainfall
+          - entity: sensor.mkiii_station_battery
+            name: Station Battery
+
+      - type: weather-forecast
+        entity: weather.openweathermap
+
+      - type: glance
+        title: Server Status
+        show_header_toggle: false        
+        show_state: false
+        entities:
+          - binary_sensor.firepit
+          - binary_sensor.fireplace
+          - binary_sensor.stage
+          - binary_sensor.unms
+          - binary_sensor.unifi
+          - binary_sensor.pihole
+          - binary_sensor.poolside
+          - binary_sensor.greenhouse
+          - binary_sensor.weightroom
+          - binary_sensor.vpnserver
+          - binary_sensor.genmon
+          - binary_sensor.rosegarden
+          - binary_sensor.familyroomimac
+#         - binary_sensor.officeimac
+          - binary_sensor.readynasbackup
+          - binary_sensor.readynasclips
+          - binary_sensor.security
+
+      - type: vertical-stack
+        cards:
+          - type: markdown
+            content: Home Assistant
+          - type: horizontal-stack
+            cards:
+              - type: gauge
+                name: CPU
+                unit: '%'
+                entity: sensor.processor_use
+                severity:
+                  green: 0
+                  yellow: 45
+                  red: 85
+          - type: entities
+            entities:
+              - sensor.network_in_enp5s0
+              - sensor.network_out_enp5s0
+              - sensor.memory_free
+              - sensor.swap_free
+              - sensor.load_1m
+#             - entity: sensor.ssl_cert_expiry
+#               icon: mdi:certificate
+              - type: weblink
+                name: Netdata Hassio
+                url: http://192.168.1.123:19999
+
+      - type: entities
+        title: Time & Date
+        show_header_toggle: false
+        entities:
+          - sensor.date
+          - sensor.time
+
+      - type: map
+        aspect_ratio: 16:9
+        default_zoom: 12
+        entities:
+          - zone.home
+          - device_tracker.life360_anthony
+          - device_tracker.life360_cheryl_giustiniano
+          - device_tracker.life360_nicholas_giust
+          - device_tracker.dan_marotta_iphone_xs_max
+          - device_tracker.ameliamtaiphone
+
+      - type: entities
+        title: Speed Test
+        show_header_toggle: false
+        entities:
+          - sensor.speedtest_ping
+          - sensor.speedtest_download
+          - sensor.speedtest_upload
+          - sensor.myip
+
+      - type: vertical-stack
+# /srv/homeassistant/lib/python3.6/site-packages/homeassistant/components/envisalink/alarm_control_panel.py
+# fix for bug whereby keypad is not displayed
+#    @property
+#    def code_format(self):
+#        """Regex for code format or None if no code is required."""
+##        if self._code:
+##            return None
+#        return alarm.FORMAT_NUMBER
+
+        cards:
+          - type: alarm-panel
+            name: House Alarm
+            entity: alarm_control_panel.home_alarm
+            states:
+              - arm_home
+              - arm_away
+              - arm_night
+
+          - type: glance
+            title: Alarm Zones
+            show_header_toggle: false
+            show_state: false
+            columns: 4
+            entities:
+              - sensor.home_alarm_keypad
+              - entity: binary_sensor.blue_bedroom_windows
+                name: Anthony Bedroom 
+                icon: mdi:window-closed
+                secondary_info: last-changed
+              - entity: binary_sensor.dining_room_doors
+                name: Dining Room
+                secondary_info: last-changed
+                icon: mdi:door-closed
+              - entity: binary_sensor.family_motion
+                secondary_info: last-changed
+                name: Family Room 
+              - entity: binary_sensor.family_room_doors
+                secondary_info: last-changed
+                name: Family Room 
+                icon: mdi:door-closed
+              - entity: binary_sensor.front_door
+                secondary_info: last-changed
+              - entity: binary_sensor.garage_entry_door
+                name: Garage Door
+                secondary_info: last-changed
+                icon: mdi:door-closed
+              - entity: binary_sensor.guest_bedroom_doors
+                secondary_info: last-changed
+                name: Guest Bedroom
+                icon: mdi:door-closed
+              - entity: binary_sensor.living_room_doors
+                secondary_info: last-changed
+                name: Living Room
+                icon: mdi:door-closed
+              - entity: binary_sensor.laundry_room_windows
+                secondary_info: last-changed
+                name: Laundry Room
+                icon: mdi:window-closed
+              - entity: binary_sensor.master_bathroom_windows
+                name: Master Bedroom
+                secondary_info: last-changed
+                icon: mdi:window-closed
+              - entity: binary_sensor.master_bedroom_windows
+                name: Master Bathroom
+                secondary_info: last-changed
+                icon: mdi:window-closed
+              - entity: binary_sensor.nook_windows
+                secondary_info: last-changed
+                name: Nook 
+                icon: mdi:window-closed
+              - entity: binary_sensor.office_windows
+                secondary_info: last-changed
+                name: Office
+                icon: mdi:window-closed
+              - entity: binary_sensor.powder_gallery_windows
+                secondary_info: last-changed
+                name: Powder-Gallery
+                icon: mdi:window-closed
+              - entity: binary_sensor.rock_n_roll_bedroom_windows
+                secondary_info: last-changed
+                name: Amelia Bedroom
+                icon: mdi:window-closed
+              - entity: binary_sensor.tile_bedroom_windows
+                secondary_info: last-changed
+                name: Nicholas Bedroom
+                icon: mdi:window-closed
+          - type: entities
+            entities:
+              - type: weblink
+                name: Envisalink
+                url: http://192.168.1.114
+
+      - type: entities
+        title: APC SMT1500 UPS
+        show_header_toggle: false
+        entities:
+          - binary_sensor.ups_online_status
+          - sensor.ups_battery
+          - sensor.ups_input_voltage
+          - sensor.ups_load
+          - sensor.ups_input_voltage
+          - sensor.ups_output_voltage
+          - sensor.ups_time_left
+          - sensor.ups_time_on_battery
+          - sensor.ups_transfer_count
+          - type: weblink
+            name: APCUPS SMT1500
+            url: http://192.168.1.132
+
+      - type: entities
+        title: Remotes
+        show_header_toggle: false
+        entities:
+          - remote.family_room
+          - remote.office
+          - remote.master_bedroom
+
+      - type: entities
+        title: Thermostats
+        show_header_toggle: false
+        entities:
+          - type: thermostat
+            entity: climate.master_bedroom
+            title: Master Bedroom
+          - type: thermostat
+            entity: climate.family_room
+            title: Family Room
+          - type: thermostat
+            entity: climate.hallway
+            title: Hallway
+          - type: thermostat
+            entity: climate.shack
+            title: Shack
+          - type: weblink
+            name: Nest
+            url: http://www.nest.com
+
+      - type: glance
+        title: Smoke/CO Alarms
+        show_header_toggle: false
+        show_state: false
+        columns: 3
+        entities:
+          - entity: sensor.downstairs_nest_protect_smoke_status
+            icon: mdi:smoke-detector
+            name: Downstairs Smoke Alarm
+          - entity: sensor.upstairs_nest_protect_smoke_status
+            icon: mdi:smoke-detector
+            name: Upstairs Smoke Alarm
+          - entity: sensor.shack_nest_protect_smoke_status
+            icon: mdi:smoke-detector
+            name: Shack Smoke Alarm
+          - entity: sensor.downstairs_nest_protect_co_status
+            icon: mdi:periodic-table-co2
+            name: Downstairs CO2 Alarm
+          - entity: sensor.upstairs_nest_protect_co_status
+            icon: mdi:periodic-table-co2
+            name: Upstairs CO2 Alarm
+          - entity: sensor.shack_nest_protect_co_status
+            icon: mdi:periodic-table-co2
+            name: Shack CO2 Alarm
+
+      - type: picture-entity
+        entity: camera.doorbird
+
+      - type: entities
+        title: Netatmo
+        show_header_toggle: false
+        entities:
+          - sensor.netatmo_greenhouse_co2
+          - sensor.netatmo_greenhouse_humidity
+          - sensor.netatmo_greenhouse_pressure
+          - sensor.netatmo_greenhouse_temperature
+          - sensor.netatmo_shed_temperature
+          - sensor.netatmo_shed_humidity
+          - sensor.netatmo_shed_battery_percent
+          - sensor.netatmo_ul_rain
+          - sensor.netatmo_ul_battery_percent
+
+      - type: entities
+        title: Pool
+        show_header_toggle: false
+        entities:
+          - entity: sensor.model
+          - entity: switch.pool_pump
+          - entity: switch.spa_pump
+          - entity: sensor.pump_status
+          - entity: sensor.freeze_protect
+          - entity: sensor.pool_temp
+          - entity: sensor.spa_temp
+          - entity: sensor.spa_heater
+          - entity: switch.spa_air_blower
+          - entity: switch.spa_booster_pump
+          - entity: switch.pool_waterfall
+          - entity: switch.pool_lights
+          - entity: switch.spa_light
+          - entity: input_select.pool_color
+
+# Pentair Pool Controller via npm node-screenlogic
+# Backup to Autelis Module should it fail
+# /home/dan/node_modules
+#      - type: entities
+#        title: Pool (node)
+#        show_header_toggle: false
+#        entities:
+#          - entity: sensor.node_pentair_version
+#            name: Pentair Version
+#          - entity: sensor.node_pool_mode
+#            name: Pool Mode
+#          - entity: sensor.node_freeze_protect
+#            name: Freeze Protect
+#          - entity: sensor.node_air_temp
+#            name: Air Temp
+#          - entity: switch.node_pool
+#          - entity: sensor.node_pool_temp
+#            name: Pool Temp
+#          - entity: switch.node_pool_lights
+#          - entity: switch.node_spa
+#          - entity: sensor.node_spa_temp
+#            name: SPA Temp
+#          - entity: switch.node_spa_light
+#          - entity: switch.node_spa_booster_pump
+#          - entity: switch.node_spa_air_blower
+#          - entity: switch.node_pool_waterfall
+#          - entity: sensor.node_heater_mode
+#            name: Heater Mode
+#          - entity: sensor.node_heater_status
+#            name: Heater Status
+
+      - type: entities
+        title: Tesla Model S
+        show_header_toggle: false
+        entities:
+          - entity: binary_sensor.tesla_model_s_5yjsa1cn1dfp26380_charger_sensor
+            name: Tesla Charger Sensor
+          - entity: climate.tesla_model_s_5yjsa1cn1dfp26380_hvac_climate_system
+            name: Tesla HVAC
+          - entity: device_tracker.tesla_model_s_5yjsa1cn1dfp26380_location_tracker
+            name: Tesla Location Tracker
+          - entity: sensor.tesla_model_s_5yjsa1cn1dfp26380_temperature_sensor_inside
+            name: Tesla Interior Temperature
+          - entity: switch.tesla_model_s_5yjsa1cn1dfp26380_charger_switch
+            name: Tesla Charger Switch
+          - entity: sensor.tesla_model_s_5yjsa1cn1dfp26380_battery_sensor
+            name: Tesla Battery
+            icon: mdi:car-battery
+
+      - type: entities
+        title: Water Leak Sensors
+        show_header_toggle: false
+        entities:
+          - sensor.wirelesstag_amelia_bathroom_sink_moisture
+          - sensor.wirelesstag_amelia_bathroom_toilet_moisture
+          - sensor.wirelesstag_bar_moisture
+          - sensor.wirelesstag_guest_bathroom_sink_moisture
+          - sensor.wirelesstag_guest_bathroom_toilet_moisture
+          - sensor.wirelesstag_hallway_bathroom_sink_moisture
+          - sensor.wirelesstag_hallway_bathroom_toilet_moisture
+          - sensor.wirelesstag_kitchen_refrigerator_moisture
+          - sensor.wirelesstag_kitchen_sink_moisture
+          - sensor.wirelesstag_kitchen_island_sink_moisture
+          - sensor.wirelesstag_laundry_room_sink_moisture
+          - sensor.wirelesstag_washer_dryer_moisture
+          - sensor.wirelesstag_master_bathroom_sink_right_moisture
+          - sensor.wirelesstag_master_bathroom_left_sink_moisture
+          - sensor.wirelesstag_master_bathroom_toilet_moisture
+          - sensor.wirelesstag_nicholas_bathroom_sink_moisture
+          - sensor.wirelesstag_nicholas_bathroom_toilet_moisture
+          - sensor.wirelesstag_powder_room_moisture
+          - sensor.wirelesstag_water_heaters_moisture
+          - sensor.wirelesstag_shack_bathroom_moisture
+          - sensor.wirelesstag_shack_bathroom_sink_moisture
+
+      - type: entities
+        title: Outdoor Gates
+        show_header_toggle: false
+        entities:
+          - entity: lock.back_gate_156
+            name: Back Gate Lock
+            secondary_info: last-changed
+          - entity: lock.rose_garden_gate_154
+            name: Rose Garden Gate Lock
+            secondary_info: last-changed
+
+      - type: entities
+        title: Wine Storage
+        show_header_toggle: false
+        entities:
+          - sensor.wirelesstag_eurocave_left_humidity
+          - sensor.wirelesstag_eurocave_left_temperature
+          - binary_sensor.eurocave_left_door
+          - sensor.wirelesstag_eurocave_right_humidity
+          - sensor.wirelesstag_eurocave_right_temperature
+          - binary_sensor.eurocave_right_door
+
+      - type: entities
+        title: DNS AD Blocker
+        show_header_toggle: false
+        entities:
+          - sensor.pi_hole_ads_blocked_today
+          - sensor.pi_hole_ads_percentage_blocked_today
+          - type: weblink
+            name: Pi-Hole
+            url: http://192.168.5.2/admin
+
+      - type: vertical-stack
+        cards:
+          - type: entities
+            title: Monteverde Power
+            show_header_toggle: false
+            entities:
+              - entity: sensor.envoy_current_energy_production
+                name: Current Energy Production
+              - entity: sensor.envoy_today_s_energy_production
+                name: Today's Energy Production
+              - entity: sensor.instantaneous_demand
+                name: Net Power Demand
+              - type: weblink
+                name: Envoy
+                url: http://192.168.1.74
+          - type: history-graph
+            title: 'Monte Verde Power (kW)'
+            hours_to_show: 24
+            refresh_interval: 60
+            entities:
+              - entity: sensor.solar_production
+                name: Current Energy Production
+              - entity: sensor.instantaneous_demand
+                name: Net Power Demand
+          - type: history-graph
+            title: 'Monte Verde Usage (kWh)'
+            hours_to_show: 24
+            refresh_interval: 300
+            entities:
+              - entity: sensor.energy_used
+                name: Energy Used
+
+#      - type: entities
+#        title: Roomba Downstairs
+#        show_header_toggle: false
+#        entities:
+#          - vacuum.roomba_downstairs
+#          - vacuum.roomba_upstairs
+
+      - type: vertical-stack
+        title: Home TVs
+        show_header_toggle: false
+        cards:
+          - type: media-control
+            entity: media_player.living_room_tv
+          - type: media-control
+            entity: media_player.office_tv
+          - type: media-control
+            entity: media_player.master_bedroom_tv
+          - type: media-control
+            entity: media_player.master_bathroom
+
+      - type: vertical-stack
+        title: Receivers
+        show_header_toggle: false
+        cards:
+          - type: media-control
+            entity: media_player.family_room_avr
+          - type: media-control
+            entity: media_player.office_avr
+          - type: media-control
+            entity: media_player.master_bedroom_avr
+          - type: media-control
+            entity: media_player.living_room_nad
+
+      - type: entities
+        title: Amelia's Bedroom
+        show_header_toggle: false
+        entities:
+          - entity: binary_sensor.rock_n_roll_bedroom_windows
+            icon: mdi:window-closed
+          - entity: switch.amelia_room_scene
+            icon: mdi:play
+          - entity: light.amy_bedroom_entry_light
+            icon: mdi:spotlight
+          - entity: switch.amy_bedroom_wall_switch
+            icon: mdi:light-switch
+#          - type: divder
+          - entity: switch.amelia_bathroom_scene
+            icon: mdi:play
+          - entity: switch.amy_bathroom_ceiling_light
+            icon: mdi:ceiling-light
+          - entity: switch.amy_bathroom_mirror_light
+            icon: mdi:ceiling-light
+          - entity: switch.amy_bedroom_fan_light
+            icon: mdi:fan
+          - sensor.wirelesstag_amelia_bathroom_sink_moisture
+          - sensor.wirelesstag_amelia_bathroom_toilet_moisture
+          - sensor.wirelesstag_amelia_bathroom_toilet_temperature
+
+      - type: entities
+        title: Kitchen
+        show_header_toggle: false
+        entities:
+          - entity: switch.kitchen_scene
+            icon: mdi:play
+          - entity: light.kitchen_cabinet_lights_v
+            name: Kitchen Cabinet Lights
+            icon: mdi:lightbulb
+          - entity: light.kitchen_overhead_lights
+            name: Kitchen Overhead Lights
+            icon: mdi:track-light
+          - entity: light.kitchen_sink_overhead_lights
+            name: Kitchen Sink Spot Lights
+            icon: mdi:spotlight
+          - sensor.wirelesstag_kitchen_island_sink_moisture
+          - sensor.wirelesstag_kitchen_refrigerator_moisture
+          - sensor.wirelesstag_kitchen_sink_moisture
+          - sensor.wirelesstag_kitchen_sink_temperature
+
+      - type: entities
+        title: Guest Bedroom
+        show_header_toggle: false
+        entities:
+          - entity: binary_sensor.guest_bedroom_doors
+            icon: mdi:door-closed
+          - binary_sensor.guest_closet_door_sensor
+          - entity: switch.guest_closet_light
+            icon: mdi:lightbulb
+          - entity: switch.guest_bedroom_scene
+            icon: mdi:play
+          - entity: light.guest_bedroom_chandelier
+            icon: mdi:ceiling-light
+          - entity: switch.guest_bedroom_switched_outlet
+            name: Guest Floor Lamp
+            icon: mdi:floor-lamp
+          - type: divider
+          - entity: switch.guest_bathroom_scene
+            icon: mdi:play
+          - entity: switch.guest_bathroom_mirror_light
+            icon: mdi:ceiling-light
+          - entity: switch.guest_bathroom_overhead_light
+            icon: mdi:ceiling-light
+          - light.guest_bathroom_fan
+          - type: divider
+          - sensor.wirelesstag_guest_bathroom_sink_moisture
+          - sensor.wirelesstag_guest_bathroom_toilet_moisture
+          - sensor.wirelesstag_guest_bathroom_toilet_temperature
+
+      - type: entities
+        title: Powder Room
+        show_header_toggle: false
+        entities:
+          - entity: binary_sensor.powder_gallery_windows
+            name: Powder Room/Gallery Windows
+            icon: mdi:window-closed
+          - light.powder_room_fan
+          - type: divider
+          - entity: switch.powder_room_scene
+            icon: mdi:play
+          - entity: switch.powder_room_ceiling_light
+            icon: mdi:ceiling-light
+          - entity: switch.powder_room_wall_light
+            icon: mdi:light-switch
+          - type: divider
+          - sensor.wirelesstag_powder_room_moisture
+          - sensor.wirelesstag_powder_room_temperature
+
+      - type: entities
+        title: Laundry Room
+        show_header_toggle: false
+        entities:
+          - entity: binary_sensor.laundry_room_windows
+            icon: mdi:window-closed
+          - entity: switch.laundry_room_light
+            icon: mdi:light-switch
+          - sensor.wirelesstag_laundry_room_sink_moisture
+          - sensor.wirelesstag_washer_dryer_moisture
+          - sensor.wirelesstag_washer_dryer_temperature
+
+      - type: entities
+        title: Office
+        show_header_toggle: false
+        entities:
+          - entity: switch.office_lights_scene
+            icon: mdi:play
+          - entity: binary_sensor.office_windows
+            icon: mdi:window-closed
+          - entity: light.office_overhead_light
+            icon: mdi:ceiling-light
+          - entity: switch.office_switched_lights
+            icon: mdi:floor-lamp
+ 
+      - type: vertical-stack
+        cards:
+          - type: glance
+            title: "Mail & Packages"
+            show_header_toggle: false
+            columns: 3
+            entities:
+              - entity: sensor.mail_ups
+                name: UPS
+                icon: mdi:package-variant-closed
+              - entity: sensor.mail_fedex_delivered
+                name: FedEx
+                icon: mdi:package-variant-closed
+              - entity: sensor.mail_usps_packages
+                name: USPS
+                icon: mdi:package-variant-closed
+              - entity: sensor.mail_usps
+                name: USPS
+                icon: mdi:mailbox
+              - entity: sensor.mail_packages_in_transit
+                name: In-Transit
+                icon: mdi:package-variant-closed
+              - entity: sensor.mail_deliveries_today
+                name: Deliveries
+                icon: mdi:package-variant
+          - type: picture-entity
+            entity: camera.mail_usps
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: sensor.mail_deliveries_message
+                name: " "
+                icon: mdi:message
+              - entity: sensor.mail_update 
+                name: Last Update
+                icon: mdi:update
+
+      - type: entities
+        title: Family Room
+        show_header_toggle: false
+        entities:
+          - entity: binary_sensor.family_room_doors
+            name: Family Room Doors
+            icon: mdi:door-closed
+          - entity: binary_sensor.nook_windows
+            icon: mdi:window-closed
+          - binary_sensor.family_motion
+          - sensor.family_room_thermostat_temperature
+          - sensor.family_room_thermostat_humidity
+          - type: divider
+          - entity: switch.family_room_scene
+            name: Family Room Ceiling Scene
+            icon: mdi:play
+          - light.family_room_back_lights
+          - light.family_room_front_lights
+          - light.nook_overhead_lights
+          - type: divider
+          - entity: switch.family_table_scene
+            icon: mdi:play
+          - entity: light.familyroom_table_left
+            icon: mdi:lamp
+          - entity: light.familyroom_table_right
+            icon: mdi:lamp
+          - entity: light.family_room_fireplace_light
+            icon: mdi:spotlight
+          - type: divider
+          - entity: switch.family_nightlight_scene
+            icon: mdi:play
+          - entity: switch.family_hanging_light
+            icon: mdi:ceiling-light
+
+      - type: entities
+        title: Dining Room
+        show_header_toggle: false
+        entities:
+          - entity: binary_sensor.dining_room_doors
+            icon: mdi:door-closed
+          - entity: switch.dining_room_scene
+            icon: mdi:play
+          - entity: light.dining_room_buffet_light
+            icon: mdi:spotlight
+          - entity: light.dining_room_chandelier
+            icon: mdi:ceiling-light
+          - entity: switch.dining_room_coffer_light
+            icon: mdi:ceiling-light
+
+      - type: entities
+        title: Living Room
+        show_header_toggle: false
+        entities:
+          - entity: binary_sensor.living_room_doors
+            icon: mdi:door-closed
+          - type: divider
+          - entity: switch.living_room_scene
+            icon: mdi:play
+          - entity: light.living_room_chandelier
+            icon: mdi:ceiling-light
+          - entity: light.living_room_fireplace_lights
+            icon: mdi:spotlight
+          - entity: light.living_room_spot_light
+            icon: mdi:spotlight
+          - entity: switch.living_room_switched_lights
+            icon: mdi:lamp
+
+      - type: entities
+        title: Garage
+        show_header_toggle: false
+        entities:
+          - entity: binary_sensor.garage_entry_door
+            name: Garage Door
+            icon: mdi:door-closed
+          - entity: cover.left_garage_door
+          - entity: cover.right_garage_door
+          - type: divider
+          - entity: switch.garage_lights_scene
+            icon: mdi:play
+          - entity: switch.garage_left_light
+            icon: mdi:ceiling-light
+          - entity: switch.garage_right_light
+            icon: mdi:ceiling-light
+          - type: divider
+          - sensor.wirelesstag_water_heaters_moisture
+          - sensor.wirelesstag_water_heaters_temperature
+
+      - type: entities
+        title: Outdoor Lights
+        show_header_toggle: false
+        entities:
+          - entity: switch.landscape_backyard_lights
+            icon: mdi:lightbulb
+          - entity: switch.landscape_driveway_lights
+            icon: mdi:lightbulb
+          - entity: switch.landscape_front_lights
+            icon: mdi:lightbulb
+          - entity: switch.landscape_rosegarden_lights
+            icon: mdi:lightbulb
+          - entity: switch.landscape_stage_light
+            icon: mdi:ceiling-light
+          - type: divider
+          - entity: switch.outdoor_stage_table_light
+            icon: mdi:lamp
+          - entity: switch.outdoor_bar_chandelier
+            icon: mdi:ceiling-light
+          - entity: switch.outdoor_bbq_light
+            icon: mdi:ceiling-light
+          - entity: switch.outdoor_patio_canopy
+            icon: mdi:ceiling-light
+          - entity: switch.outdoor_dining_chandelier
+            icon: mdi:ceiling-light
+          - entity: switch.outdoor_front_lights
+            icon: mdi:ceiling-light
+          - entity: switch.outdoor_fireplace_light
+            icon: mdi:lightbulb
+          - entity: switch.outdoor_guest_light
+            icon: mdi:lightbulb
+          - entity: switch.outdoor_poolside_chandelier
+            icon: mdi:ceiling-light
+          - entity: switch.outdoor_poolside_light
+            icon: mdi:lightbulb
+          - entity: switch.outdoor_rosegarden_light
+            icon: mdi:lightbulb
+
+      - type: entities
+        title: Gym
+        show_header_toggle: false
+        entities:
+          - entity: switch.gym_scene
+            icon: mdi:play
+          - entity: switch.weight_room_light
+            icon: mdi:ceiling-light
+          - entity: switch.treadmill
+            name: Treadmill
+            icon: mdi:run
+
+      - type: entities
+        title: Hallways
+        show_header_toggle: false
+        entities:
+          - sensor.hallway_thermostat_temperature
+          - sensor.hallway_thermostat_humidity
+          - type: divider
+          - entity: switch.guest_hallway_scene
+            icon: mdi:play
+          - entity: switch.gallery_stairs_lights_scene
+            icon: mdi:play
+          - type: divider
+          - entity: switch.bar_light
+            icon: mdi:lightbulb
+          - entity: switch.front_closet_light
+            icon: mdi:lightbulb
+          - sensor.wirelesstag_bar_moisture
+          - sensor.wirelesstag_bar_temperature
+
+      - type: entities
+        title: Front Door
+        show_header_toggle: false
+        entities:
+          - binary_sensor.front_door
+          - entity: lock.front_door_deadbolt_187
+            name: Front Door Lock
+            secondary_info: last-changed
+          - type: divider
+          - entity: switch.entry_scene
+            icon: mdi:play
+          - entity: light.front_entry_chandelier
+            icon: mdi:ceiling-light
+          - entity: light.front_entry_spot_lights
+            icon: mdi:spotlight
+
+      - type: entities
+        title: Shack
+        show_header_toggle: false
+        entities:
+          - sensor.shack_thermostat_temperature
+          - sensor.shack_thermostat_humidity
+          - type: divider
+          - entity: switch.shack_lights_scene
+            icon: mdi:play
+          - light.shack_fanlight_back
+          - light.shack_fanlight_front
+          - entity: light.shack_tracklight_left
+            name: Shack Track Light Left
+            icon: mdi:track-light
+          - entity: light.shack_tracklight_right
+            name: Shack Track Light Right
+            icon: mdi:track-light
+          - type: divider
+          - entity: switch.shack_bathroom_scene
+            icon: mdi:play
+          - entity: switch.shack_bathroom_fan
+            name: Shack Bathroom Fan
+            icon: mdi:fan
+          - entity: switch.shack_bathroom_mirror_light
+            name: Shack Bathroom Mirror Light
+            icon: mdi:lightbulb
+          - entity: switch.shack_bathroom_overhead_light
+            name: Shack Bathroom Ceiling Light
+            icon: mdi:ceiling-light
+          - sensor.wirelesstag_shack_bathroom_moisture
+          - sensor.wirelesstag_shack_bathroom_sink_moisture
+
+      - type: entities
+        title: Master Bedroom
+        show_header_toggle: false
+        entities:
+          - entity: binary_sensor.master_bedroom_windows
+            icon: mdi:window-closed
+          - entity: binary_sensor.master_bathroom_windows
+            icon: mdi:window-closed
+          - binary_sensor.master_closet_door_sensor
+          - sensor.master_bedroom_thermostat_temperature
+          - sensor.master_bedroom_thermostat_humidity
+          - entity: switch.iron_switch_169
+            name: Iron
+            icon: mdi:toggle-switch
+          - entity: switch.steam_switch_170
+            name: Steam Iron
+            icon: mdi:toggle-switch
+          - light.master_toilet_fan
+          - light.master_toilet_light
+          - entity: switch.master_shower_light
+            name: Shower Light
+            icon: mdi:lightbulb
+          - type: divider
+          - entity: switch.master_bath_scene
+            icon: mdi:play
+          - light.master_bath_mirror_light
+          - light.master_bath_tub_light
+          - type: divider
+          - entity: light.master_bedroom_ceiling_lights
+            name: Master Ceiling Lights
+            icon: mdi:track-light
+          - entity: light.master_bedroom_chandelier
+            name: Master Chandelier
+            icon: mdi:ceiling-light
+          - entity: switch.master_table_scene
+            icon: mdi:play
+          - entity: light.master_bedroom_fireplace_ligh
+            name: Master Fireplace Light
+            icon: mdi:spotlight
+          - entity: switch.master_sofa_table_1_on_off_mo
+            name: Master Sofa Table Lamp
+            icon: mdi:lamp
+          - entity: switch.master_bedroom_nightstand
+            name: Master Nightstand Table Lamp
+            icon: mdi:lamp
+          - sensor.wirelesstag_master_bathroom_left_sink_moisture
+          - sensor.wirelesstag_master_bathroom_sink_right_moisture
+          - sensor.wirelesstag_master_bathroom_toilet_moisture
+          - sensor.wirelesstag_master_bathroom_toilet_temperature
+
+      - type: entities
+        title: Nicholas' Bedroom
+        show_header_toggle: false
+        entities:
+          - entity: binary_sensor.tile_bedroom_windows
+            name: Nicholas Bedroom Windows
+            icon: mdi:window-closed
+          - entity: switch.nick_bedroom_scene
+            icon: mdi:play
+            name: Nicholas Bedroom Scene
+          - entity: light.tile_bedroom_ceiling_light
+            name: Nicholas Bedroom Ceiling Light
+            icon: mdi:ceiling-light
+          - entity: switch.tile_bedroom_nightstand_light
+            name: Nicholas Bedroom Nightstand Lamp
+            icon: mdi:lamp
+          - type: divider
+          - entity: switch.nick_bath_scene
+            icon: mdi:play
+            name: Nicholas Bathroom Scene
+          - entity: switch.tile_bathroom_ceiling_lig
+            name: Nicholas Bathroom Ceiling Light
+            icon: mdi:ceiling-light
+          - entity: switch.tile_bathroom_mirror_ligh
+            name: Nicholas Bathroom Mirror Light
+            icon: mdi:ceiling-light
+          - sensor.wirelesstag_nicholas_bathroom_sink_moisture
+          - sensor.wirelesstag_nicholas_bathroom_toilet_moisture
+          - sensor.wirelesstag_nicholas_bathroom_toilet_temperature
+
+      - type: entities
+        title: Anthony's Bedroom
+        show_header_toggle: false
+        entities:
+          - entity: binary_sensor.blue_bedroom_windows
+            name: Anthony Bedroom Windows
+            icon: mdi:window-closed
+          - entity: switch.anthony_room_scene
+            icon: mdi:play
+          - entity: switch.anthony_switched_lights
+            icon: mdi:light-switch
+          - entity: switch.anthony_ceiling_fan
+            icon: mdi:fan
+
+      - type: entities
+        title: Upstairs Bathroom
+        show_header_toggle: false
+        entities:
+          - entity: switch.hallway_bathroom_scene
+            icon: mdi:play
+          - entity: switch.hall_bathroom_ceiling_light
+            icon: mdi:ceiling-light
+          - entity: switch.hall_bathroom_fan
+            icon: mdi:fan
+          - entity: switch.hall_bathroom_mirror_light
+            icon: mdi:ceiling-light
+          - sensor.wirelesstag_hallway_bathroom_sink_moisture
+          - sensor.wirelesstag_hallway_bathroom_toilet_moisture
+          - sensor.wirelesstag_hallway_bathroom_toilet_temperature
+
+      - type: entities
+        title: Data Room
+        show_header_toggle: false
+        entities:
+          - entity: switch.dataroom_light
+            icon: mdi:ceiling-light
+          - entity: sensor.wirelesstag_dataroom_temperature
+            name: Dataroom Temperature
+          - entity: sensor.wirelesstag_dataroom_humidity
+            name: Dataroom Humidity
+
+      - type: entities
+        title: Rain Machine
+        show_header_toggle: false
+        entities:
+          - type: divider
+          - switch.back_yard_drip
+          - switch.play_ground
+          - switch.front_entry_south_side_of_house
+          - switch.front_yard_drip
+          - switch.front_yard_drip_along_wall
+          - switch.front_yard_trees
+          - switch.grapes_around_greenhouse
+          - switch.lower_eastside_of_driveway
+          - switch.planters_around_pool
+          - switch.rose_garden_bubblers
+          - switch.rose_garden_drip
+          - switch.slope_bottom_drip
+          - switch.slope_top_drip
+          - switch.slope_trees
+          - switch.tree_soaker_upper_lot
+          - switch.upper_eastside_of_driveway
+          - type: weblink
+            name: Rainmachine Lower Lot
+            url: http://192.168.1.50
+          - type: divider 
+          - switch.lower_plant_drip
+          - switch.upper_plant_drip
+          - switch.peripheral_drip
+          - switch.left_raised_garden_bed
+          - switch.center_raised_garden_bed
+          - switch.right_raised_garden_bed
+          - switch.greenhouse
+          - type: weblink
+            name: Rainmachine Upper Lot
+            url: http://192.168.1.171
+          
+      - type: entities
+        title: GENERAC 11kW Generator
+        show_header_toggle: false
+        entities:
+          - binary_sensor.genmon_power_outage
+          - sensor.genmon_outage_status
+          - sensor.genmon_outage_utility_voltage
+          - sensor.genmon_generator_battery
+          - sensor.genmon_generator_rpm
+          - sensor.genmon_generator_frequency
+          - sensor.genmon_generator_output_voltage
+          - sensor.genmon_generator_output_current
+          - sensor.genmon_generator_output_power
+          - sensor.genmon_generator_exercise_time
+          - sensor.genmon_mon_cpu_temperature
+          - sensor.genmon_mon_load
+          - sensor.wlan_signal_level
+          - type: weblink
+            name: Genmon
+            url: http://192.168.1.198:8000
+
+      - type: entities
+        title: Fountains
+        show_header_toggle: false
+        entities: 
+          - entity: switch.frontdoor_fountain
+            name: Front Door Fountain
+            icon: mdi:fountain
+          - entity: switch.garden_fountain
+            name: Rose Garden Fountain
+            icon: mdi:fountain
+
+      - type: history-graph
+        title: Health Data
+        hours_to_show: 168
+        entities:
+          - sensor.allergy_index_today
+          - sensor.asthma_index_today
+          -  sensor.cold_flu_forecasted_average
+          
+      - type: entities
+        title: Downstairs Air Quality
+        show_header_toggle: false
+        entities:
+          - sensor.awair_co2
+          - entity: sensor.awair_humidityp
+            name: Awair Humidity
+            icon: mdi:water-percent
+          - sensor.awair_pm2_5
+          - sensor.awair_score
+          - entity: sensor.awair_temperaturep
+            name: Awair Temperature
+            icon: mdi:thermometer
+          - sensor.awair_voc
+
+      - type: entities
+        title: Shack Air Quality
+        show_header_toggle: false
+        entities:
+          - sensor.awair_co2_3
+          - entity: sensor.awair_humidity_3p
+            name: Awair Humidity
+            icon: mdi:water-percent
+          - sensor.awair_pm2_5
+          - sensor.awair_score_3
+          - entity: sensor.awair_temperature_3p
+            name: Awair Temperature
+            icon: mdi:thermometer
+          - sensor.awair_voc_3
+
+      - type: entities
+        title: Upstairs Air Quality
+        show_header_toggle: false
+        entities:
+          - sensor.awair_co2_2
+          - entity: sensor.awair_humidity_2p
+            name: Awair Humidity
+            icon: mdi:water-percent
+          - sensor.awair_pm2_5_2
+          - sensor.awair_score_2
+          - entity: sensor.awair_temperature_2p
+            name: Awair Temperature
+            icon: mdi:thermometer
+          - sensor.awair_voc_2
+
+      - type: entities
+        title: Safes
+        show_header_toggle: false
+        entities:
+          - entity: binary_sensor.bedroom_gun_safe_door
+          - entity: sensor.wirelesstag_bedroom_gun_safe_temperature
+          - type: divider
+          - entity: binary_sensor.cash_safe_door
+          - entity: sensor.wirelesstag_cash_safe_humidity
+          - entity: sensor.wirelesstag_cash_safe_temperature
+          - type: divider
+          - entity: binary_sensor.gun_safe_door
+          - entity: sensor.wirelesstag_gun_safe_temperature
+
+#      - type: custom:tracker-card
+#        title: Custom Tracker
+#        trackers:
+#          - sensor.custom_card_tracker
+#          - sensor.custom_component_tracker
+
+  - icon: mdi:thermostat
+    title: Thermostats
+    cards:
+      - type: thermostat
+        entity: climate.master_bedroom
+        name: Master Bedroom
+      - type: thermostat
+        entity: climate.family_room
+        name: Family Room
+      - type: thermostat
+        entity: climate.hallway
+        name: Hallway
+      - type: thermostat
+        entity: climate.shack
+        name: Shack
+
+
+  - icon: mdi:video-account
+    cards: 
+      # Doorbird
+      - type: picture-entity
+        entity: camera.doorbird_tensorflow
+      # Driveway Back
+      - type: picture-entity
+        entity: camera.driveway_back_tensorflow
+      # Driveway Front
+      - type: picture-entity
+        entity: camera.driveway_front_tensorflow
+      # Garage Right
+      - type: picture-entity
+        entity: camera.garage_right_tensorflow
+      # Shed
+      - type: picture-entity
+        entity: camera.shed_tensorflow
+      # Greenhouse
+      - type: picture-entity
+        entity: camera.greenhouse_tensorflow
+      # Laundry Room
+      - type: picture-entity
+        entity: camera.laundry_room_tensorflow
+      # Workbench
+      - type: picture-entity
+        entity: camera.workbench_tensorflow
+      # Laundry Room
+      - type: picture-entity
+        entity: camera.garage_left_tensorflow
+      # Front Door
+      - type: picture-entity
+        entity: camera.front_door_tensorflow
+
+
+  - icon: mdi:camera
+    cards: 
+      - type: picture-entity
+        entity: camera.doorbird
+      - type: picture-entity
+        entity: camera.driveway_back
+      - type: picture-entity
+        entity: camera.driveway_front
+      - type: picture-entity
+        entity: camera.garage_right
+      - type: picture-entity
+        entity: camera.shed
+      - type: picture-entity
+        entity: camera.greenhouse
+      - type: picture-entity
+        entity: camera.upper_lot
+      - type: picture-entity
+        entity: camera.laundry_room
+      - type: picture-entity
+        entity: camera.workbench
+      - type: picture-entity
+        entity: camera.garage_left
+      - type: picture-entity
+        entity: camera.front_door
+      - type: picture-entity
+        entity: camera.bar
+      - type: picture-entity
+        entity: camera.family_room
+      - type: picture-entity
+        entity: camera.shack
+      - type: picture-entity
+        entity: camera.driveway
+      - type: picture-entity
+        entity: camera.rose_garden
+      - type: picture-entity
+        entity: camera.stage
+      - type: picture-entity
+        entity: camera.eastside
+      - type: picture-entity
+        entity: camera.poolside
+      - type: picture-entity
+        entity: camera.pool_equipment
+      - type: picture-entity
+        entity: camera.fire_place
+
+
+  - icon: mdi:monitor-multiple
+    cards: 
+      - type: vertical-stack
+        cards:
+          - type: entities
+            entities: 
+               - type: weblink
+                 name: Netdata -> Home Assistant
+                 url: http://192.168.1.123:19999
+          - type: gauge
+            name: CPU
+            unit: '%'
+            entity: sensor.ha_cpu
+            severity:
+              green: 0
+              yellow: 45
+              red: 85
+      - type: vertical-stack
+        cards:
+          - type: entities
+            entities: 
+               - type: weblink
+                 name: Netdata -> UNMS
+                 url: http://192.168.1.207:19999
+          - type: gauge
+            name: CPU
+            unit: '%'
+            entity: sensor.unms_cpu
+            severity:
+              green: 0
+              yellow: 45
+              red: 85
+      - type: vertical-stack
+        cards:
+          - type: entities
+            entities: 
+               - type: weblink
+                 name: Netdata -> Unifi
+                 url: http://192.168.1.16:19999
+          - type: gauge
+            name: CPU
+            unit: '%'
+            entity: sensor.unifi_cpu
+            severity:
+              green: 0
+              yellow: 45
+              red: 85
+      - type: vertical-stack
+        cards:
+          - type: entities
+            entities:
+               - type: weblink
+                 name: Netdata -> Pi-Hole
+                 url: http://192.168.5.2:19999
+          - type: gauge
+            name: CPU
+            unit: '%'
+            entity: sensor.pi_hole_cpu
+            severity:
+              green: 0
+              yellow: 45
+              red: 85
+      - type: vertical-stack
+        cards:
+          - type: entities
+            entities:
+               - type: weblink
+                 name: Netdata -> VPN Server
+                 url: http://192.168.1.235:19999
+          - type: gauge
+            name: CPU
+            unit: '%'
+            entity: sensor.vpn_server_cpu
+            severity:
+              green: 0
+              yellow: 45
+              red: 85
+      - type: vertical-stack
+        cards:
+          - type: entities
+            entities:
+               - type: weblink
+                 name: Netdata -> Stage Roon Endpoint
+                 url: http://192.168.1.174:19999
+          - type: gauge
+            name: CPU
+            unit: '%'
+            entity: sensor.stage_cpu
+            severity:
+              green: 0
+              yellow: 45
+              red: 85
+      - type: vertical-stack
+        cards:
+          - type: entities
+            entities:
+               - type: weblink
+                 name: Netdata -> Poolside Roon Endpoint
+                 url: http://192.168.1.18:19999
+          - type: gauge
+            name: CPU
+            unit: '%'
+            entity: sensor.poolside_cpu
+            severity:
+              green: 0
+              yellow: 45
+              red: 85
+      - type: vertical-stack
+        cards:
+          - type: entities
+            entities:
+               - type: weblink
+                 name: Netdata -> Firepit Roon Endpoint
+                 url: http://192.168.1.200:19999
+          - type: gauge
+            name: CPU
+            unit: '%'
+            entity: sensor.firepit_cpu
+            severity:
+              green: 0
+              yellow: 45
+              red: 85
+      - type: vertical-stack
+        cards:
+          - type: entities
+            entities:
+               - type: weblink
+                 name: Netdata -> Fireplace Roon Endpoint
+                 url: http://192.168.1.201:19999
+          - type: gauge
+            name: CPU
+            unit: '%'
+            entity: sensor.fireplace_cpu
+            severity:
+              green: 0
+              yellow: 45
+              red: 85
+      - type: vertical-stack
+        cards:
+          - type: entities
+            entities:
+               - type: weblink
+                 name: Netdata -> Rose Garden Roon Endpoint
+                 url: http://192.168.1.170:19999
+          - type: gauge
+            name: CPU
+            unit: '%'
+            entity: sensor.rose_garden_cpu
+            severity:
+              green: 0
+              yellow: 45
+              red: 85
+      - type: vertical-stack
+        cards:
+          - type: entities
+            entities:
+               - type: weblink
+                 name: Netdata -> Greenhouse Roon Endpoint
+                 url: http://192.168.1.187:19999
+          - type: gauge
+            name: CPU
+            unit: '%'
+            entity: sensor.greenhouse_cpu
+            severity:
+              green: 0
+              yellow: 45
+              red: 85
+      - type: vertical-stack
+        cards:
+          - type: entities
+            entities:
+               - type: weblink
+                 name: Netdata -> Gym Kiosk Endpoint
+                 url: http://192.168.1.158:19999
+          - type: gauge
+            name: CPU
+            unit: '%'
+            entity: sensor.gym_cpu
+            severity:
+              green: 0
+              yellow: 45
+              red: 85
+      - type: vertical-stack
+        cards:
+          - type: entities
+            entities:
+               - type: weblink
+                 name: Netdata -> Generator Monitor
+                 url: http://192.168.1.198:19999
+          - type: gauge
+            name: CPU
+            unit: '%'
+            entity: sensor.genmon_cpu
+            severity:
+              green: 0
+              yellow: 45
+              red: 85
+
+#  - title: Roon
+#    cards:
+#      - type: entities
+#        name: Roon Music players
+#        entities:
+#          - input_select.roon_players
+#          - input_select.roon_playlists
+#          - input_number.roon_volume
+#      - type: media-control
+#        entity: media_player.family_room
+#      - type: media-control
+#        entity: media_player.family_room_imac
+#      - type: media-control
+#        entity: media_player.firepit
+#      - type: media-control
+#        entity: media_player.greenhouse
+#      - type: media-control
+#        entity: media_player.gym_2
+#      - type: media-control
+#        entity: media_player.living_room
+#      - type: media-control
+#        entity: media_player.master_bedroom
+#      - type: media-control
+#        entity: media_player.office
+#      - type: media-control
+#        entity: media_player.outdoor_dining
+#      - type: media-control
+#        entity: media_player.poolside
+#      - type: media-control
+#        entity: media_player.rosegarden
+#      - type: media-control
+#        entity: media_player.stage
+#      - type: media-control
+#        entity: media_player.master_bathroom
+

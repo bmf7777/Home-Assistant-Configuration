@@ -1,0 +1,26 @@
+# SCCS: @(#)appdaemon.yaml	1.4 02/12/19 
+log:
+  logfile: /home/homeassistant/conf/appdaemon.log
+  errorfile: /home/homeassistant/conf/appdaemon.err
+  
+appdaemon: 
+  disable_apps: 1
+  threads: 10
+  app_dir: /home/homeassistant/conf/apps
+  latitude: !secret lat
+  longitude: !secret long
+  elevation: 30
+  time_zone: America/Los_Angeles
+  plugins:
+    HASS:
+      type: hass
+      ha_url: http://127.0.0.1:8123
+#     ha_url: https://marotta.ddns.net:8443
+      token: !secret token
+
+hadashboard:
+  dash_url: http://127.0.0.1:5050
+  dash_dir: /home/homeassistant/conf/dashboards
+  dash_force_compile: 1
+  dash_compile_on_start: 1
+  accessfile: /home/homeassistant/conf/access.log

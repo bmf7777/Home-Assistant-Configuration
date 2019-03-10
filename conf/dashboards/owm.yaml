@@ -1,0 +1,12 @@
+# SCCS: @(#)owm.yaml	1.1 01/08/19 
+
+widget_type: weather
+title: Today
+show_forecast: 0
+prefer_icons: 1
+sensors:
+  temperature: sensor.owm_temperature
+  humidity: sensor.owm_humidity
+  pressure: sensor.owm_pressure
+  wind_speed: sensor.owm_wind_speed
+  wind_bearing: sensor.owm_wind_bearing

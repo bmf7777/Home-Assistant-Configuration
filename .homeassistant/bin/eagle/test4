@@ -1,0 +1,11 @@
+#!/bin/bash
+User="dan.marotta5@gmail.com"
+Password="Ppg76KCYCy8y"
+EagleIPAddress="192.168.1.70"
+CloudID="009778"
+IN="ec4358e650677eb3"
+MAC="d8d5b9000000a772" #// Format example: e8p5b20050003ac1
+
+echo curl --verbose "http://$CloudID:$IN@192.168.1.70/cgi-bin/post_manager" \
+-H "Content-Type: application/json" \
+--data '<LocalCommand><Name>get_usage_data</Name><MacId>0xd8d5b9000000a772</MacId></LocalCommand>' 

@@ -1,0 +1,19 @@
+# SCCS: @(#)	1.3 01/06/19
+
+widget_type: cover
+title: Garage Left
+title_style: "font-weight: bold;"
+#title_style: "color: black;"
+#widget_style: "background: sandybrown;"
+state_text: 1
+state_map:
+  "closed": Closed
+  "open": Open
+state_text_style: "display: none"
+entity: cover.left_garage_door
+icon_on: mdi-garage-open
+icon_off: mdi-garage
+icon_style_inactive: "color: #00FF00; font-size: 400%"
+icon_style_active: "color: #FF0000; font-size: 400%"
+
+

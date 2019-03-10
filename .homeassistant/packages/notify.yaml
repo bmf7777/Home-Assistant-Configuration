@@ -1,0 +1,10 @@
+# package: notify
+# SCCS: @(#)notify.yaml	1.2 01/24/19 
+
+# pushover
+notify:
+  - name: danmarotta
+    platform: pushover
+    api_key: !secret pushover_api 
+    user_key: !secret pushover_user 
+

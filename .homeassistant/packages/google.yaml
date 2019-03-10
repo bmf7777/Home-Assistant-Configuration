@@ -1,0 +1,213 @@
+# package: google
+# SCCS: @(#)google.yaml	1.6 03/03/19 
+
+homeassistant:
+  customize:
+
+    sensor.template_calendar_events:
+      icon: mdi:calendar-alert
+
+# Google Calendar
+google:
+  client_id: !secret google_id 
+  client_secret: !secret google_secret 
+
+sensor:
+
+  - platform: template
+    sensors:
+      template_calendar_events:
+        value_template: >-
+          {{ states.calendar.danmarotta5gmailcom.attributes.message ~ "," }}
+          {% if states.calendar.danmarotta5gmailcom.attributes.start_time.split("-")[1] == "01" -%} 
+            {{ "Jan-" }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split("-")[1] == "02" -%} 
+            {{ "Feb-" }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split("-")[1] == "03" -%} 
+            {{ "Mar-" }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split("-")[1] == "04" -%} 
+            {{ "Apr-" }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split("-")[1] == "05" -%} 
+            {{ "May-" }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split("-")[1] == "06" -%} 
+            {{ "Jun-" }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split("-")[1] == "07" -%} 
+            {{ "Jul-" }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split("-")[1] == "08" -%} 
+            {{ "Aug-" }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split("-")[1] == "09" -%} 
+            {{ "Sept-" }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split("-")[1] == "10" -%} 
+            {{ "Oct-" }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split("-")[1] == "11" -%} 
+            {{ "Nov-" }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split("-")[1] == "12" -%} 
+            {{ "Dec-" }}
+          {%- else -%} 
+            {{ "??-" }}
+          {%- endif -%} 
+          {{ (states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[0].split("-")[2]) | int }}
+          {% set mintext =  states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[1] %}
+          {%- if states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "00" -%} 
+            {{ ("12:" ~ mintext ~ "am") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "01" -%} 
+            {{ ("1:" ~ mintext ~ "am") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "02" -%} 
+            {{ ("2:" ~ mintext ~ "am") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "03" -%} 
+            {{ ("3:" ~ mintext ~ "am") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "04" -%} 
+            {{ ("4:" ~ mintext ~ "am") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "05" -%} 
+            {{ ("5:" ~ mintext ~ "am") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "06" -%} 
+            {{ ("6:" ~ mintext ~ "am") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "07" -%} 
+            {{ ("7:" ~ mintext ~ "am") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "08" -%} 
+            {{ ("8:" ~ mintext ~ "am") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "09" -%} 
+            {{ ("9:" ~ mintext ~ "am") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "10" -%} 
+            {{ ("10:" ~ mintext ~ "am") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "11" -%} 
+            {{ ("11:" ~ mintext ~ "am") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "12" -%} 
+            {{ ("12:" ~ mintext ~ "pm") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "13" -%} 
+            {{ ("1:" ~ mintext ~ "pm") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "14" -%} 
+            {{ ("2:" ~ mintext ~ "pm") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "15" -%} 
+            {{ ("3:" ~ mintext ~ "pm") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "16" -%} 
+            {{ ("4:" ~ mintext ~ "pm") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "17" -%} 
+            {{ ("5:" ~ mintext ~ "pm") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "18" -%} 
+            {{ ("6:" ~ mintext ~ "pm") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "19" -%} 
+            {{ ("7:" ~ mintext ~ "pm") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "20" -%} 
+            {{ ("8:" ~ mintext ~ "pm") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "21" -%} 
+            {{ ("9:" ~ mintext ~ "pm") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "22" -%} 
+            {{ ("10:" ~ mintext ~ "pm") | replace(":00", "") }}
+          {%- elif states.calendar.danmarotta5gmailcom.attributes.start_time.split(" ")[1].split(":")[0] == "23" -%} 
+            {{ ("11:" ~ mintext ~ "pm") | replace(":00", "") }}
+          {%- else -%}
+            {{ "??:" ~ mintext ~ "am/pm" }}
+          {%- endif -%}            
+        friendly_name: "Event"
+        unit_of_measurement: ""
+
+  - platform: template
+    sensors:
+      template_birthday_events:
+        value_template: >-
+          {{ states.calendar.contacts.attributes.message ~ "," }}
+          {% if states.calendar.contacts.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "01" -%} 
+            {{ "Jan-" }}
+          {%- elif states.calendar.contacts.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "02" -%} 
+            {{ "Feb-" }}
+          {%- elif states.calendar.contacts.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "03" -%} 
+            {{ "Mar-" }}
+          {%- elif states.calendar.contacts.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "04" -%} 
+            {{ "Apr-" }}
+          {%- elif states.calendar.contacts.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "05" -%} 
+            {{ "May-" }}
+          {%- elif states.calendar.contacts.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "06" -%}
+            {{ "Jun-" }}
+          {%- elif states.calendar.contacts.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "07" -%} 
+            {{ "Jul-" }}
+          {%- elif states.calendar.contacts.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "08" -%}
+            {{ "Aug-" }}
+          {%- elif states.calendar.contacts.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "09" -%} 
+            {{ "Sept-" }}
+          {%- elif states.calendar.contacts.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "10" -%} 
+            {{ "Oct-" }}
+          {%- elif states.calendar.contacts.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "11" -%} 
+            {{ "Nov-" }}
+          {%- elif states.calendar.contacts.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "12" -%}
+            {{ "Dec-" }}
+          {%- else -%} 
+            {{ "??-" }}
+          {%- endif -%}
+          {{ (states.calendar.contacts.attributes.start_time.replace(" 00:00:00","").split("-")[2]) | int }}
+        friendly_name: "Birthday"
+        unit_of_measurement: ""
+
+  - platform: template
+    sensors:
+      template_holiday_events:
+        value_template: >-
+          {{ states.calendar.holidays_in_united_states.attributes.message ~ "," }}
+          {% if states.calendar.holidays_in_united_states.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "01" -%} 
+            {{ "Jan-" }}
+          {%- elif states.calendar.holidays_in_united_states.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "02" -%} 
+            {{ "Feb-" }}
+          {%- elif states.calendar.holidays_in_united_states.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "03" -%} 
+            {{ "Mar-" }}
+          {%- elif states.calendar.holidays_in_united_states.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "04" -%} 
+            {{ "Apr-" }}
+          {%- elif states.calendar.holidays_in_united_states.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "05" -%} 
+            {{ "May-" }}
+          {%- elif states.calendar.holidays_in_united_states.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "06" -%}
+            {{ "Jun-" }}
+          {%- elif states.calendar.holidays_in_united_states.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "07" -%} 
+            {{ "Jul-" }}
+          {%- elif states.calendar.holidays_in_united_states.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "08" -%}
+            {{ "Aug-" }}
+          {%- elif states.calendar.holidays_in_united_states.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "09" -%} 
+            {{ "Sept-" }}
+          {%- elif states.calendar.holidays_in_united_states.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "10" -%} 
+            {{ "Oct-" }}
+          {%- elif states.calendar.holidays_in_united_states.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "11" -%} 
+            {{ "Nov-" }}
+          {%- elif states.calendar.holidays_in_united_states.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "12" -%}
+            {{ "Dec-" }}
+          {%- else -%} 
+            {{ "??-" }}
+          {%- endif -%}
+          {{ (states.calendar.holidays_in_united_states.attributes.start_time.replace(" 00:00:00","").split("-")[2]) | int }}
+        friendly_name: "Holiday"
+        unit_of_measurement: ""
+
+  - platform: template
+    sensors:
+      template_christian_holiday_events:
+        value_template: >-
+          {{ states.calendar.christian_holidays.attributes.message ~ "," }}
+          {% if states.calendar.christian_holidays.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "01" -%} 
+            {{ "Jan-" }}
+          {%- elif states.calendar.christian_holidays.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "02" -%} 
+            {{ "Feb-" }}
+          {%- elif states.calendar.christian_holidays.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "03" -%} 
+            {{ "Mar-" }}
+          {%- elif states.calendar.christian_holidays.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "04" -%} 
+            {{ "Apr-" }}
+          {%- elif states.calendar.christian_holidays.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "05" -%} 
+            {{ "May-" }}
+          {%- elif states.calendar.christian_holidays.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "06" -%}
+            {{ "Jun-" }}
+          {%- elif states.calendar.christian_holidays.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "07" -%} 
+            {{ "Jul-" }}
+          {%- elif states.calendar.christian_holidays.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "08" -%}
+            {{ "Aug-" }}
+          {%- elif states.calendar.christian_holidays.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "09" -%} 
+            {{ "Sept-" }}
+          {%- elif states.calendar.christian_holidays.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "10" -%} 
+            {{ "Oct-" }}
+          {%- elif states.calendar.christian_holidays.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "11" -%} 
+            {{ "Nov-" }}
+          {%- elif states.calendar.christian_holidays.attributes.start_time.replace(" 00:00:00","").split("-")[1] == "12" -%}
+            {{ "Dec-" }}
+          {%- else -%} 
+            {{ "??-" }}
+          {%- endif -%}
+          {{ (states.calendar.christian_holidays.attributes.start_time.replace(" 00:00:00","").split("-")[2]) | int }}
+        friendly_name: "Christian Holiday"
+        unit_of_measurement: ""
+
+

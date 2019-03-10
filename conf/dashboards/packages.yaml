@@ -1,0 +1,15 @@
+# SCCS: @(#)packages.yaml	1.2 01/07/19
+
+widget_type: icon
+title: Packages
+title_style: "font-weight: bold;"
+state_text_style: "display: none;"
+entity: sensor.mail_deliveries_today
+icons:
+  "default":
+    icon: mdi-package-variant
+    style: "color: #00FF00; font-size: 350%;"
+  "0":
+    icon: mdi-package-variant-closed
+    style: "color: gray; font-size: 350%;"
+

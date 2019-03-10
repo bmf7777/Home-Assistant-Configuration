@@ -1,0 +1,97 @@
+# configuration.yaml
+# SCCS: @(#)	1.6 02/15/19 
+
+homeassistant:
+# Name of the location where Home Assistant is running
+  name: Monte Verde
+# Location required to calculate the time the sun rises and sets
+  latitude: !secret lat
+  longitude: !secret long
+  elevation: 30
+  temperature_unit: F
+  unit_system: imperial
+# pick your from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: America/Los_Angeles
+  whitelist_external_dirs:
+    - '/tmp'
+
+# load packages
+  packages: !include_dir_named packages
+
+# Show links to resources in log and frontend
+#introduction:
+
+# use yaml for lovelace
+lovelace:
+  mode: yaml
+
+# custom updater and tracker
+custom_updater:
+
+# Enables configuration UI
+config:
+
+# enable system health
+system_health:
+
+http:
+# Secrets are defined in the file secrets.yaml
+  api_password: !secret http_password
+#  ssl_certificate: /etc/letsencrypt/live/marotta.ddns.net/fullchain.pem
+#  ssl_key: /etc/letsencrypt/live/marotta.ddns.net/privkey.pem 
+#  base_url: marotta.ddns.net
+  trusted_networks:
+    - 192.168.1.0/24
+    - 192.168.4.0/24
+    - 10.8.0.0/24
+    - 10.9.0.0/24
+    - 192.168.5.2
+    - 127.0.0.1
+  ip_ban_enabled: true
+  login_attempts_threshold: 5
+
+updater:
+  include_used_components: true
+
+# Discover some devices automatically
+#discovery:
+
+# limit home-assistant_v2.db size
+recorder:
+  purge_keep_days: 7
+
+# iOS configuration
+ios:
+
+#Zones
+zone:
+  - name: Home
+    latitude: !secret lat
+    longitude: !secret long
+    radius: 450
+    icon: mdi:home
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+
+# Text to speech
+tts:
+  - platform: google
+
+# Cloud
+cloud:
+
+#group: !include groups.yaml
+

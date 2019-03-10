@@ -1,0 +1,10 @@
+# SCCS: @(#)	1.4 01/10/19 
+
+widget_type: binary_sensor
+title: Amelia's Room
+#widget_style: "background: dodgerblue;"
+title_style: "font-weight: bold;"
+icon_on: mdi-window-open
+icon_off: mdi-window-closed
+entity: binary_sensor.rock_n_roll_bedroom_windows
+

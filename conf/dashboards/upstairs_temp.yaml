@@ -1,0 +1,18 @@
+# SCCS: @(#)	1.5 01/13/19
+
+widget_type: gauge
+title: Upper Floor
+title2: Temperature
+title2_style: "font-size: 80%; font-weight: bold;"
+entity: sensor.awair_temperature_2
+title_style: "font-weight: bold;"
+min: 50
+max: 100
+precision: 0
+units: "F"
+color: blue
+low_color: '0000FF'
+med_color: '00FF00'
+high_color: 'FF0000'
+
+

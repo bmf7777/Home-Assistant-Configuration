@@ -1,0 +1,11 @@
+# SCCS: @(#)	1.3 01/06/19 
+
+widget_type: switch
+title: Back Landscape
+#widget_style: "background: chocolate;"
+title_style: "font-weight: bold;"
+icon_on: mdi-lightbulb-on
+icon_off: mdi-lightbulb-on-outline
+icon_style_inactive: "font-size: 400%;"
+icon_style_active: "font-size: 400%;"
+entity: switch.landscape_backyard_lights

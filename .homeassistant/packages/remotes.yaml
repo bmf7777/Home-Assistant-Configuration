@@ -1,0 +1,15 @@
+# package: remotes
+# SCCS: @(#)remotes.yaml	1.1 12/23/18 
+
+# Logitech Harmony Hubs
+remote:
+  - platform: harmony
+    name: Master Bedroom
+    host: 192.168.1.145
+  - platform: harmony
+    name: Family Room
+    host: 192.168.1.243
+  - platform: harmony
+    name: Office
+    host: 192.168.1.142
+

@@ -1,0 +1,14 @@
+# SCCS: @(#)demand.yaml	1.4 01/12/19
+
+title: Net Demand
+widget_type: gauge
+title_style: "font-weight: bold;"
+color: blue
+entity: sensor.instantaneous_demand
+min: -15.0
+max: +15.0
+units: 'kW'
+low_color: '00FF00'
+med_color: 'FFFF00'
+high_color: 'FF0000'
+

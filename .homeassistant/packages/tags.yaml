@@ -1,0 +1,100 @@
+# package: wirelesstags
+# SCCS: @(#)tags.yaml	1.1 12/23/18 
+
+homeassistant:
+  customize:
+
+# Garage
+    sensor.wirelesstag_water_heaters_moisture:
+       device_class: humidity
+       icon: mdi:water-percent
+    sensor.wirelesstag_water_heaters_temperature:
+       device_class: temperature
+# Guest Bedroom
+    sensor.wirelesstag_guest_bathroom_sink_moisture:
+       device_class: humidity
+       icon: mdi:water-percent
+    sensor.wirelesstag_guest_bathroom_toilet_moisture:
+       device_class: humidity
+       icon: mdi:water-percent
+# Powder Roon
+    sensor.wirelesstag_powder_room_moisture:
+      device_class: humidity
+      icon: mdi:water-percent
+# Laundry Room
+    sensor.wirelesstag_laundry_room_sink_moisture:
+       device_class: humidity
+       icon: mdi:water-percent
+    sensor.wirelesstag_washer_dryer_moisture:
+       device_class: humidity
+       icon: mdi:water-percent
+# Kitchen
+    sensor.wirelesstag_kitchen_island_sink_moisture:
+       device_class: humidity
+       icon: mdi:water-percent
+    sensor.wirelesstag_kitchen_refrigerator_moisture:
+       device_class: humidity
+       icon: mdi:water-percent
+    sensor.wirelesstag_kitchen_sink_moisture:
+       device_class: humidity
+       icon: mdi:water-percent
+# Shack
+    sensor.wirelesstag_shack_bathroom_moisture:
+       device_class: humidity
+       icon: mdi:water-percent
+    sensor.wirelesstag_shack_bathroom_sink_moisture:
+       device_class: humidity
+       icon: mdi:water-percent
+# Amelia's Room
+    sensor.wirelesstag_amelia_bathroom_sink_moisture:
+       device_class: humidity
+       icon: mdi:water-percent
+    sensor.wirelesstag_amelia_bathroom_toilet_moisture:
+       device_class: humidity
+       icon: mdi:water-percent
+# Nicholas
+    sensor.wirelesstag_nicholas_bathroom_sink_moisture:
+       device_class: humidity
+       icon: mdi:water-percent
+    sensor.wirelesstag_nicholas_bathroom_toilet_moisture:
+       device_class: humidity
+       icon: mdi:water-percent
+# Master Bedroom
+    sensor.wirelesstag_master_bathroom_left_sink_moisture:
+       device_class: humidity
+       icon: mdi:water-percent
+    sensor.wirelesstag_master_bathroom_sink_right_moisture:
+       device_class: humidity
+       icon: mdi:water-percent
+    sensor.wirelesstag_master_bathroom_toilet_moisture:
+       device_class: humidity
+       icon: mdi:water-percent
+# Upstairs Bathroom
+    sensor.wirelesstag_hallway_bathroom_sink_moisture:
+       device_class: humidity
+       icon: mdi:water-percent
+    sensor.wirelesstag_hallway_bathroom_toilet_moisture:
+       device_class: humidity
+       icon: mdi:water-percent
+# Bar
+    sensor.wirelesstag_bar_moisture:
+       device_class: humidity
+       icon: mdi:water-percent
+
+
+wirelesstag:
+  username: !secret wirelesstag_username 
+  password: !secret wirelesstag_password
+
+binary_sensor:
+
+  - platform: wirelesstag
+    monitored_conditions:
+      - door
+
+sensor:
+  - platform: wirelesstag
+    monitored_conditions:
+      - moisture
+      - temperature
+      - humidity

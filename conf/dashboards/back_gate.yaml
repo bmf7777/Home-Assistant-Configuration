@@ -1,0 +1,15 @@
+# SCCS: @(#)back_gate.yaml	1.4 01/12/19 
+
+widget_type: lock
+title: Back Gate
+#widget_style: "background: gray;"
+title_style: "font-weight: bold;"
+state_map:
+  "Locked": Locked
+  "Unlocked": Unlocked
+entity: lock.back_gate_156
+icon_on: mdi-gate
+icon_off: mdi-gate
+icon_style_inactive: "color: #00FF00; font-size: 350%;"
+icon_style_active: "color: #FF0000; font-size: 350%;"
+

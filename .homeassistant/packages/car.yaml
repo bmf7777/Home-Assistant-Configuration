@@ -1,0 +1,8 @@
+# package: car
+# SCCS: @(#)car.yaml	1.1 12/23/18 
+
+# Tesla configuration
+tesla:
+  username: !secret tesla_username 
+  password: !secret tesla_password 
+

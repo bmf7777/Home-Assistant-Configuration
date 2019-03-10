@@ -1,0 +1,11 @@
+#package: date & time
+# SCCS: @(#)date.yaml	1.1 12/23/18 
+
+sensor:
+
+# Date and Time
+  - platform: time_date
+    display_options:
+      - 'time'
+      - 'date'
+

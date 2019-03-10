@@ -1,0 +1,232 @@
+# package: tensorflow_object_detection
+# tensorflow.yaml is the version A
+# object_detection is version B
+# use sccs get to retrive a copy
+# SCCS: @(#)	1.7 02/15/19  
+
+binary_sensor:
+# Blue Iris
+  - platform: mqtt
+    name: Driveway Back Motion
+    state_topic: 'blue_iris/binary_sensor/db_motion/state'
+    payload_on: 'ON'
+    payload_off: 'OFF'
+    device_class: motion
+
+  - platform: mqtt
+    name: Driveway Front Motion
+    state_topic: 'blue_iris/binary_sensor/df_motion/state'
+    payload_on: 'ON'
+    payload_off: 'OFF'
+    device_class: motion
+
+  - platform: mqtt
+    name: Doorbird Motion
+    state_topic: 'blue_iris/binary_sensor/doorbird_motion/state'
+    payload_on: 'ON'
+    payload_off: 'OFF'
+    device_class: motion
+
+  - platform: mqtt
+    name: Garage Right Motion
+    state_topic: 'blue_iris/binary_sensor/gr_motion/state'
+    payload_on: 'ON'
+    payload_off: 'OFF'
+    device_class: motion
+
+  - platform: mqtt
+    name: Laundry Room Motion
+    state_topic: 'blue_iris/binary_sensor/laundry_motion/state'
+    payload_on: 'ON'
+    payload_off: 'OFF'
+    device_class: motion
+
+  - platform: mqtt
+    name: Shed Motion
+    state_topic: 'blue_iris/binary_sensor/shed_motion/state'
+    payload_on: 'ON'
+    payload_off: 'OFF'
+    device_class: motion
+
+  - platform: mqtt
+    name: Greenhouse Motion
+    state_topic: 'blue_iris/binary_sensor/gh_motion/state'
+    payload_on: 'ON'
+    payload_off: 'OFF'
+    device_class: motion
+
+  - platform: mqtt
+    name: Workbench Motion
+    state_topic: 'blue_iris/binary_sensor/wb_motion/state'
+    payload_on: 'ON'
+    payload_off: 'OFF'
+    device_class: motion
+
+  - platform: mqtt
+    name: Garage Left Motion
+    state_topic: 'blue_iris/binary_sensor/gl_motion/state'
+    payload_on: 'ON'
+    payload_off: 'OFF'
+    device_class: motion
+
+  - platform: mqtt
+    name: Front Door  Motion
+    state_topic: 'blue_iris/binary_sensor/fd_motion/state'
+    payload_on: 'ON'
+    payload_off: 'OFF'
+    device_class: motion
+
+camera:
+  # Doorbird
+  - platform: local_file
+    name: 'Doorbird Tensorflow'
+    file_path: /tmp/doorbird_tf.jpg 
+  # Driveway Back
+  - platform: local_file
+    name: 'Driveway Back Tensorflow'
+    file_path: /tmp/driveway_back_tf.jpg 
+  # Driveway Front
+  - platform: local_file
+    name: 'Driveway Front Tensorflow'
+    file_path: /tmp/driveway_front_tf.jpg 
+  # Garage Right
+  - platform: local_file
+    name: 'Garage Right Tensorflow'
+    file_path: /tmp/garage_right_tf.jpg 
+  # Shed
+  - platform: local_file
+    name: 'Shed Tensorflow'
+    file_path: /tmp/shed_tf.jpg 
+  # Greenhouse
+  - platform: local_file
+    name: 'Greenhouse Tensorflow'
+    file_path: /tmp/greenhouse_tf.jpg 
+  # Laundry Room
+  - platform: local_file
+    name: 'Laundry Room Tensorflow'
+    file_path: /tmp/laundry_room_tf.jpg 
+  # Work Bench
+  - platform: local_file
+    name: 'Workbench Tensorflow'
+    file_path: /tmp/workbench_tf.jpg 
+  # Garage_Left Room
+  - platform: local_file
+    name: 'Garage Left Tensorflow'
+    file_path: /tmp/garage_left_tf.jpg 
+  # Front Door
+  - platform: local_file
+    name: 'Front Door Tensorflow'
+    file_path: /tmp/front_door_tf.jpg 
+
+shell_command:
+  postjpeg: '/home/homeassistant/.homeassistant/bin/pushoverjpeg {{ filename }} {{ message }}'
+
+# tensorflow
+image_processing:
+  - platform: tensorflow
+    scan_interval: 10000
+    source:
+      - entity_id: camera.garage_right
+      - entity_id: camera.garage_left
+      - entity_id: camera.workbench
+      - entity_id: camera.laundry_room
+      - entity_id: camera.greenhouse
+      - entity_id: camera.shed
+      - entity_id: camera.front_door
+      - entity_id: camera.driveway_back
+      - entity_id: camera.driveway_front
+      - entity_id: camera.doorbird
+    file_out:
+      - "/tmp/{{ camera_entity.split('.')[1] }}_tf.jpg"
+    model:
+      graph: /home/homeassistant/.homeassistant/tensorflow/faster_rcnn_inception_v2_coco_2018_01_28/frozen_inference_graph.pb
+      categories:
+        - person
+        - truck
+        - car
+        - dog
+
+automation:
+
+  - alias: 'Motion Detector'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id:
+          - binary_sensor.garage_right_motion
+          - binary_sensor.garage_left_motion
+          - binary_sensor.workbench_motion
+          - binary_sensor.laundry_room_motion
+          - binary_sensor.greenhouse_motion
+          - binary_sensor.shed_motion
+          - binary_sensor.front_door_motion
+          - binary_sensor.driveway_back_motion
+          - binary_sensor.driveway_front_motion
+          - binary_sensor.doorbird_motion
+        from: 'off'
+        to: 'on'
+    action: 
+      - service: image_processing.scan
+        data_template: 
+          entity_id: >
+            image_processing.tensorflow_{{ trigger.entity_id.split('.')[1].split('_motion')[0] }}
+      - delay: 00:05
+      - condition: and
+        conditions:
+          - condition: template
+            value_template: >
+              {% if (state_attr('image_processing.tensorflow_{{ trigger.entity_id }}', 'total_matches' ) | int) == 0 %} true {% else %} false {% endif %}
+      - service: camera.snapshot
+        data_template:
+          entity_id: >
+            camera.{{ trigger.entity_id.split('.')[1].split('_motion')[0] }}
+          filename: >
+            /tmp/{{ trigger.entity_id.split('.')[1].split('_motion')[0] }}_tf.jpg
+
+  - alias: 'Tensorflow Detection Notifcation'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id:
+          - image_processing.tensorflow_garage_right
+          - image_processing.tensorflow_garage_left
+          - image_processing.tensorflow_workbench
+          - image_processing.tensorflow_laundry_room
+          - image_processing.tensorflow_greenhouse
+          - image_processing.tensorflow_shed
+          - image_processing.tensorflow_front_door
+          - image_processing.tensorflow_driveway_back
+          - image_processing.tensorflow_driveway_front
+          - image_processing.tensorflow_doorbird
+    condition:
+      condition: template
+      value_template: >
+        {% if (state_attr(trigger.entity_id, 'total_matches' ) | int) > 0 %} true {% else %} false {% endif %}
+    action:
+      - service: shell_command.postjpeg
+        data_template: 
+          filename: >
+            /tmp/{{ trigger.entity_id.split('.')[1].split('tensorflow_')[1] }}_tf.jpg
+          message: >
+            {% if trigger.entity_id.split('.')[1].split('tensorflow_')[1] == 'garage_left' %}
+              "Person or Vehicle Motion Detected in Garage Left {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+            {% elif trigger.entity_id.split('.')[1].split('tensorflow_')[1] == 'garage_right' %}
+              "Person or Vehicle Motion Detected in Garage Right {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+            {% elif trigger.entity_id.split('.')[1].split('tensorflow_')[1] == 'workbench' %}
+              "Person Detected Near Workbench {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+            {% elif trigger.entity_id.split('.')[1].split('tensorflow_')[1] == 'shed' %}
+              "Person Detected in Shed {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+            {% elif trigger.entity_id.split('.')[1].split('tensorflow_')[1] == 'driveway_back' %}
+              "Person or Vehicle Motion Detected at Driveway Back {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+            {% elif trigger.entity_id.split('.')[1].split('tensorflow_')[1] == 'driveway_front' %}
+              "Person or Vehicle Motion Detected at Driveway Front {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+            {% elif trigger.entity_id.split('.')[1].split('tensorflow_')[1] == 'front_door' %}
+              "Person Detected entering Front Door {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+            {% elif trigger.entity_id.split('.')[1].split('tensorflow_')[1] == 'doorbird' %}
+              "Person Detected at Doorbird {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+            {% elif trigger.entity_id.split('.')[1].split('tensorflow_')[1] == 'laundry_room' %}
+              "Person Detected in Laundry Room {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+            {% else %}
+              "Object Detected {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+            {% endif %}
+

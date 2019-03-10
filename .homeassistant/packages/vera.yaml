@@ -1,0 +1,18 @@
+#package: vera
+# SCCS: @(#)vera.yaml	1.2 02/07/19 
+
+homeassistant:
+  customize:
+
+# Outdoor Gates
+    lock.back_gate_156:
+      friendly_name: Back Gate
+    lock.rosegarden_gate_154:
+      friendly_name: Rose Garden Gate
+
+# Vera configuration
+vera:
+  vera_controller_url: http://192.168.1.143:3480/
+  exclude: [124, 123, 140, 139, 141, 116, 133, 114, 126, 125, 101, 99, 128, 127, 120, 119, 131, 112, 100, 135, 121, 137, 104, 106, 103, 102, 105, 96, 97, 38, 39, 37, 144, 36, 41]
+
+

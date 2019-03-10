@@ -1,0 +1,10 @@
+# SCCS: @(#)	1.3 01/06/19 
+
+widget_type: binary_sensor
+title: Anthony's Room
+title_style: "font-weight: bold;"
+#widget_style: "background: dodgerblue;"
+icon_on: mdi-window-open
+icon_off: mdi-window-closed
+entity: binary_sensor.blue_bedroom_windows
+

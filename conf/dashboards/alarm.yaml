@@ -1,0 +1,7 @@
+# SCCS: @(#)alarm.yaml	1.7 01/15/19 
+
+widget_type: sensor
+title: Alarm
+title_style: "font-weight: bold;"
+entity: sensor.home_alarm_keypad
+text_style: "color: red; font-size: 120%;"

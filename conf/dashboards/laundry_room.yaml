@@ -1,0 +1,8 @@
+# SCCS: @(#)	1.2 01/04/19 
+
+widget_type: binary_sensor
+title: Laundry Windows
+icon_on: mdi-window-open
+icon_off: mdi-window-closed
+entity: binary_sensor.laundry_room_windows
+

@@ -1,0 +1,41 @@
+##
+## Test Dashboard 
+##
+
+title: Test Panel
+widget_dimensions: [208, 148]
+widget_size: [1, 1]
+widget_margins: [5, 5]
+
+columns: 9
+scalable: False
+global_parameters:
+    use_comma: 0
+    precision: 1
+    use_hass_icon: 1
+    namespace: default
+
+foo:
+  widget_type: icon
+  title: Dan
+  title_style: "font-weight: bold;"
+  state_text_style: "display: none"
+  entity: binary_sensor.dan_home
+  icons:
+    "on":
+      icon: mdi-chess-king
+      style: "color: #2196F3; font-size: 750%;"
+    "off":
+      icon: mdi-chess-king
+      style: "color: #BDBDBD; font-size: 750%;"
+
+layout: 
+  - foo
+  
+#  - family_nest,              hallway_nest,           master_nest,  family_table_lights,   hallway_lights, kitchen_lights,         office_lights,             dining_lights,             living_lights
+#  - master_table_lights,      master_bathroom_lights, gym_lights,   guest_bathroom_lights, guest_lights,   anthonys_lights,        amelias_bedroom_lights,    nicholas_bedroom_lights,   shack_bedroom_lights
+#  - hallway_bathroom_lights,  laundry_lights,         alarm,        anthonys_room,         nicholas_room,  amelias_room,           office,                    master_bathroom,           master_bedroom
+#  - powder_room,              living_room,            dining_room,  garage_entry,          front_door,     front_landscape_lights, backyard_landscape_lights, driveway_landscape_lights, rosegarden_landscape_lights
+
+
+

@@ -1,0 +1,429 @@
+# package: system
+# SCCS: @(#)system.yaml	1.8 03/03/19 
+
+homeassistant:
+  customize:
+
+# Servers
+    binary_sensor.firepit:
+      friendly_name: Firepit Roon Endpoint
+      device_class: connectivity
+    binary_sensor.fireplace:
+      device_class: connectivity
+      friendly_name: Fireplace Roon Endpoint
+    binary_sensor.stage:
+      device_class: connectivity
+      friendly_name: Stage Roon Endpoint
+    binary_sensor.unms:
+      device_class: connectivity
+      friendly_name: UNMS Controller
+    binary_sensor.unifi:
+      device_class: connectivity
+      friendly_name: Unifi Controller
+    binary_sensor.pihole:
+      device_class: connectivity
+      friendly_name: Pi-Hole DNS
+    binary_sensor.poolside:
+      device_class: connectivity
+      friendly_name: Poolside Roon Endpoint
+    binary_sensor.greenhouse:
+      device_class: connectivity
+      friendly_name: Greenhouse Roon Endpoint
+    binary_sensor.weightroom:
+      device_class: connectivity
+      friendly_name: Gym Roon Endpoint
+    binary_sensor.vpnserver:
+      device_class: connectivity
+      friendly_name: VPN Server
+    binary_sensor.genmon:
+      device_class: connectivity
+      friendly_name: Generator Monitor
+    binary_sensor.rosegarden:
+      device_class: connectivity
+      friendly_name: Rose Garden Roon Endpoint
+    binary_sensor.familyroomimac:
+      device_class: connectivity
+      friendly_name: Roon Core
+    binary_sensor.officeimac:
+      device_class: connectivity
+      friendly_name: Office iMac
+    binary_sensor.readynasbackup:
+      device_class: connectivity
+      friendly_name: ReadyNAS Backup
+    binary_sensor.readynasclips:
+      device_class: connectivity
+      friendly_name: ReadyNAS Clip Storage
+    binary_sensor.security:
+      device_class: connectivity
+      friendly_name: Blue Iris Server
+
+# Speed Test
+speedtestdotnet:
+  scan_interval: '03:00:00'
+  monitored_conditions:
+    - ping
+    - download
+    - upload
+
+sensor:
+
+# DNS IP (check every hour)
+  - platform: dnsip
+    scan_interval: 3600
+
+# CPU Speed
+  - platform: systemmonitor
+    resources:
+      - type: processor_use
+      - type: network_in
+        arg: 'enp5s0'
+      - type: network_out
+        arg: 'enp5s0'
+      - type: memory_free
+      - type: swap_free
+      - type: load_1m
+
+# Netdata
+  - platform: netdata
+    name: HA
+    host: 192.168.1.123
+    resources:
+      cpu:
+        data_group: system.cpu
+        element: user
+  - platform: netdata
+    name: VPN Server
+    host: 192.168.1.235
+    resources:
+      cpu:
+        data_group: system.cpu
+        element: user
+  - platform: netdata
+    name: Genmon
+    host: 192.168.1.198
+    resources:
+      cpu:
+        data_group: system.cpu
+        element: user
+  - platform: netdata
+    name: Pi-Hole
+    host: 192.168.5.2
+    resources:
+      cpu:
+        data_group: system.cpu
+        element: user
+  - platform: netdata
+    name: Gym
+    host: 192.168.1.158
+    resources:
+      cpu:
+        data_group: system.cpu
+        element: user
+  - platform: netdata
+    name: Rose Garden
+    host: 192.168.1.170
+    resources:
+      cpu:
+        data_group: system.cpu
+        element: user
+  - platform: netdata
+    name: Fireplace
+    host: 192.168.1.201
+    resources:
+      cpu:
+        data_group: system.cpu
+        element: user
+  - platform: netdata
+    name: Greenhouse
+    host: 192.168.1.187
+    resources:
+      cpu:
+        data_group: system.cpu
+        element: user
+  - platform: netdata
+    name: Stage
+    host: 192.168.1.174
+    resources:
+      cpu:
+        data_group: system.cpu
+        element: user
+  - platform: netdata
+    name: Firepit
+    host: 192.168.1.200
+    resources:
+      cpu:
+        data_group: system.cpu
+        element: user
+  - platform: netdata
+    name: Poolside
+    host: 192.168.1.18
+    resources:
+      cpu:
+        data_group: system.cpu
+        element: user
+  - platform: netdata
+    name: UNMS
+    host: 192.168.1.207
+    resources:
+      cpu:
+        data_group: system.cpu
+        element: user
+  - platform: netdata
+    name: Unifi
+    host: 192.168.1.16
+    resources:
+      cpu:
+        data_group: system.cpu
+        element: user
+
+
+binary_sensor:
+
+# Server status checks
+  - platform: ping
+    host: 192.168.1.147
+    name: officeimac
+  - platform: ping
+    host: 192.168.1.215
+    name: familyroomimac
+  - platform: ping
+    host: 192.168.1.183
+    name: readynasbackup
+  - platform: ping
+    host: 192.168.1.6
+    name: readynasclips
+  - platform: ping
+    host: 192.168.1.207
+    name: unms
+  - platform: ping
+    host: 192.168.1.16
+    name: unifi
+  - platform: ping
+    host: 192.168.1.198
+    name: genmon
+  - platform: ping
+    host: 192.168.5.2
+    name: pihole
+  - platform: ping
+    host: 192.168.1.158
+    name: weightroom 
+  - platform: ping
+    host: 192.168.1.187 
+    name: greenhouse
+  - platform: ping
+    host: 192.168.1.18
+    name: poolside
+  - platform: ping
+    host: 192.168.1.201
+    name: fireplace
+  - platform: ping
+    host: 192.168.1.170
+    name: firepit
+  - platform: ping
+    host: 192.168.1.174
+    name: stage
+  - platform: ping
+    host: 192.168.1.235
+    name: vpnserver
+  - platform: ping
+    host: 192.168.1.170
+    name: rosegarden
+  - platform: ping
+    host: 192.168.1.36
+    name: security
+
+automation:
+
+  - alias: 'MYIPADDRESSS Changed'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: sensor.myip
+    action: 
+      - service_template: notify.danmarotta
+        data_template: 
+          message: -> 
+            Monteverde IP Address changed from {{ trigger.from_state.state }} 
+            to {{ trigger.to_state.state }} at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}
+
+  - alias: 'UNMS Server'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.unms
+        from: 'on'
+        to: 'off'
+    action:
+      - service_template: notify.danmarotta
+        data_template:
+          message: "UNMS Server Down at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+  - alias: 'Familyroom iMac'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.familyroomimac
+        from: 'on'
+        to: 'off'
+    action:
+      - service_template: notify.danmarotta
+        data_template:
+          message: "Familyroom iMac Down at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+  - alias: 'Firepit Roon Endpoint'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.firepit
+        from: 'on'
+        to: 'off'
+    action:
+      - service_template: notify.danmarotta
+        data_template:
+          message: "Firepit Roon Endpoint Down at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+  - alias: 'Fireplace Roon Endpoint'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.fireplace
+        from: 'on'
+        to: 'off'
+    action:
+      - service_template: notify.danmarotta
+        data_template:
+          message: "Fireplace Roon Endpoint Down at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+  - alias: 'Greenhouse Roon Endpoint'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.Greenhouse
+        from: 'on'
+        to: 'off'
+    action:
+      - service_template: notify.danmarotta
+        data_template:
+          message: "Greenhouse Roon Endpoint Down at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+  - alias: 'Poolside Roon Endpoint'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.poolside
+        from: 'on'
+        to: 'off'
+    action:
+      - service_template: notify.danmarotta
+        data_template:
+          message: "Poolside Roon Endpoint Down at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+  - alias: 'Rose Garden Roon Endpoint'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.rosegarden
+        from: 'on'
+        to: 'off'
+    action:
+      - service_template: notify.danmarotta
+        data_template:
+          message: "Rose Garden Roon Endpoint Down at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+  - alias: 'Gym Roon Endpoint'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.weightroom
+        from: 'on'
+        to: 'off'
+    action:
+      - service_template: notify.danmarotta
+        data_template:
+          message: "Gym Roon Endpoint Down at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+  - alias: 'Stage Roon Endpoint'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.stage
+        from: 'on'
+        to: 'off'
+    action:
+      - service_template: notify.danmarotta
+        data_template:
+          message: "Stage Roon Endpoint Down at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+  - alias: 'Security PC'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.security
+        from: 'on'
+        to: 'off'
+    action:
+      - service_template: notify.danmarotta
+        data_template:
+          message: "Blue Iris Server Down at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+  - alias: 'Pi-Hole DNS'      
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.pihole
+        from: 'on'
+        to: 'off'
+    action:
+      - service_template: notify.danmarotta
+        data_template:
+          message: "Pi-Hole DNS Down at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+  - alias: 'ReadyNAS Backup'      
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.readynasbackup
+        from: 'on'
+        to: 'off'
+    action:
+      - service_template: notify.danmarotta
+        data_template:
+          message: "ReadyNAS-RN526X Backup Down at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+  - alias: 'ReadyNAS Clips'      
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.readynasclips
+        from: 'on'
+        to: 'off'
+    action:
+      - service_template: notify.danmarotta
+        data_template:
+          message: "ReadyNAS-104 Clips Down at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+  - alias: 'Generator Monitor'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.genmon
+        from: 'on'
+        to: 'off'
+    action:
+      - service_template: notify.danmarotta
+        data_template:
+          message: "Generator Monitor Down at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+  - alias: 'VPN Server'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.vpnserver
+        from: 'on'
+        to: 'off'
+    action:
+      - service_template: notify.danmarotta
+        data_template:
+          message: "VPN Server Down at {{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+

@@ -1,0 +1,296 @@
+# package: pool and spa control
+# SCCS: @(#)poolspa.yaml	1.3 02/19/19 
+
+homeassistant:
+  customize: 
+
+# Pool
+    sensor.freeze_protect:
+      icon: mdi:snowflake
+    sensor.spa_heater:
+      icon: mdi:fire
+      device_class: heat
+    sensor.pool_heater:
+      icon: mdi:fire
+      device_class: heat
+    switch.pool_pump:
+      icon: mdi:swim
+      device_class: power
+    sensor.pool:
+      icon: mdi:swim
+      device_class: power
+    sensor.spa:
+      icon: mdi:hot-tub
+      device_class: power
+    switch.spa_pump:
+      icon: mdi:hot-tub
+      device_class: power
+    switch.pool_waterfall:
+      icon: mdi:fountain
+      device_class: power
+    switch.spa_booster_pump:
+      icon: mdi:water-pump
+      device_class: power
+    sensor.booster_pump:
+      icon: mdi:water-pump
+      device_class: power
+    switch.spa_light:
+      icon: mdi:lightbulb-outline
+      device_class: light
+    sensor.spa_light:
+      icon: mdi:lightbulb-outline
+      device_class: light
+    sensor.pool_light:
+      icon: mdi:lightbulb-outline
+      device_class: light
+    switch.pool_lights:
+      icon: mdi:lightbulb-outline
+      device_class: light
+    switch.spa_air_blower:
+      icon: mdi:weather-windy
+      device_class: power
+    sensor.air_blower:
+      icon: mdi:weather-windy
+      device_class: power
+    sensor.floor_cleaner:
+      icon: mdi:robot
+      device_class: power
+    sensor.pump_status:
+      icon: mdi:water-pump
+      device_class: power
+    sensor.pentair:
+      device_class: connectivity
+    sensor.autelis:
+      device_class: connectivity
+
+# switch to control pool features
+switch: 
+  - platform: command_line
+    switches:
+      pool_pump:
+        command_on: 'curl -X GET --user admin:admin "192.168.1.253/set.cgi?name=circuit6&value=1"'
+        command_off: 'curl -X GET --user admin:admin "192.168.1.253/set.cgi?name=circuit6&value=0"'
+        command_state: 'curl --user admin:admin -X GET "192.168.1.253/status.xml" | xmllint --xpath "//response/equipment/circuit6/text()" -'
+        value_template: '{{ value == "1" }}'
+        friendly_name: Pool
+      spa_pump:
+        command_on: 'curl -X GET --user admin:admin "192.168.1.253/set.cgi?name=circuit1&value=1"'
+        command_off: 'curl -X GET --user admin:admin "192.168.1.253/set.cgi?name=circuit1&value=0"'
+        command_state: 'curl --user admin:admin -X GET "192.168.1.253/status.xml" | xmllint --xpath "//response/equipment/circuit1/text()" -'
+        value_template: '{{ value == "1" }}'
+        friendly_name: Spa
+      spa_air_blower:
+        command_on: 'curl -X GET --user admin:admin "192.168.1.253/set.cgi?name=circuit3&value=1"'
+        command_off: 'curl -X GET --user admin:admin "192.168.1.253/set.cgi?name=circuit3&value=0"'
+        command_state: 'curl --user admin:admin -X GET "192.168.1.253/status.xml" | xmllint --xpath "//response/equipment/circuit3/text()" -'
+        value_template: '{{ value == "1" }}'
+        friendly_name: Spa Air Blower
+      spa_booster_pump:
+        command_on: 'curl -X GET --user admin:admin "192.168.1.253/set.cgi?name=circuit2&value=1"'
+        command_off: 'curl -X GET --user admin:admin "192.168.1.253/set.cgi?name=circuit2&value=0"'
+        command_state: 'curl --user admin:admin -X GET "192.168.1.253/status.xml" | xmllint --xpath "//response/equipment/circuit2/text()" -'
+        value_template: '{{ value == "1" }}'
+        friendly_name: Spa Booster Pump
+      spa_light:
+        command_on: 'curl -X GET --user admin:admin "192.168.1.253/set.cgi?name=circuit8&value=1"'
+        command_off: 'curl -X GET --user admin:admin "192.168.1.253/set.cgi?name=circuit8&value=0"'
+        command_state: 'curl --user admin:admin -X GET "192.168.1.253/status.xml" | xmllint --xpath "//response/equipment/circuit8/text()" -'
+        value_template: '{{ value == "1" }}'
+        friendly_name: Spa Light
+      pool_lights:
+        command_on: 'curl -X GET --user admin:admin "192.168.1.253/set.cgi?name=circuit4&value=1"'
+        command_off: 'curl -X GET --user admin:admin "192.168.1.253/set.cgi?name=circuit4&value=0"'
+        command_state: 'curl --user admin:admin -X GET "192.168.1.253/status.xml" | xmllint --xpath "//response/equipment/circuit4/text()" -'
+        value_template: '{{ value == "1" }}'
+        friendly_name: Pool Lights
+      pool_waterfall: 
+        command_on: 'curl -X GET --user admin:admin "192.168.1.253/set.cgi?name=circuit5&value=1"'
+        command_off: 'curl -X GET --user admin:admin "192.168.1.253/set.cgi?name=circuit5&value=0"'
+        command_state: 'curl --user admin:admin -X GET "192.168.1.253/status.xml" | xmllint --xpath "//response/equipment/circuit5/text()" -'
+        value_template: '{{ value == "1" }}'
+        friendly_name: Pool Waterfall
+
+shell_command:
+  set_pool_light_color: '/home/homeassistant/.homeassistant/bin/setlightcolor "{{ light }}"' 
+
+input_select:
+  pool_color:
+    name: Pool Light Color
+    initial: "Select an option..."
+    options:
+      - "Select an option..."
+      - "Party"
+      - "Romance"
+      - "Caribbean"
+      - "Patriotic"
+      - "Sunset"
+      - "Royal"
+      - "Blue"
+      - "Green"
+      - "Red"
+      - "White"
+      - "Magenta"
+
+sensor:
+
+  - platform: template
+    sensors:
+      water_temp:
+        value_template: >
+          {% if is_state("switch.spa_pump", "on") %} 
+            {{ states("sensor.spa_temp") }} 
+          {% else %} 
+            {{ states("sensor.pool_temp") }} 
+          {% endif %}
+
+  - platform: template
+    sensors:
+      poolspa_mode:
+        value_template: >-
+          {% if is_state("switch.pool_pump", "on") and is_state("sensor.freeze_protect", "ON") %}
+            freeze
+          {% elif is_state("switch.spa_pump", "on") and is_state("sensor.freeze_protect", "ON") %}
+            freeze
+          {% elif is_state("switch.spa_pump", "on") %}
+            spa
+          {% elif is_state("switch.pool_pump", "on") %}
+            pool
+          {% else %}
+            off
+          {% endif %}
+          
+# Pool Controller
+  - platform: command_line
+    name: Pool Temp
+    command: '/home/homeassistant/.homeassistant/bin/poolcontroller.py'
+    value_template: '{{ value_json["response"]["temp"]["pooltemp"] }}'
+    unit_of_measurement: "°F"
+  - platform: command_line
+    name: Time
+    command: '/home/homeassistant/.homeassistant/bin/poolcontroller.py'
+    value_template: '{{ strptime(value_json["response"]["system"]["time"], "%Y-%m-%d") }}'
+  - platform: command_line
+    name: Spa Temp
+    command: '/home/homeassistant/.homeassistant/bin/poolcontroller.py'
+    value_template: '{{ value_json["response"]["temp"]["spatemp"] }}'
+    unit_of_measurement: "°F"
+  - platform: command_line
+    name: Air Temp
+    command: '/home/homeassistant/.homeassistant/bin/poolcontroller.py'
+    value_template: '{{ value_json["response"]["temp"]["airtemp"] }}'
+    unit_of_measurement: "°F"
+  - platform: command_line
+    name: Model
+    command: '/home/homeassistant/.homeassistant/bin/poolcontroller.py'
+    value_template: '{% if value_json["response"]["system"]["model"] == "2" %} Screenlogic i9+3 {% else %} Error {% endif %}'
+  - platform: command_line
+    name: AUTELIS
+    command: '/home/homeassistant/.homeassistant/bin/poolcontroller.py'
+    value_template: '{% if value_json["response"]["system"]["runstate"] == "50" %} Ready {% elif value_json["response"]["system"]["runstate"] == "1" %} Starting Up {% else %} Getting Data {% endif %}'
+  - platform: command_line
+    name: Pentair
+    command: '/home/homeassistant/.homeassistant/bin/poolcontroller.py'
+    value_template: '{% if value_json["response"]["system"]["opmode"] == "0" %}Auto{% else %} Service|Timeout {% endif %}'
+  - platform: command_line
+    name: Freeze Protect
+    command: '/home/homeassistant/.homeassistant/bin/poolcontroller.py'
+    value_template: '{% if value_json["response"]["system"]["freeze"] == "0" %} OFF {% else %} ON {% endif %}'
+  - platform: command_line
+    name: Water Sensor
+    command: '/home/homeassistant/.homeassistant/bin/poolcontroller.py'
+    value_template: '{% if value_json["response"]["system"]["sensor1"] == "0" %} OK {% else %} Error {% endif %}'
+  - platform: command_line
+    name: Air Sensor
+    command: '/home/homeassistant/.homeassistant/bin/poolcontroller.py'
+    value_template: '{% if value_json["response"]["system"]["sensor3"] == "0" %} OK {% else %} Error {% endif %}'
+  - platform: command_line
+    name: Spa Heater
+    command: '/home/homeassistant/.homeassistant/bin/poolcontroller.py'
+    value_template: '{% if (value_json["response"]["temp"]["htstatus"] | float ) == 2 %} Heating {% else %}  OFF {% endif %}'
+  - platform: command_line
+    name: Pool Heater
+    command: '/home/homeassistant/.homeassistant/bin/poolcontroller.py'
+    value_template: '{% if (value_json["response"]["temp"]["htstatus"] | float ) == 1 %} Heating {% else %} OFF {% endif %}'
+  - platform: command_line
+    name: Pump Status
+    command: '/home/homeassistant/.homeassistant/bin/pumps.py'
+  - platform: command_line
+    name: Floor Cleaner
+    command: '/home/homeassistant/.homeassistant/bin/poolcontroller.py'
+    value_template: '{% if value_json["response"]["equipment"]["feature1"] == "0" %} OFF {% else %} ON {% endif %}'
+
+# items below replaced by switches above
+
+#  - platform: command_line
+#    name: Spa
+#    command: '/home/homeassistant/.homeassistant/bin/poolcontroller.py'
+#    value_template: '{% if value_json["response"]["equipment"]["circuit1"] == "0" %} OFF {% else %} ON {% endif %}'
+#  - platform: command_line
+#    name: Pool      
+#    command: '/home/homeassistant/.homeassistant/bin/poolcontroller.py'
+#    value_template: '{% if value_json["response"]["equipment"]["circuit6"] == "0" %} OFF {% else %} ON {% endif %}'
+#  - platform: command_line
+#    name: Booster Pump
+#    command: '/home/homeassistant/.homeassistant/bin/poolcontroller.py'
+#    value_template: '{% if value_json["response"]["equipment"]["circuit2"] == "0" %} OFF {% else %} ON {% endif %}'
+#  - platform: command_line
+#    name: Air Blower
+#    command: '/home/homeassistant/.homeassistant/bin/poolcontroller.py'
+#    value_template: '{% if value_json["response"]["equipment"]["circuit3"] == "0" %} OFF {% else %} ON {% endif %}'
+#  - platform: command_line
+#    name: Pool Light
+#    command: '/home/homeassistant/.homeassistant/bin/poolcontroller.py'
+#    value_template: '{% if value_json["response"]["equipment"]["circuit4"] == "0" %} OFF {% else %} ON {% endif %}'
+#  - platform: command_line
+#    name: Spa Light 
+#    command: '/home/homeassistant/.homeassistant/bin/poolcontroller.py'
+#    value_template: '{% if value_json["response"]["equipment"]["circuit8"] == "0" %} OFF {% else %} ON {% endif %}'
+#  - platform: command_line
+#    name: Waterfall
+#    command: '/home/homeassistant/.homeassistant/bin/poolcontroller.py'
+#    value_template: '{% if value_json["response"]["equipment"]["circuit5"] == "0" %} OFF {% else %} ON {% endif %}'
+
+# automations
+automation:
+### Pool/Spa Light Scene Selection
+  - alias: 'Pool Color'
+    initial_state: 'on'
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id: input_select.pool_color
+    action:
+      - service: shell_command.set_pool_light_color
+        data_template:
+          light : >-
+            {% if is_state('input_select.pool_color', 'Party') %}
+              party
+            {% elif is_state('input_select.pool_color', 'Romance') %}
+              romance
+            {% elif is_state('input_select.pool_color', 'Caribbean') %}
+              caribbean
+            {% elif is_state('input_select.pool_color', 'Patriotic') %}
+              american
+            {% elif is_state('input_select.pool_color', 'Sunset') %}
+              sunset
+            {% elif is_state('input_select.pool_color', 'Royal') %}
+              royal
+            {% elif is_state('input_select.pool_color', 'Blue') %}
+              blue
+            {% elif is_state('input_select.pool_color', 'Green') %}
+              green
+            {% elif is_state('input_select.pool_color', 'Red') %}
+              red
+            {% elif is_state('input_select.pool_color', 'White') %}
+              white
+            {% elif is_state('input_select.pool_color', 'Magenta') %}
+              magenta
+            {% else %}
+              false
+            {% endif %}
+      # Reset the Input Select to "Select an option..."
+      - service: input_select.select_option
+        data_template:
+          entity_id: "{{ trigger.to_state.entity_id }}"
+          option: Select an option...
+

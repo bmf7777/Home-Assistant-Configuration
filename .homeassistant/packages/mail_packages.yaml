@@ -1,0 +1,230 @@
+################################################################
+## Mail and Packages
+## Yaml coding based on happyleavesaoc https://github.com/happyleavesaoc/my-home-automation/blob/master/homeassistant/packages/deliveries.yaml
+## Pyhton code based on @skalavala work at https://blog.kalavala.net/usps/homeassistant/mqtt/2018/01/12/usps.html
+## Mail Card based on Bram_Kragten work at https://community.home-assistant.io/t/custom-ui-weather-state-card-with-a-question/23008
+################################################################
+
+################################################
+## Customize
+################################################
+# SCCS: @(#)	1.3 01/24/19 
+
+################################################
+## Mail and Package Providers
+################################################
+
+#Homeassistant USPS Component Broken
+# usps:
+#   username: !secret usps_user
+#   password: !secret usps_pass
+#   name: USPS
+#   driver: phantomjs
+
+################################################
+## Camera
+################################################    
+    
+camera:
+#Homeassistant USPS Component Broken
+#  - platform: usps
+#    scan_interval: 1
+
+#Change the path to the full image path defined in the mail.py line 41 IMAGE_OUTPUT_PATH.
+  - platform: local_file
+    name: 'Mail USPS'
+    file_path: /home/homeassistant/.homeassistant/www/mail_card/todays_mail.gif
+
+sensor:
+
+  - platform: mqtt
+    name: 'Mail USPS'
+    state_topic: '/mail/usps/mail'
+    value_template: "{{ value }}"
+
+  - platform: mqtt
+    name: 'Mail USPS Delivering'
+    state_topic: '/mail/usps/delivering'
+    value_template: "{{ value }}"
+
+  - platform: mqtt
+    name: 'Mail USPS Delivered'
+    state_topic: '/mail/usps/delivered'
+    value_template: "{{ value }}"
+
+  - platform: mqtt
+    name: 'Mail FedEx Delivering'
+    state_topic: '/mail/fedex/delivering'
+    value_template: "{{ value }}"
+    
+  - platform: mqtt
+    name: 'Mail FedEx Delivered'
+    state_topic: '/mail/fedex/delivered'
+    value_template: "{{ value }}"
+
+  - platform: mqtt
+    name: 'Mail Update'
+    state_topic: '/mail/update/time'
+    value_template: "{{ value }}"
+
+#Homeassistant FedEx Component Broken
+#   - platform: fedex
+#     username: !secret fedex_user
+#     password: !secret fedex_pass
+
+#Sign up for UPS MyChoice and add your credentials below
+  - platform: ups
+    name: 'Mail UPS'
+    username: !secret ups_user
+    password: !secret ups_pass
+    
+  - platform: template
+    sensors:
+      mail_usps_packages:
+        friendly_name: "USPS Packages"
+        entity_id: 
+          - sensor.mail_usps_delivering
+          - sensor.mail_usps_delivered
+        unit_of_measurement: 'Packages'
+        value_template: "{{ states('sensor.mail_usps_delivering')|int - states('sensor.mail_usps_delivered')|int + states('sensor.mail_usps_delivered')|int }}"
+  
+  - platform: template
+    sensors:
+      mail_fedex_packages:
+        friendly_name: "FedEx Packages"
+        entity_id: 
+          - sensor.mail_fedex_delivering
+          - sensor.mail_fedex_delivered
+        unit_of_measurement: 'Packages'
+        value_template: "{{ states('sensor.mail_fedex_delivering')|int - states('sensor.mail_fedex_delivered')|int + states('sensor.mail_fedex_delivered')|int }}"
+
+  - platform: template
+    sensors:
+      mail_packages_in_transit:
+        friendly_name: "Packages in Transit"
+        entity_id: 
+          - sensor.mail_usps_delivering
+          - sensor.mail_usps_delivered
+          - sensor.mail_fedex_delivering
+          - sensor.mail_fedex_delivered
+          - sensor.mail_ups
+        unit_of_measurement: 'Packages'
+        value_template: >
+          {% macro in_transit(sensor) %}
+            {% if states(sensor) != "unknown" %}
+              {{states(sensor)|int - delivered(sensor)|int}}
+            {% else %}
+               none
+            {% endif %}
+          {% endmacro %}
+          {% macro delivered(sensor) %}
+            {% if states(sensor) != "unknown" and state_attr(sensor, "delivered") != "undefined" %}
+                {{ state_attr(sensor, "delivered")}}
+              {% else %}
+                 none
+              {% endif %}
+          {% endmacro %}
+          {{in_transit("sensor.mail_ups")|int + ( in_transit("sensor.mail_usps_delivering")|int - in_transit("sensor.mail_usps_delivered")|int ) + ( in_transit("sensor.mail_fedex_delivering")|int - in_transit("sensor.mail_fedex_delivered")|int )}}
+      mail_deliveries_today:
+        friendly_name: "Today's Deliveries"
+        entity_id: 
+          - sensor.mail_usps_delivering
+          - sensor.mail_usps_delivered
+          - sensor.mail_fedex_delivered
+          - sensor.mail_ups
+        unit_of_measurement: 'Packages'
+        value_template: >
+          {% macro delivered(sensor) %}
+            {% if states(sensor) != "unknown" and state_attr(sensor, "delivered") != "undefined" %}
+                {{ state_attr(sensor, "delivered")}}
+              {% else %}
+                 none
+              {% endif %}
+          {% endmacro %}
+          {% macro out_delivering(sensor) %}
+            {% if states(sensor) != "unknown" and state_attr(sensor, "out_for_delivery") != "undefined" %}
+                {{ state_attr(sensor, "out_for_delivery")}}
+              {% else %}
+                 none
+              {% endif %}
+          {% endmacro %}
+          {#{delivered("sensor.mail_usps_delivered")|int + delivered("sensor.mail_fedex_delivered")|int + delivered("sensor.mail_ups")|int + out_delivering("sensor.mail_usps_delivered")|int + out_delivering("sensor.mail_fedex_delivered")|int + out_delivering("sensor.mail_ups")|int + states("sensor.mail_usps_delivered")|int}#}
+          {# Becuase the official USPS and FedEx components are broken we replace the above output with what is below#}
+          {{delivered("sensor.mail_ups")|int + out_delivering("sensor.mail_ups")|int +  states("sensor.mail_usps_delivered")|int + states("sensor.mail_fedex_delivered")|int}}
+      mail_deliveries_message:
+        friendly_name: "Deliveries Summary"
+        entity_id: 
+          - sensor.mail_usps_delivering
+          - sensor.mail_usps_delivered
+          - sensor.mail_fedex_delivered
+          - sensor.mail_ups
+          - sensor.mail_usps
+          - sensor.mail_deliveries_today
+        value_template: > 
+          {# Deliveries Sentence #}
+            {% macro deliveries_sentence() -%}
+                 {%- if states("sensor.mail_usps")|int == 0 -%}
+                    No
+                  {%- else -%}
+                    {{states("sensor.mail_usps")|int}}
+                  {%- endif -%}
+                {{' '}} 
+                  {%- if states("sensor.mail_usps")|int <= 1 -%}
+                    mail
+                  {%- else -%}
+                    pieces of mail
+                  {%- endif -%}
+                {{' '}}will be delivered.{{' '}} 
+                 {%- if states("sensor.mail_packages_in_transit")|int == 0 -%}
+                    No
+                  {%- else -%}
+                    {{states("sensor.mail_packages_in_transit")|int}}
+                  {%- endif -%}
+                {{' '}} 
+                  {%- if states("sensor.mail_packages_in_transit")|int == 1 -%}
+                    package is
+                  {%- else -%}
+                    packages are
+                  {%- endif -%}
+                {{' '}}in transit.{{' '}}
+                {%- if states("sensor.mail_deliveries_today")|int == 0 -%}
+                    No
+                  {%- else -%}
+                    {{states("sensor.mail_deliveries_today")|int}}
+                  {%- endif -%}
+                {{' '}}
+                  {%- if states("sensor.mail_deliveries_today")|int == 1 -%}
+                    package
+                  {%- else -%}
+                    packages
+                  {%- endif -%}
+                {{' '}}should be delivered today.
+            {%- endmacro %}
+          {{deliveries_sentence()}}
+################################################
+## Automations
+################################################  
+
+automation:
+- alias: 'Notif: Mail Delieveries'
+  initial_state: true
+  trigger:
+  #Trigger if mail or packages get updated
+    - platform: state
+      entity_id: sensor.mail_deliveries_today
+    - platform: state
+      entity_id: sensor.mail_usps
+  #condition:
+  #send only if mail or packages are more than 0
+  condition:
+    - condition: or
+      conditions:
+        - condition: template
+          value_template: "{{ states('sensor.mail_deliveries_today') | int > 0 }}"
+        - condition: template
+          value_template: "{{ states('sensor.mail_usps') | int > 0 }}"
+  action:
+    service_template: notify.danmarotta
+    data_template:
+      title: "Mail and Packages"
+      message: "{{ states('sensor.mail_deliveries_message')}}"

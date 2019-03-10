@@ -1,0 +1,13 @@
+#!/bin/bash
+if  [ $# -eq 1 ]; then
+  if  [ $1 ==  'false' ]; then
+    exit $?
+  else
+    /usr/bin/curl -X GET --user admin:admin http://192.168.1.253/lights.cgi?val=$1
+  fi
+else
+  echo "$0: incorrect number of arguments($#)"
+fi
+
+exit $?
+

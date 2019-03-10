@@ -1,0 +1,191 @@
+# package: alarm system
+# SCCS: @(#)	1.1 01/03/19
+
+homeassistant:
+  customize:
+    
+    # garage 
+    binary_sensor.garage_entry_door:
+      friendly_name: Garage Door
+      device_class: door
+    
+    # guest bedroom
+    binary_sensor.guest_bedroom_doors:
+       friendly_name: Guest Bedroom Door
+       device_class: door
+
+    # Powder Room
+    binary_sensor.powder_room_windows:
+       friendly_name: Powder Room Window
+       device_class: window
+
+    # Laundry Room
+    binary_sensor.laundry_room_windows:
+      friendly_name: Laundry Room Window
+      device_class: window
+
+    # Office 
+    binary_sensor.office_windows:
+      friendly_name: Office Windows
+      device_class: window
+
+    # Family Room
+    binary_sensor.family_room_doors:
+       friendly_name: Family Room Doors
+       device_class: door
+    binary_sensor.nook_windows:
+       friendly_name: Nook Windows
+       device_class: window
+    binary_sensor.family_room_motion:
+       friendly_name: Family Room Motion
+       device_class: motion
+
+    # Dining Room
+    binary_sensor.dining_room_doors:
+       friendly_name: Dining Room Doors
+       device_class: door
+
+    # Living Room
+    binary_sensor.living_room_doors:
+       friendly_name: Living Room Doors
+       device_class: door
+
+    # Front Door
+    binary_sensor.front_door:
+      friendly_name: Front Door
+      device_class: door
+
+    # Amelia's Room
+    binary_sensor.rocknroll_bedroom_windows:
+      friendly_name: Amelia Bedroom Windows
+      device_class: window
+
+    # Nicholas' Room
+    binary_sensor.tile_bedroom_windows:
+      friendly_name: Nicholas Bedroom Windows
+      device_class: window
+
+    # Anthony's Room
+    binary_sensor.blue_bedroom_windows:
+      friendly_name: Anthony Bedroom Windows
+      device_class: window
+
+    # Master Bedroom
+    binary_sensor.master_bedroom_windows:
+      friendly_name: Master Bedroom Windows
+      device_class: window
+    binary_sensor.master_bathroom_windows:
+      friendly_name: Master Bathroom Windows
+      device_class: window
+
+# Envisalink Configuration
+envisalink:
+  host: 192.168.1.114
+  panel_type: DSC
+  user_name: !secret envisalink_username
+  password: !secret envisalink_password
+  code: !secret dsc_code 
+  port: 4025
+  evl_version: 4
+  keepalive_interval: 60
+  zonedump_interval: 30
+  panic_type: Police
+  zones:
+    01:
+      name: 'Front Door'
+      type: 'door'
+    02:
+      name: 'Laundry Room Windows'
+      type: 'window'
+    03:
+      name: 'Guest Bedroom Doors'
+      type: 'door'
+    04:
+      name: 'Powder/Gallery Windows'
+      type: 'window'
+    05:
+      name: 'Family Room Doors'
+      type: 'door'
+    06:
+      name: 'Nook Windows'
+      type: 'window'
+    07:
+      name: 'Dining Room Doors'
+      type: 'door'
+    08:
+      name: 'Living Room Doors'
+      type: 'door'
+    09:
+      name: 'Master Bathroom Windows'
+      type: 'window'
+    10:
+      name: 'Master Bedroom Windows'
+      type: 'window'
+    11:
+      name: 'Tile Bedroom Windows'
+      type: 'window'
+    12:
+      name: 'Blue Bedroom Windows'
+      type: 'window'
+    13:
+      name: 'Office Windows'
+      type: 'window'
+    14:
+      name: 'Rock-n-Roll Bedroom Windows'
+      type: 'window'
+    15:
+      name: 'Garage Entry Door'
+      type: 'door'
+    16:
+      name: 'Family Motion'
+      type: 'motion'
+  partitions:
+    1: 
+      name: 'Home Alarm'
+
+# Automations
+automation:
+
+  - alias: Garage Entry Door Opened
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.garage_entry_door
+        from: 'off'
+        to: 'on'
+    action:
+      service: shell_command.set_garage_door_opened
+
+  - alias: Garage Entry Door Closed
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.garage_entry_door
+        from: 'on'
+        to: 'off'
+    action:
+      service: shell_command.set_garage_door_closed
+
+#  - alias: Zone Window Open
+#    trigger:
+#      - platform: state
+#        entity_id: binary_sensor.office
+#        from: 'off'
+#        to: 'on'
+#    action:
+#      service_template: notify.DANMAROTTA
+#      data_template:
+#        title: "Office Window Open"
+#        message: "Office Window Open: {{ trigger.event }}"
+#
+#  - alias: Garage Entry Door Opened
+#    trigger:
+#      - platform: state
+#        entity_id: binary_sensor.garage_entry
+#        from: 'off'
+#        to: 'on'
+#    action:
+#      service: ifttt.trigger
+#      data: {"event" : "garage_entry_event", "value1" : "1"}
+
+

@@ -1,0 +1,17 @@
+# SCCS: @(#)	1.9 01/16/19 
+
+widget_type: icon
+title: Nicholas
+title_style: "font-weight: bold;"
+#title_style: "color: black;"
+#widget_style: "background: wheat;"
+state_text_style: "display: none"
+entity: binary_sensor.nick_home
+icons:
+  "on":
+    icon: mdi-chess-pawn
+    style: "color: #2196F3; font-size: 350%;"
+  "off":
+    icon: mdi-chess-pawn
+    style: "color: gray; font-size: 350%;"
+

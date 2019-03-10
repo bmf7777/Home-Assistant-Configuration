@@ -1,0 +1,12 @@
+# SCCS: @(#)	1.7 01/30/19 
+
+widget_type: switch
+title: Nick's Bathroom
+#widget_style: "background: blue;"
+title_style: "font-weight: bold;"
+icon_on: mdi-lightbulb-on
+icon_off: mdi-lightbulb-on-outline
+icon_style_inactive: "font-size: 350%;"
+icon_style_active: "font-size: 350%;"
+entity: switch.nick_bath_scene
+

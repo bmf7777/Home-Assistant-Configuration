@@ -1,0 +1,20 @@
+# package: vacuum
+# SCCS: @(#)vacuum.yaml	1.3 01/30/19 
+
+#Roomba
+#vacuum:
+#
+#  - platform: roomba
+#    host: 192.168.1.57
+#    name: Roomba Downstairs
+#    username: !secret roomba_downstairs_username
+#    password: !secret roomba_downstairs_password
+#    continuous: True
+#
+#  - platform: roomba
+#    host: 192.168.1.115
+#    name: Roomba Upstairs
+#    username: !secret roomba_upstairs_username
+#    password: !secret roomba_upstairs_password
+#    continuous: True
+

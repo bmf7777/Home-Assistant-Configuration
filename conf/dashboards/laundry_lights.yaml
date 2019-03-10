@@ -1,0 +1,12 @@
+# SCCS: @(#)	1.3 01/06/19 
+
+widget_type: switch
+title: Laundry
+#widget_style: "background: blue;"
+title_style: "font-weight: bold;"
+icon_on: mdi-lightbulb-on
+icon_off: mdi-lightbulb-on-outline
+icon_style_inactive: "font-size: 350%;"
+icon_style_active: "font-size: 350%;"
+entity: switch.laundry_room_light
+

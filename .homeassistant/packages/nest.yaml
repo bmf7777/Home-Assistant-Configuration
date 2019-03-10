@@ -1,0 +1,11 @@
+# package: nest
+# SCCS: @(#)nest.yaml	1.1 12/23/18 
+
+# Nest configuration
+nest:
+  client_id: !secret nest_id 
+  client_secret: !secret nest_secret 
+  structure:
+    - Home
+    - Shack
+

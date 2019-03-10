@@ -1,0 +1,171 @@
+##
+## Security Cameras
+##
+# SCCS: @(#)security.dash	1.8 02/16/19 
+
+title: Secruity Cameras
+widget_dimensions: [204, 149]
+widget_size: [1, 1]
+widget_margins: [1, 1]
+columns: 9
+scalable: False
+global_parameters:
+    use_comma: 0
+    precision: 1
+    use_hass_icon: 1
+    namespace: default
+
+bbq_camera:
+  widget_type: camera
+  title: BBQ
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.bbq?&api_password=w1213kie311
+  refresh: 5
+
+shack_camera:
+  widget_type: camera
+  title: Shack
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.shack?&api_password=w1213kie311
+  refresh: 5
+
+dw_camera:
+  widget_type: camera
+  title: Driveway
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.driveway?&api_password=w1213kie311
+  refresh: 5
+
+db_camera:
+  widget_type: camera
+  title: Driveway Back
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.driveway_back?&api_password=w1213kie311
+  refresh: 5
+
+df_camera:
+  widget_type: camera
+  title: Driveway Front
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.driveway_front?&api_password=w1213kie311
+  refresh: 5
+
+es_camera:
+  widget_type: camera
+  title: Eastside
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.eastside?&api_password=w1213kie311
+  refresh: 5
+
+fr_camera:
+  widget_type: camera
+  title: Family Room
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.family_room?&api_password=w1213kie311
+  refresh: 5
+
+fp_camera:
+  widget_type: camera
+  title: Fireplace
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.fire_place?&api_password=w1213kie311
+  refresh: 5
+
+gl_camera:
+  widget_type: camera
+  title: Garage_Left
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.garage_left?&api_password=w1213kie311
+  refresh: 5
+
+gr_camera:
+  widget_type: camera
+  title: Garage Right
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.garage_right?&api_password=w1213kie311
+  refresh: 5
+
+gh_camera:
+  widget_type: camera
+  title: Green House
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.green_house?&api_password=w1213kie311
+  refresh: 5
+
+k_camera:
+  widget_type: camera
+  title: Kitchen
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.kitchen?&api_password=w1213kie311
+  refresh: 5
+
+laundry_camera:
+  widget_type: camera
+  title: Laundry Room
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.laundry_room?&api_password=w1213kie311
+  refresh: 5
+
+pe_camera:
+  widget_type: camera
+  title: Pool Equipment
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.pool_equipment?&api_password=w1213kie311
+  refresh: 5
+
+ps_camera:
+  widget_type: camera
+  title: Poolside
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.poolside?&api_password=w1213kie311
+  refresh: 5
+
+rs_camera:
+  widget_type: camera
+  title: Rose Garden
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.rose_garden?&api_password=w1213kie311
+  refresh: 5
+
+shed_camera:
+  widget_type: camera
+  title: Shed
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.shed?&api_password=w1213kie311
+  refresh: 5
+
+stage_camera:
+  widget_type: camera
+  title: Stage
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.stage?&api_password=w1213kie311
+  refresh: 5
+
+ul_camera:
+  widget_type: camera
+  title: Upper Lot
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.upper_lot?&api_password=w1213kie311
+  refresh: 5
+
+wb_camera:
+  widget_type: camera
+  title: Work Bench
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.work_bench?&api_password=w1213kie311
+  refresh: 5
+
+fd_camera:
+  widget_type: camera
+  title: Front Entry
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.front_door?&api_password=w1213kie311
+  refresh: 5
+
+pool_camera:
+  widget_type: camera
+  title: Pool
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.pool?&api_password=w1213kie311
+  refresh: 5
+
+gh_camera:
+  widget_type: camera
+  title: Pool
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.greenhouse?&api_password=w1213kie311
+  refresh: 5
+
+wb_camera:
+  widget_type: camera
+  title: Pool
+  entity_picture: http://192.168.1.123:8123/api/camera_proxy/camera.workbench?&api_password=w1213kie311
+  refresh: 5
+
+layout: 
+  - shack_camera,    pe_camera,      ps_camera,   bbq_camera,  shed_camera
+  - ul_camera,       dw_camera,      k_camera,    gh_camera,   fr_camera
+  - doorbell_camera, fd_camera,      fp_camera,   gl_camera,   db_camera
+  - df_camera,       bar_camera,     gr_camera,   wb_camera,   rs_camera
+  - es_camera,       laundry_camera, pool_camera, stage_camera, alarm
+
+
+
+

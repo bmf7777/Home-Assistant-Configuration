@@ -1,0 +1,16 @@
+# package: pi-hole
+# SCCS: @(#)pihole.yaml	1.2 01/07/19 
+
+#homeassistant:
+#  customize:
+
+sensor:
+
+# Pi-hole 
+  - platform: pi_hole
+    host: 192.168.5.2
+    monitored_conditions:
+      - ads_blocked_today
+      - ads_percentage_today
+
+

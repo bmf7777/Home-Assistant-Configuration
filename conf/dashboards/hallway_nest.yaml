@@ -1,0 +1,10 @@
+# SCCS: @(#)	1.6 01/12/19
+
+widget_type: climate
+title: Hallway
+title_style: "font-weight: bold;" 
+level_style: "color: blue; font-size: 250%;"
+precision: 0
+units: "&deg;F"
+entity: climate.hallway
+

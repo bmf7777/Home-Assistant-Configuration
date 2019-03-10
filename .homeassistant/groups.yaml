@@ -1,0 +1,728 @@
+# package: groups
+# SCCS: @(#)groups.yaml	1.4 12/23/18 
+
+#events:
+#  name: Calendar Events
+#  entities:
+#    - sensor.template_calendar_vents
+#    - calendar.danmarotta5gmailcom
+#    - calendar.holidays_in_united_states
+
+# Logitech Remotes
+remotes:
+  name: Remotes
+  control: hidden
+  entities:
+    - remote.family_room
+    - remote.office
+    - remote.master_bedroom
+
+# Pool Controller
+#pool:
+#  name: Pentair Pool
+#  entities:
+#    - sensor.model
+#    - sensor.time
+#    - sensor.pool
+#    - sensor.spa
+#    - sensor.pump_status
+#    - sensor.freeze_protect
+#    - sensor.air_temp
+#    - sensor.air_sensor
+#    - sensor.water_sensor
+#    - sensor.pool_temp
+#    - sensor.pool_heater
+#    - sensor.spa_temp
+#    - sensor.spa_heater
+#    - sensor.booster_pump
+#     - sensor.air_blower
+#      - sensor.waterfall
+#      - sensor.spa_light
+#      - sensor.pool_light
+#     - sensor.floor_cleaner
+#     - sensor.pentair
+#     - sensor.autelis
+
+# AVR
+avr:
+  name: Receivers
+  control: hidden
+  entities:
+    - media_player.family_room_avr
+    - media_player.office_avr
+    - media_player.master_bedroom_avr
+    - media_player.living_room_nad
+
+netatmo:
+  name: Netatmo
+  entities:
+    - sensor.netatmo_greenhouse_co2
+    - sensor.netatmo_greehouse_humidity
+    - sensor.netatmo_greenhouse_pressure
+    - sensor.netatmo_greenhouse_temperature
+    - sensor.netatmo_shed_temperature
+    - sensor.netatmo_shed_battery
+
+thermostats:
+  name: Thermostats
+  control: hidden
+  entities:
+    - climate.master_bedroom
+    - climate.family_room
+    - climate.hallway
+    - climate.shack
+
+smokes:
+  name: Smoke/CO Alarms
+  entities:
+    - sensor.downstairs_nest_protect_smoke_status
+    - sensor.downstairs_nest_protect_co_status
+    - sensor.upstairs_nest_protect_smoke_status
+    - sensor.upstairs_nest_protect_co_status
+    - sensor.shack_nest_protect_smoke_status
+    - sensor.shack_nest_protect_co_status
+
+tesla:
+  name: Tesla Model S
+  entities:
+    - binary_sensor.tesla_model_s_5yjsa1cn1dfp26380_charger_sensor
+    - climate.tesla_model_s_5yjsa1cn1dfp26380_hvac_climate_system
+    - device_tracker.tesla_model_s_5yjsa1cn1dfp26380_location_tracker
+    - sensor.tesla_model_s_5yjsa1cn1dfp26380_temperature_sensor_inside
+
+# Water Sensors
+tags:
+  name: Water Leak Sensors
+  entities:
+    - sensor.wirelesstag_amelia_bathroom_sink_moisture
+    - sensor.wirelesstag_amelia_bathroom_toilet_moisture
+    - sensor.wirelesstag_bar_moisture
+    - sensor.wirelesstag_guest_bathroom_sink_moisture
+    - sensor.wirelesstag_guest_bathroom_toilet_moisture
+    - sensor.wirelesstag_hallway_bathroom_sink_moisture
+    - sensor.wirelesstag_hallway_bathroom_toilet_moisture
+    - sensor.wirelesstag_kitchen_refrigerator_moisture
+    - sensor.wirelesstag_kitchen_sink_moisture
+    - sensor.wirelesstag_kitchen_island_sink_moisture
+    - sensor.wirelesstag_laundry_room_sink_moisture
+    - sensor.wirelesstag_washer_dryer_moisture
+    - sensor.wirelesstag_master_bathroom_sink_right_moisture
+    - sensor.wirelesstag_master_bathroom_sink_left_moisture
+    - sensor.wirelesstag_master_bathroom_toilet_moisture
+    - sensor.wirelesstag_nicholas_bathroom_sink_moisture
+    - sensor.wirelesstag_nicholas_bathroom_toilet_moisture
+    - sensor.wirelesstag_powder_room_moisture
+    - sensor.wirelesstag_water_heaters_moisture
+    - sensor.wirelesstag_shack_bathroom_moisture
+    - sensor.wirelesstag_shack_bathroom_sink_moisture
+
+wine:
+  name: Wine Storage
+  control: hidden
+  entities:
+    - sensor.wirelesstag_eurocave_left_humidity
+    - sensor.wirelesstag_eurocave_left_temperature
+    - binary_sensor.eurocave_left_door
+    - sensor.wirelesstag_eurocave_right_humidity
+    - sensor.wirelesstag_eurocave_right_temperature
+    - binary_sensor.eurocave_right_door
+
+pi_hole:
+  name: DNS AD Blocker
+  entities:
+    - sensor.pihole_ads_blocked_today
+    - sensor.pihole_ads_percentage_blocked_today
+
+power:
+  name:  Monteverde Power
+  entities:
+    - sensor.envoy_current_energy_production
+    - sensor.envoy_todays_energy_production
+    - sensor.instant_power
+
+roomba:
+  name: Roomba Downstairs
+  control: hidden
+  entities:
+    - vacuum.roomba_downstairs
+    - vacuum.roomba_upstairs
+
+tv:
+  name: Home TVs
+  entities:
+    - media_player.living_room_tv
+    - media_player.office_tv
+    - media_player.master_bedroom_tv
+
+datetime:
+  name: Time & Date
+  entities:
+    - sensor.date
+    - sensor.time
+
+#kitchen_lights: 
+#  name: Kitchen_Lights
+#  control: hidden
+#  entities:
+#    - light.kitchen_cabinet_lightsv
+#    - light.kitchen_overhead_lights
+#    - light.kitchen_sink_overhead_lights
+
+#kitchen:
+#  name: Kitchen
+#  control: hidden
+#  entities:
+#    - light.kitchen_cabinet_lightsv
+#    - light.kitchen_overhead_lights
+#    - light.kitchen_sink_overhead_lights
+#    - sensor.wirelesstag_kitchen_island_sink_moisture
+#    - sensor.wirelesstag_kitchen_refrigerator_moisture
+#    - sensor.wirelesstag_kitchen_sink_moisture
+#    - sensor.wirelesstag_kitchen_sink_temperature
+
+#guest_bedroom_lights:
+#  name: Guest Bedroom Lights
+#  control: hidden
+#  entities:
+#    - light.guest_bedroom_chandelier
+#    - switch.guest_bedroom_switched_outlet
+
+#guest_bathroom_lights: 
+#  name: Guest Bathroom Lights
+#  control: hidden
+#  entities:
+#    - switch.guest_bathroom_lights
+#    - switch.guest_bathroom_mirror_light
+#    - switch.guest_bathroom_overhead_light
+
+#guest:
+#  name: Guest Bedroom
+#  control: hidden
+#  entities:
+#    - binary_sensor.guest_bedroom_doors
+#    - binary_sensor.guest_closet_door_sensor
+#    - light.guest_bathroom_fan
+#    - light.guest_bedroom_chandelier
+#    - switch.guest_bedroom_switched_outlet
+#    - switch.guest_bathroom_lights
+#    - switch.guest_bathroom_mirror_light
+#    - switch.guest_bathroom_overhead_light
+#    - switch.guest_closet_light
+#    - sensor.wirelesstag_guest_bathroom_sink_moisture
+#    - sensor.wirelesstag_guest_bathroom_toilet_moisture
+#    - sensor.wirelesstag_guest_bathroom_toilet_temperature
+
+powder_room_lights:
+  name: Powder Room Lights
+  control: hidden
+  entities:
+    - switch.powder_room_ceiling_light
+    - switch.powder_room_wall_light
+
+powder:
+  name: Powder Room
+  control: hidden
+  entities:
+    - binary_sensor.powdergallery_windows
+    - light.powder_room_fan
+    - switch.powder_room_ceiling_light
+    - switch.powder_room_wall_light
+    - sensor.wirelesstag_powder_room_moisture
+    - sensor.wirelesstag_powder_room_temperature
+
+laundry:
+  name: Laundry Room
+  control: hidden
+  entities:
+    - binary_sensor.laundry_room_windows
+    - switch.laundry_room_light
+    - sensor.wirelesstag_laundry_room_sink_moisture
+    - sensor.wirelesstag_washer_dryer_moisture
+    - sensor.wirelesstag_washer_dryer_temperature
+
+office_lights:
+  name: Office Lights
+  control: hidden
+  entities:
+    - light.office_overhead_light
+    - switch.office_switched_lights
+
+office:
+  name: Office
+  control: hidden
+  entities:
+    - binary_sensor.office_windows
+    - light.office_overhead_light
+    - switch.office_switched_lights
+
+family_table_lights:
+  name: Family Room Lights
+  control: hidden
+  entities:
+    - light.familyroom_table_left
+    - light.familyroom_table_right
+    - light.family_room_fireplace_light
+
+family:
+  name: Family Room
+  control: hidden
+  entities:
+    - binary_sensor.family_room_doors
+    - binary_sensor.nook_windows
+    - binary_sensor.family_motion
+    - sensor.family_room_thermostat_temperature
+    - sensor.family_room_thermostat_humidity
+    - light.family_room_back_lights
+    - light.family_room_front_lights
+    - light.nook_overhead_lights
+    - light.familyroom_table_left
+    - light.familyroom_table_right
+    - light.family_room_fireplace_light
+    - switch.family_hanging_light
+
+dining_room_lights:
+  name: Dining Room Lights
+  control: hidden
+  entities:
+    - light.dining_room_buffet_light
+    - light.dining_room_chandelier
+    - switch.dining_room_coffer_light
+
+dining:
+  name: Dining Room
+  control: hidden
+  entities:
+    - binary_sensor.dining_room_doors
+    - light.dining_room_buffet_light
+    - light.dining_room_chandelier
+    - switch.dining_room_coffer_light
+
+living_room_lights:
+  name: Living Room Lights
+  control: hidden
+  entities:
+    - light.living_room_chandelier
+    - light.living_room_fireplace_lights
+    - light.living_room_spot_light
+
+living:
+  name: Living Room
+  control: hidden
+  entities:
+    - binary_sensor.living_room_doors
+    - light.living_room_chandelier
+    - light.living_room_fireplace_lights
+    - light.living_room_spot_light
+    - switch.living_room_switched_lights
+
+garage_lights:
+  name: Garage Lights
+  control: hidden
+  entities:
+    - switch.garage_left_light
+    - switch.garage_right_light
+
+garage:
+  name: Garage
+  control: hidden
+  entities:
+    - binary_sensor.garage_entry_door
+    - switch.garage_door_leftsensor
+    - switch.garage_door_rightsensor
+    - switch.garage_left_light
+    - switch.garage_right_light
+    - sensor.wirelesstag_water_heaters_moisture
+    - sensor.wirelesstag_water_heaters_temperature
+
+gym:
+  name: Gym
+  control: hidden
+  entities:
+    - switch.weight_room_light
+    - switch.treadmill_outletring
+
+entry_lights:
+  name: Front Entry Lights
+  control: hidden
+  entities:
+    - light.front_entry_chandelier
+    - light.front_entry_spot_lights
+
+entry:
+  name: Front Door
+  control: hidden
+  entities:
+    - binary_sensor.front_door
+#    - binary_sensor.front_door_sensor
+    - binary_sensor.front_door_motion_130
+    - binary_sensor.front_door_bell_129
+    - light.front_entry_chandelier
+    - light.front_entry_spot_lights
+
+shack_bedroom_lights: 
+  name: Shack Bedroom Lights
+  control: hidden
+  entities:
+    - light.shack_fanlight_back
+    - light.shack_fanlight_front
+    - light.shack_tracklight_left
+    - light.shack_tracklight_right
+
+shack_bathroom_lights:
+  name: Shack Bathroom Lights
+  control: hidden
+  entities:
+    - switch.shack_bathroom_mirror_light
+    - switch.shack_bathroom_overhead_light
+
+shack:
+  name: Shack
+  control: hidden
+  entities:
+    - sensor.shack_thermostat_temperature
+    - sensor.shack_thermostat_humidity
+    - light.shack_fanlight_back
+    - light.shack_fanlight_front
+    - light.shack_tracklight_left
+    - light.shack_tracklight_right
+    - switch.shack_bathroom_fan
+    - switch.shack_bathroom_mirror_light
+    - switch.shack_bathroom_overhead_light
+    - sensor.wirelesstag_shack_bathroom_moisture
+    - sensor.wirelesstag_shack_bathroom_sink_moisture
+
+gates:
+  name: Outdoor Gates
+  control: hidden
+  entities:
+    - lock.back_gate_156
+    - lock.rosegarden_gate_154
+
+master_bedroom_lights:
+  name: Master Bedroom Lights
+  control: hidden
+  entities:
+    - light.master_bedroom_ceiling_lights
+    - light.master_bedroom_chandelier
+    - light.master_bedroom_fireplace_ligh
+    - switch.master_nightstand_table
+    - switch.master_sofa_table1_onoff_mo
+    - switch.master_bedroom_keypad1
+
+master_bathroom_lights: 
+  name: Master Bathroom Lights
+  control: hidden
+  entities:
+    - light.master_bath_mirror_light
+    - light.master_bath_tub_light
+
+master:
+  name: Master Bedroom
+  control: hidden
+  entities:
+    - binary_sensor.master_bedroom_windows
+    - binary_sensor.master_bathroom_windows
+    - binary_sensor.master_closet_door_sensor
+    - sensor.master_bedroom_thermostat_temperature
+    - sensor.master_bedroom_thermostat_humidity
+    - switch.iron_switch_169
+    - switch.steam_switch_170
+    - light.master_toilet_fan
+    - light.master_toilet_light
+    - switch.master_shower_light
+    - light.master_bath_mirror_light
+    - light.master_bath_tub_light
+    - light.master_bedroom_ceiling_lights
+    - light.master_bedroom_chandelier
+    - light.master_bedroom_fireplace_ligh
+    - switch.master_nightstand_table
+    - switch.master_sofa_table1_onoff_mo
+    - sensor.wirelesstag_master_bathroom_left_sink_moisture
+    - sensor.wirelesstag_master_bathroom_right_sink_moisture
+    - sensor.wirelesstag_master_bathroom_toilet_moisture
+    - sensor.wirelesstag_master_bathroom_toilet_temperature
+
+amelia_bedroom_lights:
+  name: Amelia's Bedroom
+  control: hidden
+  entities:
+    - light.amy_bedroom_entry_light
+    - switch.amy_bedroom_wall_switch
+
+amelia_bathroom_lights:
+  name: Amelia's Bathroom Lights
+  control: hidden
+  entities:
+    - switch.amy_bathroom_ceiling_light
+    - switch.amy_bathroom_mirror_light
+
+amelia:
+  name: Amelia's Bedroom
+  control: hidden
+  entities:
+    - binary_sensor.rocknroll_bedroom_windows
+    - light.amy_bedroom_entry_light
+    - switch.amy_bedroom_wall_switch
+    - switch.amy_bathroom_ceiling_light
+    - switch.amy_bathroom_mirror_light
+    - switch.amy_bedroom_fan_light
+    - sensor.wirelesstag_amelia_bathroom_sink_moisture
+    - sensor.wirelesstag_amelia_bathroom_toilet_moisture
+    - sensor.wirelesstag_amelia_bathroom_toilet_temperature
+
+#nicholas_bedroom_lights:
+#  name: Nicholas' Bedroom Lights
+#  control: hidden
+#  entities:
+#    - switch.tileroom
+#    - switch.tile_bedroom_nightstand_light
+
+#nicholas_bathroom_lights:
+#  name: Nicholas' Bathroom Lights
+#  control: hidden
+#  entities:
+#    - switch.tile_bathroom_ceiling_lig
+#    - switch.tile_bathroom_mirror_ligh
+
+#nicholas:
+#  name: Nicholas' Bedroom
+#  control: hidden
+#  entities:
+#    - binary_sensor.tile_bedroom_windows
+#    - switch.tileroom
+#    - switch.tile_bedroom_nightstand_light
+#    - switch.tile_bathroom_ceiling_lig
+#    - switch.tile_bathroom_mirror_ligh
+#    - sensor.wirelesstag_nicholas_bathroom_sink_moisture
+#    - sensor.wirelesstag_nicholas_bathroom_toilet_moisture
+#    - sensor.wirelesstag_nicholas_bathroom_toilet_temperature
+
+#anthony:
+#  name: Anthony's Bedroom
+#  control: hidden
+#  entities:
+#    - binary_sensor.blue_bedroom_windows
+#    - switch.anthony_switched_lights
+#    - switch.anthony_ceiling_fan
+
+#bathroom_lights:
+#  name: Upstairs Bathroom Lights
+#  control: hidden
+#  entities:
+#    - switch.hall_bathroom_ceiling_light
+#    - switch.hall_bathroom_mirror_light
+
+#bathroom:
+#  name: Upstairs Bathroom
+#  control: hidden
+#  entities:
+#    - switch.hall_bathroom_ceiling_light
+#    - switch.hall_bathroom_fan
+#    - switch.hall_bathroom_mirror_light
+#    - sensor.wirelesstag_hallway_bathroom_sink_moisture
+#    - sensor.wirelesstag_hallway_bathroom_toilet_moisture
+#    - sensor.wirelesstag_hallway_bathroom_toilet_temperature
+
+outdoor:
+  name: Outdoor Lights
+  control: hidden
+  entities:
+    - switch.landscape_backyard_lights
+    - switch.landscape_driveway_lights
+    - switch.landscape_front_lights
+    - switch.landscape_rosegarden_lights
+    - switch.landscape_stage_light
+    - switch.outdoor_stage_table_light
+    - switch.outdoor_bar_chandelier
+    - switch.outdoor_bbq_light
+    - switch.outdoor_patio_canopy
+    - switch.outdoor_dining_chandelier
+    - switch.outdoor_front_lights
+    - switch.outdoor_fireplace_light
+    - switch.outdoor_guest_light
+    - switch.outdoor_poolside_chandelier
+    - switch.outdoor_poolside_light
+    - switch.outdoor_rosegarden_light
+
+#hallway_lights:
+#  name: Hallway Lights
+#  control: hidden
+#  entities:
+#    - switch.guest_hallway
+#    - switch.gallerystairs_lights
+#    - switch.upstairs_hallway
+
+#hallways:
+#  name: Hallways
+#  control: hidden
+#  entities:
+#    - sensor.hallway_thermostat_temperature
+#    - sensor.hallway_thermostat_humidity
+#    - switch.guest_hallway
+#    - switch.gallerystairs_lights
+#    - switch.upstairs_hallway
+#    - switch.bar_light
+#    - switch.front_closet_light
+#    - sensor.wirelesstag_bar_moisture
+#    - sensor.wirelesstag_bar_temperature
+
+ups:
+  name: APC SMT1500 UPS
+  entities:
+    - binary_sensor.ups_online_status
+    - sensor.ups_battery
+    - sensor.ups_input_voltage
+    - sensor.ups_load
+    - sensor.ups_nominal_input_voltage
+    - sensor.ups_nominal_output_power
+    - sensor.ups_output_voltage
+    - sensor.ups_time_left
+    - sensor.ups_time_on_battery
+    - sensor.ups_transfer_count
+
+dataroom:
+  name: Data Room
+  control: hidden
+  entities:
+    - switch.dataroom_light
+
+speedtest:
+  name: Speed Test
+  entities:
+    - sensor.speedtest_ping
+    - sensor.speedtest_download
+    - sensor.speedtest_upload
+
+#mail:
+#  name: Mail & Packages
+#  entities:
+#    - sensor.usps_mail
+#    - sensor.usps_packages
+#    - sensor.fedex
+#    - sensor.ups
+
+waqi:
+  name: Air Quality
+  entities:
+    - sensor.waqi_camp_pendleton_san_diego_california
+
+alarm:
+  name: Alarm Panel
+  control: hidden
+  entities:
+    - alarm_control_panel.alarm_panel
+    - sensor.alarm_panel_display
+    - binary_sensor.blue_bedroom_windows
+    - binary_sensor.dining_room_doors
+    - binary_sensor.family_motion
+    - binary_sensor.family_room_doors
+    - binary_sensor.front_door
+    - binary_sensor.garage_entry_door
+    - binary_sensor.guest_bedroom_doors
+    - binary_sensor.living_room_doors
+    - binary_sensor.laundry_room_windows
+    - binary_sensor.master_bathroom_windows
+    - binary_sensor.master_bedroom_windows
+    - binary_sensor.nook_windows
+    - binary_sensor.office_windows
+    - binary_sensor.powdergallery_windows
+    - binary_sensor.rocknroll_bedroom_windows
+    - binary_sensor.tile_bedroom_windows
+
+#roon:
+#  name: Roon
+#  control: hidden
+#  view: yes
+#  entities:
+#      - media_player.family_room
+#      - media_player.family_room_imac
+#      - media_player.family_room_mkii
+#      - media_player.firepit
+#      - media_player.greenhouse
+#      - media_player.gym
+#      - media_player.living_room
+#      - media_player.master_bedroom
+#      - media_player.office
+#      - media_player.outdoor_dining
+#      - media_player.poolside
+#      - media_player.rosegarden
+#      - media_player.stage
+#      - media_player.surface_book
+
+rainmachine:
+  name: Rain Machine
+  control: hidden
+  view: yes
+  entities:
+    - switch.back_yard_drip
+    - switch.front_entry__south_side_of_house
+    - switch.front_yard_drip
+    - switch.front_yard_drip_along_wall
+    - switch.front_yard_trees
+    - switch.grapes__around_greenhouse
+    - switch.lower_eastside_of_driveway
+    - switch.planters_around_pool
+    - switch.rose_garden_bubblers
+    - switch.rose_garden_drip
+    - switch.slope_bottom_drip
+    - switch.slope_top_drip
+    - switch.slope_trees
+    - switch.tree_soaker_upper_lot
+    - switch.upper_eastside_of_driveway
+    - binary_sensor.extra_water_on_hot_days
+
+#mkiii:
+#  name: MK  -III Weather Station
+#  entities:
+#    - sensor.air_temperature
+#    - sensor.barometric_pressure
+#    - sensor.relative_humidity
+#    - sensor.wind
+#    - sensor.rainfall
+#    - sensor.station_battery
+
+servers:
+  name: Server Status
+  entities:
+    - binary_sensor.firepit
+    - binary_sensor.fireplace
+    - binary_sensor.stage
+    - binary_sensor.unms
+    - binary_sensor.unifi
+    - binary_sensor.pihole
+    - binary_sensor.stage
+    - binary_sensor.alarmdecoder
+    - binary_sensor.poolside
+    - binary_sensor.greenhouse
+    - binary_sensor.weightroom
+    - binary_sensor.vpnserver
+    - binary_sensor.genmon
+    - binary_sensor.rosegarden
+    - binary_sensor.familyroomimac
+    - binary_sensor.officeimac
+    - binary_sensor.readynasbackup
+    - binary_sensor.readynasclips
+    - binary_sensor.security
+
+generator:
+  name: GENERAC 11kW Generator
+  entities:
+    - binary_sensor.genmon_power_outage
+    - sensor.genmon_outage_status
+    - sensor.genmon_outage_utility_voltage
+    - sensor.genmon_generator_battery
+    - sensor.genmon_generator_rpm
+    - sensor.genmon_generator_frequency
+    - sensor.genmon_generator_output_voltage
+    - sensor.genmon_generator_output_current
+    - sensor.genmon_generator_output_power
+#    - sensor.genmon_generator_last_alarm_log
+#    - sensor.genmon_generator_last_service_log
+#    - sensor.genmon_generator_last_action
+#    - sensor.genmon_generator_capacity
+    - sensor.genmon_generator_exercise_time
+    - sensor.genmon_mon_cpu_temperature
+#    - sensor.genmon_mon_ptime
+    - sensor.genmon_mon_load
+    - sensor.wlan_signal_level
+

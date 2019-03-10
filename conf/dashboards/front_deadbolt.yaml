@@ -1,0 +1,12 @@
+# SCCS: @(#)	1.4 01/12/19
+
+widget_type: lock
+#widget_style: "background: gray;"
+title_style: "font-weight: bold;"
+icon_on: mdi-lock-smart
+icon_off: mdi-lock-smart
+icon_style_inactive: "color: #00FF00; font-size: 350%;"
+icon_style_active: "color: #FF0000; font-size: 350%;"
+title: Front Door Deadbolt
+entity: lock.front_door_deadbolt_187
+

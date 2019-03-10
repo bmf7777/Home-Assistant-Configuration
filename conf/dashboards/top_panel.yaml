@@ -1,0 +1,14 @@
+##
+## Top Panel 
+##
+# SCCS: @(#)top_panel.yaml	1.11 01/14/19 
+
+layout: 
+  - demand, packages, darksky_weather(2x2), bar_camera(2x2), doorbell_camera(2x2), garden_gate
+  - left_garage, right_garage,                                                               back_gate
+  - dan_presence, cheryl_presence, amelia_presence, nicholas_presence, anthony_presence, alarm, poolspa_mode, water_temp, front_deadbolt
+  - shack_temp, downstairs_temp, upstairs_temp, family_table_lights,   hallway_lights, kitchen_lights, office_lights,dining_lights,living_lights
+
+
+
+

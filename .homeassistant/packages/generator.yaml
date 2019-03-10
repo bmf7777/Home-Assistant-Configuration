@@ -1,0 +1,187 @@
+# package: generator
+# SCCS: @(#)generator.yaml	1.4 02/07/19 
+
+homeassistant:
+  customize:
+
+    binary_sensor.genmon_power_outage:
+      device_class: power
+      friendly_name: Power Outage
+    sensor.genmon_outage_status:
+      icon: mdi:power
+      friendly_name: Outage Status
+    sensor.genmon_outage_utility_voltage:
+      icon: mdi:gauge
+      friendly_name: Utility Voltage
+    sensor.genmon_generator_battery:
+      device_class: battery
+      friendly_name: Generator Battery Voltage
+    sensor.genmon_generator_rpm:
+      icon: mdi:gauge
+      friendly_name: Generator RPM
+    sensor.genmon_generator_frequency:
+      icon: mdi:gauge
+      friendly_name: Generator Frequency
+    sensor.genmon_generator_output_voltage:
+      icon: mdi:gauge
+      friendly_name: Generator Output Voltage
+    sensor.genmon_generator_output_current:
+      icon: mdi:gauge
+      friendly_name: Generator Output Current
+    sensor.genmon_generator_output_power:
+      icon: mdi:gauge
+      friendly_name: Generator Output Power
+#    sensor.genmon_generator_last_alarm_log:
+#      icon: mdi:content-copy
+#     friendly_name: Generator Last Alarm Log
+#    sensor.genmon_generator_last_service_log:
+#      icon: mdi:content-copy
+#      friendly_name: Generator Last Service Log
+#    sensor.genmon_generator_last_action:
+#      icon: mdi:content-copy
+#      friendly_name: Generator Last Action
+    sensor.genmon_generator_exercise_time:
+      icon: mdi:timer
+      friendly_name: Generator Exercise Time
+    sensor.genmon_mon_cpu_temperature:
+      device_class: temperature 
+      friendly_name: Genmon CPU Temperature
+#    sensor.genmon_mon_uptime:
+#      icon: mdi:timer
+#      friendly_name: Genmon Uptime
+    sensor.genmon_mon_load:
+      icon: mdi:gauge
+      friendly_name: Genmon CPU Load
+    sensor.wlan_signal_level:
+      icon: mdi:wifi
+      friendly_name: Genmon Wifi Signal Level
+
+binary_sensor:
+
+  - platform: mqtt
+    name: Genmon Power Outage
+    state_topic: 'generator/Outage/System In Outage'
+    payload_on: 'Yes'
+    payload_off: 'No'
+    device_class: power
+
+sensor:
+
+  - platform: mqtt
+    state_topic: 'generator/Outage/Status'
+    name: Genmon Outage Status
+
+  - platform: mqtt
+    state_topic: 'generator/Outage/Utility Voltage'
+    name: Genmon Outage Utility Voltage
+    value_template: '{{ value | regex_replace(" V", "") | float | round(1) }}'
+    unit_of_measurement: "VAC"
+
+  # status related sensors
+  - platform: mqtt
+    name: Genmon Generator Battery
+    state_topic: 'generator/Status/Engine/Battery Voltage'
+    unit_of_measurement: "V"
+    value_template: '{{ value | regex_replace(" V", "") | float }}'
+
+  - platform: mqtt
+    name:  Genmon Generator RPM
+    unit_of_measurement: "RPM"
+    state_topic: 'generator/Status/Engine/RPM'
+    value_template: '{{ value | int }}'
+
+  - platform: mqtt
+    name: Genmon Generator Frequency
+    unit_of_measurement: "HZ"
+    state_topic: 'generator/Status/Engine/Frequency'
+    value_template: '{{ value | regex_replace(" Hz","") | float }}'
+
+  - platform: mqtt
+    name: Genmon Generator Output Voltage
+    unit_of_measurement: "VAC"
+    state_topic: 'generator/Status/Engine/Output Voltage'
+    value_template: '{{ value | regex_replace(" V","") | float | round(1) }}'
+
+  # current measrement is garbage on 22KW product, apparently
+  - platform: mqtt
+    name: Genmon Generator Output Current
+    unit_of_measurement: "A"
+    state_topic: 'generator/Status/Engine/Output Current'
+    value_template: '{{ value | regex_replace(" A","") | float | round(1) }}'
+
+  - platform: mqtt
+    name: Genmon Generator Output Power
+    unit_of_measurement: "W"
+    state_topic: 'generator/Status/Engine/Output Power (Single Phase)'
+    # this is normalized to watts from kilowatts
+    value_template: '{{ value | regex_replace(" kW","") | float * 1000 | round(0) }}'
+
+# - platform: mqtt
+#   name: Genmon Generator Last Alarm Log
+#   state_topic: 'generator/Status/Last Log Entries/Logs/Alarm Log'
+
+# - platform: mqtt
+#   name: Genmon Generator Last Service Log
+#   state_topic: 'generator/Status/Last Log Entries/Logs/Service Log'
+
+# - platform: mqtt
+#   name: Genmon Generator Last Action
+#   state_topic: 'generator/Status/Last Log Entries/Logs/Start Stop Log'
+
+    # maint related sensors
+# - platform: mqtt
+#   name: Genmon Generator Capacity
+#   state_topic: 'generator/Maintenance/Rated kW'
+#   # normalize to watts
+#   value_template: '{{ value | float * 1000 | round(1) }}'
+#   unit_of_measurement: 'W'
+
+  - platform: mqtt
+    name: Genmon Generator Exercise Time
+    state_topic: 'generator/Maintenance/Exercise/Exercise Time'
+    # might be nice to maybe somehow normalize this, but not sure into what date/time representation
+    # value is something like:  "Weekly Sunday 17:35 Quiet Mode On"
+
+  # genmon monitor related sensors
+  - platform: mqtt
+    name: Genmon Mon CPU Temperature
+    unit_of_measurement: "F"
+    state_topic: 'generator/Monitor/Platform Stats/CPU Temperature'
+    value_template: '{{ value | regex_replace(" F","") | float | round(1) }}'
+
+  # sensor wlan_signal_quality
+  - platform: mqtt
+    state_topic: "generator/Monitor/Platform Stats/WLAN Signal Level"
+    name: 'WLAN Signal Level'
+
+# - platform: mqtt
+#   name: Genmon Mon Uptime
+    # maybe parse this out into minutes/hours?
+#   state_topic: 'generator/Monitor/Platform Stats/System Uptime'
+
+  - platform: mqtt
+    name: Genmon Mon Load
+    unit_of_measurement: '%'
+    state_topic: 'generator/Monitor/Platform Stats/CPU Utilization'
+    value_template: '{{ value | regex_replace(" *%","") | float | round(1) }}'
+
+automation:
+
+  - alias: 'start power outage'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.genmon_power_outage
+        from: 'off'
+        to: 'on'
+        # so ideally wait a little bit for the generator to time out the utility power
+        # loss, start and operate the automatic transfer switch from utility to generator
+        # network equipment should be a UPS.. hopefully ISP connectivity is still working
+        for:
+          seconds: 45
+    action:
+      service_template: notify.danmarotta
+      data_template:
+        message: "Utiliy Power Loss at {{  now().strftime('%Y-%m-%d %H:%M:%S') }}"
+        title: "HASS"
+

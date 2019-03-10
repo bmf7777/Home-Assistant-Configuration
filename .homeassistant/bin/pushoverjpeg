@@ -1,0 +1,8 @@
+#!/bin/bash
+if  [ $# -eq 2 ]; then
+  echo /usr/bin/curl -s --form-string "token=a2f7ptb5ny7oz3yb55fimctinvxpi2" --form-string "user=u4qb9ux3jgzow7zwrfdodi8ooakehh" --form-string "message=$2" -F "attachment=@$1" https://api.pushover.net/1/messages.json
+  /usr/bin/curl -s --form-string "token=a2f7ptb5ny7oz3yb55fimctinvxpi2" --form-string "user=u4qb9ux3jgzow7zwrfdodi8ooakehh" --form-string "message=$2" -F "attachment=@$1" https://api.pushover.net/1/messages.json
+else
+  echo "$0: incorrect number of arguments($#)"
+fi
+

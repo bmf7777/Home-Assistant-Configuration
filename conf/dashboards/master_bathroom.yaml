@@ -1,0 +1,9 @@
+# SCCS: @(#)	1.2 01/04/19 
+
+widget_type: binary_sensor
+title: Master Bathroom Windows
+#widget_style: "background: dodgerblue;"
+icon_on: mdi-window-open
+icon_off: mdi-window-closed
+entity: binary_sensor.master_bathroom_windows
+

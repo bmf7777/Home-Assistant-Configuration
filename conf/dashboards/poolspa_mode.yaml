@@ -1,0 +1,24 @@
+# SCCS: @(#)	1.6 02/19/19
+
+widget_type: icon
+title: Pool/Spa
+title_style: "font-weight: bold;"
+state_text_style: "display: none"
+entity: sensor.poolspa_mode
+icons:
+  "spa":
+    icon: mdi-hot-tub
+    style: "color: #FF0000; font-size: 350%;"
+  "pool":
+    icon: mdi-pool
+    style: "color: #FF0000; font-size: 350%;"
+  "freeze":
+    icon: mdi-snowflake
+    style: "color: #FF0000; font-size: 350%;"
+  "off":
+    icon: mdi-swim
+    style: "color: gray; font-size: 350%;"
+  "default": 
+    icon: mdi-swim
+    style: "color: gray; font-size: 350%;"
+

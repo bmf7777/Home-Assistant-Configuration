@@ -1,0 +1,26 @@
+# package: Energy items
+# from eagle200.yaml for Eagle-200 Gateway
+# to get file sccs get eagle200.yaml
+# SCCS: @(#)energy.yaml	1.4 02/09/19 
+
+homeassistant:
+  customize:
+
+    sensor.instantaneous_demand:
+      icon: mdi:power
+
+sensor:
+  - platform: command_line
+    name: Instantaneous Demand
+    command: '/home/homeassistant/.homeassistant/bin/get_instantaneous_demand'
+    unit_of_measurement: "kW"
+    value_template: '{{ value | round(4) }}'
+
+  - platform: integration
+    source: sensor.instantaneous_demand
+    name: energy_used
+    round: 2
+
+  - platform: ohmconnect
+    id: !secret ohmconnect_id
+

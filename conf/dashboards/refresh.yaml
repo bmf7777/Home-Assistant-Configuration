@@ -1,0 +1,9 @@
+# SCCS: @(#)refresh.yaml	1.6 01/12/19
+
+widget_type: reload
+title: Reload
+title_style: "font-weight: bold;"
+icon_active: mdi-reload
+icon_inactive: mdi-reload
+icon_active_style: "color: red;"
+icon_inactive_style: "color: red;"

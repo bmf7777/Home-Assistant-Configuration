@@ -1,0 +1,17 @@
+# SCCS: @(#)shack_temp.yaml	1.1 01/14/19
+
+widget_type: gauge
+title: Shack
+title2: Temperature
+title2_style: "font-size: 80%; font-weight: bold;"
+entity: sensor.awair_temperature_3
+title_style: "font-weight: bold;"
+level_style: "color: blue; font-size: 250%;"
+min: 50
+max: 100
+precision: 0
+color: blue
+units: "F"
+low_color: '0000FF'
+med_color: '00FF00'
+high_color: 'FF0000'
